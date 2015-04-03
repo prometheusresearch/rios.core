@@ -1,0 +1,18 @@
+{
+  "id": "urn:example:bad:type:length:reversed",
+  "version": "1.0",
+  "title": "An Instrument Title",
+  "record": [
+    {
+      "id": "field1",
+      "type": {
+        "base": "text",
+        "length": {
+          "min": 10,
+          "max": 2
+        }
+      }
+    }
+  ]
+}
+

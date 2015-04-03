@@ -1,0 +1,11 @@
+{
+  "instrument": {
+    "version": "1.0"
+  },
+  "values": {
+    "field1": {
+      "value": "hello world"
+    }
+  }
+}
+

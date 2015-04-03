@@ -1,0 +1,17 @@
+{
+  "id": "urn:example:bad:range:datetime:bad",
+  "version": "1.0",
+  "title": "An Instrument Title",
+  "record": [
+    {
+      "id": "field1",
+      "type": {
+        "base": "dateTime",
+        "range": {
+          "min": "foo"
+        }
+      }
+    }
+  ]
+}
+

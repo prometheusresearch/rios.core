@@ -1,0 +1,15 @@
+{
+  "instrument": {
+    "id": "urn:example:bad:meta:language:bad",
+    "version": "1.0"
+  },
+  "meta": {
+    "language": "$$KDnsad"
+  },
+  "values": {
+    "field1": {
+      "value": "hello world"
+    }
+  }
+}
+

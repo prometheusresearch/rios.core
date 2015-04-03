@@ -1,0 +1,85 @@
+{
+  "instrument": {
+    "id": "urn:example:good:all_types",
+    "version": "1.0"
+  },
+  "values": {
+    "nullable_field": {
+      "value": null,
+      "annotation": "Do not have an answer"
+    },
+    "text_field": {
+      "value": "foo"
+    },
+    "integer_field": {
+      "value": 23,
+      "explanation": "Why not?"
+    },
+    "float_field": {
+      "value": 42.1
+    },
+    "boolean_field": {
+      "value": true
+    },
+    "date_field": {
+      "value": "2010-01-01"
+    },
+    "time_field": {
+      "value": "12:34:56"
+    },
+    "datetime_field": {
+      "value": "2010-01-01T12:34:56"
+    },
+    "enumeration_field": {
+      "value": "foo"
+    },
+    "enumerationset_field": {
+      "value": [
+        "foo",
+        "bar"
+      ]
+    },
+    "recordlist_field": {
+      "value": [
+        {
+          "subfield1": {
+            "value": "foo1"
+          },
+          "subfield2": {
+            "value": "bar1"
+          }
+        },
+        {
+          "subfield1": {
+            "value": "foo2"
+          },
+          "subfield2": {
+            "value": "bar2"
+          }
+        }
+      ]
+    },
+    "matrix_field": {
+      "value": {
+        "row1": {
+          "col1": {
+            "value": "foo1"
+          },
+          "col2": {
+            "value": "bar1"
+          }
+        },
+
+        "row2": {
+          "col1": {
+            "value": "foo2"
+          },
+          "col2": {
+            "value": "bar2"
+          }
+        }
+      }
+    }
+  }
+}
+

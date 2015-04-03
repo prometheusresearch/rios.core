@@ -1,0 +1,8 @@
+{
+  "instrument": {
+    "id": "urn:example:bad:value:bad",
+    "version": "1.0"
+  },
+  "values": "foo"
+}
+

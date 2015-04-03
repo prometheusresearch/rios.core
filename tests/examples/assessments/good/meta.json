@@ -1,0 +1,22 @@
+{
+  "instrument": {
+    "id": "urn:example:good:meta",
+    "version": "1.0"
+  },
+  "meta": {
+    "language": "en",
+    "application": "SurveyMaster/1.0",
+    "dateCompleted": "2012-11-20T10:46:08",
+    "timeTaken": 1234567890,
+    "foo": "bar"
+  },
+  "values": {
+    "field1": {
+      "value": "hello world",
+      "meta": {
+        "something": "cool"
+      }
+    }
+  }
+}
+

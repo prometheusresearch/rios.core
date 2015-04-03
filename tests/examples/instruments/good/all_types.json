@@ -1,0 +1,106 @@
+{
+  "id": "urn:example:good:all_types",
+  "version": "1.0",
+  "title": "An Instrument Title",
+  "record": [
+    {
+      "id": "nullable_field",
+      "type": "text",
+      "annotation": "optional"
+    },
+    {
+      "id": "text_field",
+      "type": "text",
+      "explanation": "optional"
+    },
+    {
+      "id": "integer_field",
+      "type": "integer",
+      "explanation": "required"
+    },
+    {
+      "id": "float_field",
+      "type": "float",
+      "annotation": "required"
+    },
+    {
+      "id": "boolean_field",
+      "type": "boolean"
+    },
+    {
+      "id": "date_field",
+      "type": "date"
+    },
+    {
+      "id": "time_field",
+      "type": "time"
+    },
+    {
+      "id": "datetime_field",
+      "type": "dateTime"
+    },
+    {
+      "id": "enumeration_field",
+      "type": {
+        "base": "enumeration",
+        "enumerations": {
+          "foo": {},
+          "bar": {},
+          "baz": {}
+        }
+      }
+    },
+    {
+      "id": "enumerationset_field",
+      "type": {
+        "base": "enumerationSet",
+        "enumerations": {
+          "foo": {},
+          "bar": {},
+          "baz": {}
+        }
+      }
+    },
+    {
+      "id": "recordlist_field",
+      "type": {
+        "base": "recordList",
+        "record": [
+          {
+            "id": "subfield1",
+            "type": "text"
+          },
+          {
+            "id": "subfield2",
+            "type": "text"
+          }
+        ]
+      }
+    },
+    {
+      "id": "matrix_field",
+      "type": {
+        "base": "matrix",
+        "rows": [
+          {
+            "id": "row1"
+          },
+          {
+            "id": "row2"
+          }
+        ],
+        "columns": [
+          {
+            "id": "col1",
+            "type": "text"
+          },
+          {
+            "id": "col2",
+            "type": "text"
+          }
+        ]
+      }
+    }
+  ]
+}
+

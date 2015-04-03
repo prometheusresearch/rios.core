@@ -1,0 +1,18 @@
+{
+  "id": "urn:example:bad:range:float:reversed",
+  "version": "1.0",
+  "title": "An Instrument Title",
+  "record": [
+    {
+      "id": "field1",
+      "type": {
+        "base": "float",
+        "range": {
+          "min": 10.5,
+          "max": 2.1
+        }
+      }
+    }
+  ]
+}
+

@@ -1,0 +1,33 @@
+{
+  "id": "urn:example:bad:type:columns:complex",
+  "version": "1.0",
+  "title": "An Instrument Title",
+  "record": [
+    {
+      "id": "field1",
+      "type": {
+        "base": "matrix",
+        "columns": [
+          {
+            "id": "col1",
+            "type": {
+              "base": "recordList",
+              "record": [
+                {
+                  "id": "sub1",
+                  "type": "text"
+                }
+              ]
+            }
+          }
+        ],
+        "rows": [
+          {
+            "id": "col2"
+          }
+        ]
+      }
+    }
+  ]
+}
+

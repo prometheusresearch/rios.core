@@ -1,0 +1,111 @@
+{
+  "id": "urn:example:good:text",
+  "version": "1.0",
+  "title": "An Instrument Title",
+  "types": {
+    "customText": {
+      "base": "text",
+      "pattern": "foo",
+      "length": {
+        "min": 2,
+        "max": 10
+      }
+    },
+
+    "customInteger": {
+      "base": "integer",
+      "range": {
+        "min": 2,
+        "max": 10
+      }
+    },
+
+    "customFloat": {
+      "base": "float",
+      "range": {
+        "min": 2,
+        "max": 10
+      }
+    },
+
+    "customDate": {
+      "base": "date",
+      "range": {
+        "min": "2010-01-01",
+        "max": "2015-01-01"
+      }
+    },
+
+    "customTime": {
+      "base": "time",
+      "range": {
+        "min": "02:30:00",
+        "max": "04:00:00"
+      }
+    },
+
+    "customDateTime": {
+      "base": "dateTime",
+      "range": {
+        "min": "2010-01-01T02:30:00",
+        "max": "2014-01-01T04:00:00"
+      }
+    },
+
+    "customEnumeration": {
+      "base": "enumeration",
+      "enumerations": {
+        "foo": {},
+        "bar": {}
+      }
+    },
+
+    "customEnumerationSet": {
+      "base": "enumerationSet",
+      "enumerations": {
+        "foo": {},
+        "bar": {}
+      },
+      "length": {
+        "min": 2,
+        "max": 10
+      }
+    },
+
+    "customRecordList": {
+      "base": "recordList",
+      "record": [
+        {
+          "id": "subfield1",
+          "type": "text"
+        }
+      ],
+      "length": {
+        "min": 2,
+        "max": 10
+      }
+    },
+
+    "customMatrix": {
+      "base": "matrix",
+      "rows": [
+        {
+          "id": "row1"
+        }
+      ],
+      "columns": [
+        {
+          "id": "col1",
+          "type": "text"
+        }
+      ]
+    }
+  },
+  "record": [
+    {
+      "id": "field1",
+      "type": "text"
+    }
+  ]
+}
+

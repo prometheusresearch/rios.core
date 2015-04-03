@@ -1,0 +1,21 @@
+{
+  "instrument": {
+    "id": "urn:example:good:text",
+    "version": "1.0"
+  },
+  "values": {
+    "field1": {
+      "value": "hello world"
+    },
+    "field2": {
+      "value": "foo"
+    },
+    "field3": {
+      "value": "baz"
+    },
+    "field4": {
+      "value": "bar"
+    }
+  }
+}
+

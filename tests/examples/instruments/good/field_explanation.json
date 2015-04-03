@@ -1,0 +1,27 @@
+{
+  "id": "urn:example:good:field:explanation",
+  "version": "1.0",
+  "title": "An Instrument Title",
+  "record": [
+    {
+      "id": "field1",
+      "type": "text"
+    },
+    {
+      "id": "field2",
+      "type": "text",
+      "explanation": "required"
+    },
+    {
+      "id": "field3",
+      "type": "text",
+      "explanation": "optional"
+    },
+    {
+      "id": "field4",
+      "type": "text",
+      "explanation": "none"
+    }
+  ]
+}
+

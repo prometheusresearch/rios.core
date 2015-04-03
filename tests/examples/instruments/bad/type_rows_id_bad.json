@@ -1,0 +1,25 @@
+{
+  "id": "urn:example:bad:type:rows:id:bad",
+  "version": "1.0",
+  "title": "An Instrument Title",
+  "record": [
+    {
+      "id": "field1",
+      "type": {
+        "base": "matrix",
+        "columns": [
+          {
+            "id": "col1",
+            "type": "text"
+          }
+        ],
+        "rows": [
+          {
+            "id": "FOO"
+          }
+        ]
+      }
+    }
+  ]
+}
+

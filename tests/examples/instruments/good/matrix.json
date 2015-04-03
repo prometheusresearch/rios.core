@@ -1,0 +1,75 @@
+{
+  "id": "urn:example:good:matrix",
+  "version": "1.0",
+  "title": "An Instrument Title",
+  "record": [
+    {
+      "id": "field1",
+      "type": {
+        "base": "matrix",
+        "columns": [
+          {
+            "id": "col1",
+            "type": "text"
+          },
+          {
+            "id": "col2",
+            "type": {
+              "base": "text",
+              "pattern": "foo"
+            }
+          },
+          {
+            "id": "col3",
+            "type": "text",
+            "description": "This is a description"
+          },
+          {
+            "id": "col4",
+            "type": "text",
+            "required": true
+          },
+          {
+            "id": "col5",
+            "type": "text",
+            "required": false
+          },
+          {
+            "id": "col6",
+            "type": "text",
+            "identifiable": true
+          },
+          {
+            "id": "col7",
+            "type": "text",
+            "identifiable": false
+          },
+          {
+            "id": "col8",
+            "type": "text",
+            "required": true,
+            "identifiable": true
+          }
+        ],
+        "rows": [
+          {
+            "id": "row1"
+          },
+          {
+            "id": "row2",
+            "required": true
+          },
+          {
+            "id": "row3",
+            "required": false
+          },
+          {
+            "id": "row4",
+            "description": "This is a description"
+          }
+        ]
+      }
+    }
+  ]
+}
+

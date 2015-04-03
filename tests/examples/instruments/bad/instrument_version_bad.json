@@ -1,0 +1,12 @@
+{
+  "id": "urn:example:bad:version:bad",
+  "version": "foo",
+  "title": "An Instrument Title",
+  "record": [
+    {
+      "id": "field1",
+      "type": "text"
+    }
+  ]
+}
+

@@ -1,0 +1,11 @@
+{
+  "id": "urn:example:bad:version:missing",
+  "title": "An Instrument Title",
+  "record": [
+    {
+      "id": "field1",
+      "type": "text"
+    }
+  ]
+}
+

@@ -1,0 +1,18 @@
+{
+  "id": "urn:example:bad:range:time:reversed",
+  "version": "1.0",
+  "title": "An Instrument Title",
+  "record": [
+    {
+      "id": "field1",
+      "type": {
+        "base": "time",
+        "range": {
+          "min": "12:34:56",
+          "max": "05:30:00"
+        }
+      }
+    }
+  ]
+}
+

@@ -1,0 +1,51 @@
+{
+  "id": "urn:example:good:field:annotation",
+  "version": "1.0",
+  "title": "An Instrument Title",
+  "record": [
+    {
+      "id": "field1",
+      "type": "text"
+    },
+    {
+      "id": "field2",
+      "type": "text",
+      "annotation": "required"
+    },
+    {
+      "id": "field3",
+      "type": "text",
+      "required": false,
+      "annotation": "required"
+    },
+    {
+      "id": "field4",
+      "type": "text",
+      "annotation": "optional"
+    },
+    {
+      "id": "field5",
+      "type": "text",
+      "required": false,
+      "annotation": "optional"
+    },
+    {
+      "id": "field6",
+      "type": "text",
+      "annotation": "none"
+    },
+    {
+      "id": "field7",
+      "type": "text",
+      "required": false,
+      "annotation": "none"
+    },
+    {
+      "id": "field8",
+      "type": "text",
+      "required": true,
+      "annotation": "none"
+    }
+  ]
+}
+

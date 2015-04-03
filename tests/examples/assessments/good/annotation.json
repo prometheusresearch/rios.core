@@ -1,0 +1,13 @@
+{
+  "instrument": {
+    "id": "urn:example:good:annotation",
+    "version": "1.0"
+  },
+  "values": {
+    "field1": {
+      "value": null,
+      "annotation": "I don't know the answer"
+    }
+  }
+}
+

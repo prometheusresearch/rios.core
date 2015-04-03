@@ -1,0 +1,15 @@
+{
+  "instrument": {
+    "id": "urn:example:bad:meta:timetaken:bad",
+    "version": "1.0"
+  },
+  "meta": {
+    "timeTaken": "foo"
+  },
+  "values": {
+    "field1": {
+      "value": "hello world"
+    }
+  }
+}
+

@@ -1,0 +1,7 @@
+{
+  "id": "urn:example:bad:record:bad",
+  "version": "1.0",
+  "title": "An Instrument Title",
+  "record": "foo"
+}
+

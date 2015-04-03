@@ -1,0 +1,12 @@
+{
+  "id": "urn:example:bad:title:bad",
+  "version": "1.0",
+  "title": false,
+  "record": [
+    {
+      "id": "field1",
+      "type": "text"
+    }
+  ]
+}
+

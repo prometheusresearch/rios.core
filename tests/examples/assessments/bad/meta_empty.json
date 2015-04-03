@@ -1,0 +1,13 @@
+{
+  "instrument": {
+    "id": "urn:example:bad:meta:empty",
+    "version": "1.0"
+  },
+  "meta": {},
+  "values": {
+    "field1": {
+      "value": "hello world"
+    }
+  }
+}
+

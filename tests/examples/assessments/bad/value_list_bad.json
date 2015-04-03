@@ -1,0 +1,15 @@
+{
+  "instrument": {
+    "id": "urn:example:bad:value:list:bad",
+    "version": "1.0"
+  },
+  "values": {
+    "field1": {
+      "value": [
+        "foo",
+        23
+      ]
+    }
+  }
+}
+

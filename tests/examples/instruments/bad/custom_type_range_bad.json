@@ -1,0 +1,20 @@
+{
+  "id": "urn:example:bad:custom_type:range:bad",
+  "version": "1.0",
+  "title": "An Instrument Title",
+  "types": {
+    "customInteger": {
+      "base": "integer",
+      "range": {
+        "min": "foo"
+      }
+    }
+  },
+  "record": [
+    {
+      "id": "field1",
+      "type": "customInteger"
+    }
+  ]
+}
+

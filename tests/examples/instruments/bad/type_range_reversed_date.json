@@ -1,0 +1,18 @@
+{
+  "id": "urn:example:bad:range:date:reversed",
+  "version": "1.0",
+  "title": "An Instrument Title",
+  "record": [
+    {
+      "id": "field1",
+      "type": {
+        "base": "date",
+        "range": {
+          "min": "2015-01-01",
+          "max": "2010-01-01"
+        }
+      }
+    }
+  ]
+}
+

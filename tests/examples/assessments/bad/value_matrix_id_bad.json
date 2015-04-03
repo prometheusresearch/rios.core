@@ -1,0 +1,18 @@
+{
+  "instrument": {
+    "id": "urn:example:bad:value:matrix:id:bad",
+    "version": "1.0"
+  },
+  "values": {
+    "field1": {
+      "value": {
+        "FOO": {
+          "col1": {
+            "value": "foo"
+          }
+        }
+      }
+    }
+  }
+}
+

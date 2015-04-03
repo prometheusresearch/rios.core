@@ -1,0 +1,11 @@
+{
+  "instrument": {
+    "id": "urn:example:bad:version:missing"
+  },
+  "values": {
+    "field1": {
+      "value": "hello world"
+    }
+  }
+}
+

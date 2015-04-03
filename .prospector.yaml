@@ -1,0 +1,27 @@
+strictness: veryhigh
+doc-warnings: true
+test-warnings: false
+
+pep8:
+  disable:
+    - W391
+
+pylint:
+  disable:
+    - wildcard-import
+    - star-args
+    - missing-docstring
+    - no-self-use
+  enable:
+    - fixme
+
+pyflakes:
+  disable:
+    - F403
+
+pyroma:
+  run: true
+
+pep257:
+  run: false
+

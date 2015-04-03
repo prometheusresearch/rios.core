@@ -1,0 +1,13 @@
+{
+  "id": "urn:example:good:description",
+  "version": "1.0",
+  "title": "An Instrument Title",
+  "description": "This is a description",
+  "record": [
+    {
+      "id": "field1",
+      "type": "text"
+    }
+  ]
+}
+

@@ -1,0 +1,21 @@
+{
+  "id": "urn:example:good:enumeration:basic",
+  "version": "1.0",
+  "title": "An Instrument Title",
+  "record": [
+    {
+      "id": "field1",
+      "type": {
+        "base": "enumeration",
+        "enumerations": {
+          "foo": {},
+          "bar": {
+            "description": "This is a description"
+          },
+          "baz": null
+        }
+      }
+    }
+  ]
+}
+
