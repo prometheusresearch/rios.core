@@ -2,6 +2,9 @@ strictness: veryhigh
 doc-warnings: true
 test-warnings: false
 
+ignore-patterns:
+  - ^docs/source/conf\.py$
+
 pep8:
   disable:
     - W391

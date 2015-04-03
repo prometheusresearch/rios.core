@@ -42,6 +42,8 @@ setup(
             'prospector[with_pyroma]>=0.10,<0.11',
             'twine>=1.5,<2',
             'wheel>=0.24,<0.25',
+            'Sphinx>=1.3,<2',
+            'sphinx-autobuild>=0.5,<0.6',
         ],
     },
     test_suite='nose.collector',
