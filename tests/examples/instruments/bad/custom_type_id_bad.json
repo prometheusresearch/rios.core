@@ -3,7 +3,7 @@
   "version": "1.0",
   "title": "An Instrument Title",
   "types": {
-    "foo_bar": {
+    "foo_bar_": {
       "base": "text"
     }
   },

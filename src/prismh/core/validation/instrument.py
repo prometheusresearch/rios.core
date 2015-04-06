@@ -157,7 +157,7 @@ RE_FIELD_ID = re.compile(r'^[a-z](?:[a-z0-9]|[_-](?![_-]))*[a-z0-9]$')
 RE_ENUMERATION_ID = re.compile(
     r'^(?:[a-z0-9]{1,2}|[a-z0-9](?:[a-z0-9]|[_-](?![_-]))+[a-z0-9])$'
 )
-RE_CUSTOM_TYPE_ID = re.compile(r'^[a-zA-Z0-9]+$')
+RE_CUSTOM_TYPE_ID = re.compile(r'^[a-zA-Z0-9_]+[a-zA-Z0-9]$')
 
 
 # pylint: disable=abstract-method

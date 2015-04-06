@@ -3,14 +3,14 @@
   "version": "1.0",
   "title": "An Instrument Title",
   "types": {
-    "customText": {
+    "custom_Text": {
       "base": "text"
     }
   },
   "record": [
     {
       "id": "field1",
-      "type": "customText"
+      "type": "custom_Text"
     }
   ]
 }
