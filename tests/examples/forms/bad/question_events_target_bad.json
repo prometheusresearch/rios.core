@@ -1,0 +1,33 @@
+{
+  "instrument": {
+    "id": "urn:example:bad:question:events:target:bad",
+    "version": "1.0"
+  },
+  "defaultLocalization": "en",
+  "pages": [
+    {
+      "id": "page1",
+      "elements": [
+        {
+          "type": "question",
+          "options": {
+            "fieldId": "field1",
+            "text": {
+              "en": "This is a Question?"
+            },
+            "events": [
+              {
+                "trigger": "true()",
+                "action": "hide",
+                "targets": [
+                  "%*#&$^#"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
+

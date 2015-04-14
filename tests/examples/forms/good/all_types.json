@@ -1,0 +1,248 @@
+{
+  "instrument": {
+    "id": "urn:example:good:all_types",
+    "version": "1.0"
+  },
+
+  "defaultLocalization": "en",
+
+  "title": {
+    "en": "A Form Title",
+    "fr": "A French Form Title"
+  },
+
+  "pages": [
+    {
+      "id": "page1",
+      "elements": [
+        {
+          "type": "header",
+          "options": {
+            "text": {
+              "en": "This is Page One"
+            }
+          }
+        },
+        {
+          "type": "text",
+          "options": {
+            "text": {
+              "en": "This is a description of page one."
+            }
+          }
+        },
+        {
+          "type": "audio",
+          "options": {
+            "source": {
+              "en": [
+                "http://example.com/file.ogg",
+                "http://example.com/file.mp3"
+              ]
+            }
+          }
+        },
+        {
+          "type": "divider"
+        },
+        {
+          "type": "question",
+          "options": {
+            "fieldId": "nullable_field",
+            "text": {
+              "en": "This Field can be Null"
+            }
+          }
+        },
+        {
+          "type": "question",
+          "options": {
+            "fieldId": "text_field",
+            "text": {
+              "en": "This is a text question."
+            }
+          }
+        },
+        {
+          "type": "question",
+          "options": {
+            "fieldId": "integer_field",
+            "text": {
+              "en": "This is an integer question."
+            }
+          }
+        },
+        {
+          "type": "question",
+          "options": {
+            "fieldId": "float_field",
+            "text": {
+              "en": "This is a float question."
+            }
+          }
+        },
+        {
+          "type": "question",
+          "options": {
+            "fieldId": "boolean_field",
+            "text": {
+              "en": "This is a boolean question."
+            }
+          }
+        },
+        {
+          "type": "question",
+          "options": {
+            "fieldId": "date_field",
+            "text": {
+              "en": "This is a date question."
+            }
+          }
+        },
+        {
+          "type": "question",
+          "options": {
+            "fieldId": "time_field",
+            "text": {
+              "en": "This is a time question."
+            }
+          }
+        },
+        {
+          "type": "question",
+          "options": {
+            "fieldId": "datetime_field",
+            "text": {
+              "en": "This is a dateTime question."
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "page2",
+      "elements": [
+        {
+          "type": "question",
+          "options": {
+            "fieldId": "enumeration_field",
+            "text": {
+              "en": "This is an enumeration question."
+            },
+            "enumerations": [
+              {
+                "id": "baz",
+                "text": {
+                  "en": "Baz"
+                }
+              },
+              {
+                "id": "foo",
+                "text": {
+                  "en": "Foo"
+                }
+              },
+              {
+                "id": "bar",
+                "text": {
+                  "en": "Bar"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "question",
+          "options": {
+            "fieldId": "enumerationset_field",
+            "text": {
+              "en": "This is an enumerationSet question."
+            },
+            "enumerations": [
+              {
+                "id": "baz",
+                "text": {
+                  "en": "Baz"
+                }
+              },
+              {
+                "id": "foo",
+                "text": {
+                  "en": "Foo"
+                }
+              },
+              {
+                "id": "bar",
+                "text": {
+                  "en": "Bar"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "question",
+          "options": {
+            "fieldId": "recordlist_field",
+            "text": {
+              "en": "This is a recordList question."
+            },
+            "questions": [
+              {
+                "fieldId": "subfield2",
+                "text": {
+                  "en": "Sub Field 2"
+                }
+              },
+              {
+                "fieldId": "subfield1",
+                "text": {
+                  "en": "Sub Field 1"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "question",
+          "options": {
+            "fieldId": "matrix_field",
+            "text": {
+              "en": "This is a matrix question."
+            },
+            "questions": [
+              {
+                "fieldId": "col2",
+                "text": {
+                  "en": "Column 2"
+                }
+              },
+              {
+                "fieldId": "col1",
+                "text": {
+                  "en": "Column 1"
+                }
+              }
+            ],
+            "rows": [
+              {
+                "id": "row1",
+                "text": {
+                  "en": "First Row"
+                }
+              },
+              {
+                "id": "row2",
+                "text": {
+                  "en": "Second Row"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
+

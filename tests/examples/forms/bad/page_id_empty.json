@@ -1,0 +1,24 @@
+{
+  "instrument": {
+    "id": "urn:example:bad:page:id:empty",
+    "version": "1.0"
+  },
+  "defaultLocalization": "en",
+  "pages": [
+    {
+      "id": "",
+      "elements": [
+        {
+          "type": "question",
+          "options": {
+            "fieldId": "field1",
+            "text": {
+              "en": "This is a Question?"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+

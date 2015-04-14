@@ -1,0 +1,21 @@
+{
+  "instrument": {
+    "id": "urn:example:bad:header:text:bad",
+    "version": "1.0"
+  },
+  "defaultLocalization": "en",
+  "pages": [
+    {
+      "id": "page1",
+      "elements": [
+        {
+          "type": "header",
+          "options": {
+            "text": "foo"
+          }
+        }
+      ]
+    }
+  ]
+}
+

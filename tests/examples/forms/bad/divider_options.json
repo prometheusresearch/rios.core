@@ -1,0 +1,23 @@
+{
+  "instrument": {
+    "id": "urn:example:bad:divider:options",
+    "version": "1.0"
+  },
+  "defaultLocalization": "en",
+  "pages": [
+    {
+      "id": "page1",
+      "elements": [
+        {
+          "type": "divider",
+          "options": {
+            "text": {
+              "en": "This is text."
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+

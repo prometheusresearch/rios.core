@@ -3,9 +3,13 @@
 #
 
 
+import re
+
 from collections import Callable
 
 import colander
+
+from six import iteritems
 
 
 __all__ = (
@@ -15,7 +19,12 @@ __all__ = (
     'OneOfType',
     'StrictBooleanType',
     'OptionalStringType',
+    'LanguageTag',
+    'LocalizedMapping',
 )
+
+
+# pylint: disable=abstract-method
 
 
 ValidationError = colander.Invalid
@@ -96,4 +105,34 @@ class OptionalStringType(colander.String):
             )
 
         return result
+
+
+RE_LANGUAGE_TAG = re.compile(
+    r'^(((([A-Za-z]{2,3}(-([A-Za-z]{3}(-[A-Za-z]{3}){0,2}))?)|[A-Za-z]{4}|[A-Za-z]{5,8})(-([A-Za-z]{4}))?(-([A-Za-z]{2}|[0-9]{3}))?(-([A-Za-z0-9]{5,8}|[0-9][A-Za-z0-9]{3}))*(-([0-9A-WY-Za-wy-z](-[A-Za-z0-9]{2,8})+))*(-(x(-[A-Za-z0-9]{1,8})+))?)|(x(-[A-Za-z0-9]{1,8})+)|((en-GB-oed|i-ami|i-bnn|i-default|i-enochian|i-hak|i-klingon|i-lux|i-mingo|i-navajo|i-pwn|i-tao|i-tay|i-tsu|sgn-BE-FR|sgn-BE-NL|sgn-CH-DE)|(art-lojban|cel-gaulish|no-bok|no-nyn|zh-guoyu|zh-hakka|zh-min|zh-min-nan|zh-xiang)))$'  # noqa
+)
+
+
+class LanguageTag(colander.SchemaNode):
+    schema_type = colander.String
+    validator = colander.Regex(RE_LANGUAGE_TAG)
+
+
+class LocalizedMapping(colander.SchemaNode):
+    def __init__(self, sub_type, *args, **kwargs):
+        self.sub_type = sub_type
+        kwargs['typ'] = colander.Mapping(unknown='preserve')
+        super(LocalizedMapping, self).__init__(*args, **kwargs)
+
+    def validator(self, node, cstruct):
+        cstruct = cstruct or {}
+
+        if len(cstruct) == 0:
+            raise ValidationError(
+                node,
+                'At least one localization must be specified',
+            )
+
+        for language_tag, translation in iteritems(cstruct):
+            sub_schema(LanguageTag, node, language_tag)
+            sub_schema(self.sub_type, node, translation)
 

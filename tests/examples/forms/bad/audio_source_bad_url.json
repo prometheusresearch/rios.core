@@ -1,0 +1,25 @@
+{
+  "instrument": {
+    "id": "urn:example:bad:audio:source:bad_url",
+    "version": "1.0"
+  },
+  "defaultLocalization": "en",
+  "pages": [
+    {
+      "id": "page1",
+      "elements": [
+        {
+          "type": "audio",
+          "options": {
+            "source": {
+              "en": [
+                42
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+

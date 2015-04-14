@@ -1,0 +1,35 @@
+{
+  "instrument": {
+    "id": "urn:example:good:parameters",
+    "version": "1.0"
+  },
+  "defaultLocalization": "en",
+  "pages": [
+    {
+      "id": "page1",
+      "elements": [
+        {
+          "type": "question",
+          "options": {
+            "fieldId": "field1",
+            "text": {
+              "en": "This is a Question?"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "parameters": {
+    "foo": {
+      "type": "text"
+    },
+    "b_r": {
+      "type": "numeric"
+    },
+    "b4zzz": {
+      "type": "boolean"
+    }
+  }
+}
+

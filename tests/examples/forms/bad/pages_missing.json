@@ -1,0 +1,8 @@
+{
+  "instrument": {
+    "id": "urn:example:bad:pages:missing",
+    "version": "1.0"
+  },
+  "defaultLocalization": "en"
+}
+

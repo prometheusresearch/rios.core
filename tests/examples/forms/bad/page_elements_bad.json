@@ -1,0 +1,14 @@
+{
+  "instrument": {
+    "id": "urn:example:bad:page:elements:bad",
+    "version": "1.0"
+  },
+  "defaultLocalization": "en",
+  "pages": [
+    {
+      "id": "page1",
+      "elements": "foo"
+    }
+  ]
+}
+

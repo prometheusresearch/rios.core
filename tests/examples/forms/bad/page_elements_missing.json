@@ -1,0 +1,13 @@
+{
+  "instrument": {
+    "id": "urn:example:bad:page:elements:missing",
+    "version": "1.0"
+  },
+  "defaultLocalization": "en",
+  "pages": [
+    {
+      "id": "page1"
+    }
+  ]
+}
+
