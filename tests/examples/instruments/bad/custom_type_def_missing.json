@@ -1,14 +1,14 @@
 {
-  "id": "urn:example:bad:custom_type:id:reserved",
+  "id": "urn:example:bad:custom_type:def:missing",
   "version": "1.0",
   "title": "An Instrument Title",
   "types": {
-    "customText": null
+    "custom_text": null
   },
   "record": [
     {
       "id": "field1",
-      "type": "customText"
+      "type": "custom_text"
     }
   ]
 }

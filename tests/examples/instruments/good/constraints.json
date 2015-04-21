@@ -3,7 +3,7 @@
   "version": "1.0",
   "title": "An Instrument Title",
   "types": {
-    "customText": {
+    "custom_text": {
       "base": "text",
       "pattern": "foo",
       "length": {
@@ -12,7 +12,7 @@
       }
     },
 
-    "customInteger": {
+    "custom_integer": {
       "base": "integer",
       "range": {
         "min": 2,
@@ -20,7 +20,7 @@
       }
     },
 
-    "customFloat": {
+    "custom_float": {
       "base": "float",
       "range": {
         "min": 2,
@@ -28,7 +28,7 @@
       }
     },
 
-    "customDate": {
+    "custom_date": {
       "base": "date",
       "range": {
         "min": "2010-01-01",
@@ -36,7 +36,7 @@
       }
     },
 
-    "customTime": {
+    "custom_time": {
       "base": "time",
       "range": {
         "min": "02:30:00",
@@ -44,7 +44,7 @@
       }
     },
 
-    "customDateTime": {
+    "custom_datetime": {
       "base": "dateTime",
       "range": {
         "min": "2010-01-01T02:30:00",
@@ -52,7 +52,7 @@
       }
     },
 
-    "customEnumeration": {
+    "custom_enumeration": {
       "base": "enumeration",
       "enumerations": {
         "foo": {},
@@ -60,7 +60,7 @@
       }
     },
 
-    "customEnumerationSet": {
+    "custom_enumerationset": {
       "base": "enumerationSet",
       "enumerations": {
         "foo": {},
@@ -72,7 +72,7 @@
       }
     },
 
-    "customRecordList": {
+    "custom_recordlist": {
       "base": "recordList",
       "record": [
         {
@@ -86,7 +86,7 @@
       }
     },
 
-    "customMatrix": {
+    "custom_matrix": {
       "base": "matrix",
       "rows": [
         {

@@ -14,6 +14,8 @@ from six import iteritems
 
 __all__ = (
     'ValidationError',
+    'RE_IDENTIFIER',
+    'IdentifierString',
     'sub_schema',
     'AnyType',
     'OneOfType',
@@ -28,6 +30,14 @@ __all__ = (
 
 
 ValidationError = colander.Invalid
+
+
+RE_IDENTIFIER = re.compile(r'^[a-z](?:[a-z0-9]|[_](?![_]))*[a-z0-9]$')
+
+
+class IdentifierString(colander.SchemaNode):
+    schema_type = colander.String
+    validator = colander.Regex(RE_IDENTIFIER)
 
 
 def sub_schema(schema, node, cstruct):

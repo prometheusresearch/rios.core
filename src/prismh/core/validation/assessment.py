@@ -12,7 +12,7 @@ import colander
 from six import iteritems
 
 from .common import ValidationError, sub_schema, AnyType, LanguageTag
-from .instrument import InstrumentReference, RE_FIELD_ID, \
+from .instrument import InstrumentReference, IdentifierString, \
     get_full_type_definition
 
 
@@ -137,11 +137,7 @@ class ValueCollection(colander.SchemaNode):
             )
 
         for field_id, value in iteritems(cstruct):
-            if not RE_FIELD_ID.match(field_id):
-                raise ValidationError(
-                    node,
-                    '"%r" is not a valid Field ID' % field_id,
-                )
+            sub_schema(IdentifierString, node, field_id)
             sub_schema(Value, node, value)
 
 
@@ -159,11 +155,7 @@ class ValueCollectionMapping(colander.SchemaNode):
             )
 
         for field_id, values in iteritems(cstruct):
-            if not RE_FIELD_ID.match(field_id):
-                raise ValidationError(
-                    node,
-                    '"%r" is not a valid Field ID' % field_id,
-                )
+            sub_schema(IdentifierString, node, field_id)
             sub_schema(ValueCollection, node, values)
 
 

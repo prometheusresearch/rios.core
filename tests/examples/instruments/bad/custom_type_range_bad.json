@@ -3,7 +3,7 @@
   "version": "1.0",
   "title": "An Instrument Title",
   "types": {
-    "customInteger": {
+    "custom_integer": {
       "base": "integer",
       "range": {
         "min": "foo"
@@ -13,7 +13,7 @@
   "record": [
     {
       "id": "field1",
-      "type": "customInteger"
+      "type": "custom_integer"
     }
   ]
 }

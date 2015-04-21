@@ -11,7 +11,8 @@ import colander
 
 from six import iteritems, iterkeys, string_types
 
-from .common import *
+from .common import ValidationError, RE_IDENTIFIER, IdentifierString, \
+    sub_schema, AnyType, OneOfType, StrictBooleanType, OptionalStringType
 
 
 __all__ = (
@@ -21,17 +22,15 @@ __all__ = (
     'CONSTRAINTS_ALL',
     'TYPES_CONSTRAINED',
     'TYPES_CONSTRAINED_REQUIRED',
-    'RE_FIELD_ID',
     'RE_ENUMERATION_ID',
-    'RE_CUSTOM_TYPE_ID',
 
     'get_full_type_definition',
 
     'InstrumentIdentifier',
     'InstrumentReference',
     'Version',
-    'FieldIdentifier',
     'Description',
+    'EnumerationIdentifier',
     'Enumeration',
     'EnumerationCollection',
     'BoundConstraint',
@@ -153,11 +152,9 @@ RANGE_CONSTRAINT_TYPES = {
 
 
 RE_VERSION = re.compile(r'(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)')
-RE_FIELD_ID = re.compile(r'^[a-z](?:[a-z0-9]|[_-](?![_-]))*[a-z0-9]$')
 RE_ENUMERATION_ID = re.compile(
     r'^(?:[a-z0-9]{1,2}|[a-z0-9](?:[a-z0-9]|[_-](?![_-]))+[a-z0-9])$'
 )
-RE_CUSTOM_TYPE_ID = re.compile(r'^[a-zA-Z0-9][a-zA-Z0-9_]*[a-zA-Z0-9]$')
 
 
 # pylint: disable=abstract-method
@@ -182,11 +179,6 @@ class InstrumentReference(colander.SchemaNode):
         super(InstrumentReference, self).__init__(*args, **kwargs)
 
 
-class FieldIdentifier(colander.SchemaNode):
-    schema_type = colander.String
-    validator = colander.Regex(RE_FIELD_ID)
-
-
 class Description(colander.SchemaNode):
     schema_type = OptionalStringType
     validator = colander.Length(min=1)
@@ -195,6 +187,11 @@ class Description(colander.SchemaNode):
 
 class Enumeration(colander.MappingSchema):
     description = Description()
+
+
+class EnumerationIdentifier(colander.SchemaNode):
+    schema_type = colander.String
+    validator = colander.Regex(RE_ENUMERATION_ID)
 
 
 class EnumerationCollection(colander.SchemaNode):
@@ -211,11 +208,7 @@ class EnumerationCollection(colander.SchemaNode):
             )
 
         for enum_id, enum_def in iteritems(cstruct):
-            if not RE_ENUMERATION_ID.match(enum_id):
-                raise ValidationError(
-                    node,
-                    '"%r" is not a valid enumeration ID' % enum_id,
-                )
+            sub_schema(EnumerationIdentifier, node, enum_id)
             if enum_def is not None:
                 sub_schema(Enumeration, node, enum_def)
 
@@ -278,7 +271,7 @@ class FieldType(colander.SchemaNode):
     def validator(self, node, cstruct):
         if isinstance(cstruct, string_types):
             if cstruct not in TYPES_ALL \
-                    and not RE_CUSTOM_TYPE_ID.match(cstruct):
+                    and not RE_IDENTIFIER.match(cstruct):
                 raise ValidationError(
                     node,
                     '"%r" is not a valid type identifier' % (cstruct,),
@@ -288,7 +281,7 @@ class FieldType(colander.SchemaNode):
 
 
 class Column(colander.SchemaNode):
-    id = FieldIdentifier()  # pylint: disable=invalid-name
+    id = IdentifierString()  # pylint: disable=invalid-name
     description = Description()
     required = colander.SchemaNode(
         StrictBooleanType(),
@@ -324,7 +317,7 @@ class ColumnCollection(colander.SequenceSchema):
 
 
 class Row(colander.SchemaNode):
-    id = FieldIdentifier()  # pylint: disable=invalid-name
+    id = IdentifierString()  # pylint: disable=invalid-name
     description = Description()
     required = colander.SchemaNode(
         StrictBooleanType(),
@@ -391,7 +384,7 @@ class RequiredOptionalField(colander.SchemaNode):
 
 
 class Field(colander.SchemaNode):
-    id = FieldIdentifier()  # pylint: disable=invalid-name
+    id = IdentifierString()  # pylint: disable=invalid-name
     description = Description()
     type = FieldType()
     required = colander.SchemaNode(
@@ -444,7 +437,7 @@ class InstrumentTypes(colander.SchemaNode):
     def validator(self, node, cstruct):
         cstruct = cstruct or {}
         for type_id, type_def in iteritems(cstruct):
-            if type_id in TYPES_ALL or not RE_CUSTOM_TYPE_ID.match(type_id):
+            if type_id in TYPES_ALL or not RE_IDENTIFIER.match(type_id):
                 raise ValidationError(
                     node,
                     '"%r" is not a valid custom type ID' % type_id,

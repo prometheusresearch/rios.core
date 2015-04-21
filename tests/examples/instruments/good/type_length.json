@@ -3,7 +3,7 @@
   "version": "1.0",
   "title": "An Instrument Title",
   "types": {
-    "testEnumerationSet": {
+    "test_enumerationset": {
       "base": "enumerationSet",
       "enumerations": {
         "foo": {},
@@ -12,7 +12,7 @@
       }
     },
 
-    "testRecordList": {
+    "test_recordlist": {
       "base": "recordList",
       "record": [
         {
@@ -58,7 +58,7 @@
     {
       "id": "field4",
       "type": {
-        "base": "testEnumerationSet",
+        "base": "test_enumerationset",
         "length": {
           "min": 2
         }
@@ -67,7 +67,7 @@
     {
       "id": "field5",
       "type": {
-        "base": "testEnumerationSet",
+        "base": "test_enumerationset",
         "length": {
           "max": 10
         }
@@ -76,7 +76,7 @@
     {
       "id": "field6",
       "type": {
-        "base": "testEnumerationSet",
+        "base": "test_enumerationset",
         "length": {
           "min": 2,
           "max": 10
@@ -86,7 +86,7 @@
     {
       "id": "field7",
       "type": {
-        "base": "testRecordList",
+        "base": "test_recordlist",
         "length": {
           "min": 2
         }
@@ -95,7 +95,7 @@
     {
       "id": "field8",
       "type": {
-        "base": "testRecordList",
+        "base": "test_recordlist",
         "length": {
           "max": 10
         }
@@ -104,7 +104,7 @@
     {
       "id": "field9",
       "type": {
-        "base": "testRecordList",
+        "base": "test_recordlist",
         "length": {
           "min": 2,
           "max": 10

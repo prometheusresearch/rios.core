@@ -3,14 +3,13 @@
 #
 
 
-import re
-
 import colander
 
 from six import iteritems
 
-from .common import ValidationError, sub_schema, LanguageTag, LocalizedMapping
-from .instrument import InstrumentReference, FieldIdentifier, RE_FIELD_ID
+from .common import ValidationError, sub_schema, LanguageTag, \
+    LocalizedMapping, IdentifierString
+from .instrument import InstrumentReference
 
 
 __all__ = (
@@ -18,15 +17,10 @@ __all__ = (
     'EVENT_ACTIONS_ALL',
     'UNPROMPTED_ACTIONS_ALL',
     'PARAMETER_TYPES_ALL',
-    'RE_PAGE_ID',
-    'RE_TAG_ID',
-    'RE_PARAMETER_ID',
 
     'LocalizedString',
     'UrlList',
     'AudioSource',
-    'PageIdentifier',
-    'TagIdentifier',
     'TagList',
     'ElementType',
     'TextElementOptions',
@@ -37,7 +31,6 @@ __all__ = (
     'DescriptorList',
     'Expression',
     'EventAction',
-    'EventTarget',
     'EventTargetList',
     'EventList',
     'QuestionList',
@@ -50,7 +43,6 @@ __all__ = (
     'UnpromptedOptions',
     'UnpromptedCollection',
     'ParameterType',
-    'ParameterIdentifier',
     'ParameterCollection',
     'Form',
 )
@@ -86,12 +78,8 @@ PARAMETER_TYPES_ALL = (
 )
 
 
-RE_PAGE_ID = re.compile(r'^[a-z](?:[a-z0-9]|[_-](?![_-]))*[a-z0-9]$')
-RE_TAG_ID = re.compile(r'^[a-z](?:[a-z0-9]|[_-](?![_-]))*[a-z0-9]$')
-RE_PARAMETER_ID = re.compile(r'^[a-zA-Z][a-zA-Z0-9_]*[a-zA-Z0-9]$')
-
-
 # pylint: disable=abstract-method
+
 
 class LocalizedString(LocalizedMapping):
     def __init__(self, *args, **kwargs):
@@ -116,18 +104,8 @@ class AudioSource(LocalizedMapping):
         )
 
 
-class PageIdentifier(colander.SchemaNode):
-    schema_type = colander.String
-    validator = colander.Regex(RE_PAGE_ID)
-
-
-class TagIdentifier(colander.SchemaNode):
-    schema_type = colander.String
-    validator = colander.Regex(RE_TAG_ID)
-
-
 class TagList(colander.SequenceSchema):
-    tag = TagIdentifier()
+    tag = IdentifierString()
     validator = colander.Length(min=1)
 
 
@@ -200,21 +178,8 @@ class EventAction(colander.SchemaNode):
     validator = colander.OneOf(EVENT_ACTIONS_ALL)
 
 
-class EventTarget(colander.SchemaNode):
-    schema_type = colander.String
-
-    def validator(self, node, cstruct):
-        if not RE_PAGE_ID.match(cstruct) \
-                and not RE_FIELD_ID.match(cstruct) \
-                and not RE_TAG_ID.match(cstruct):
-            raise ValidationError(
-                node,
-                '"%s" is not a valid target identifier' % cstruct,
-            )
-
-
 class EventTargetList(colander.SequenceSchema):
-    target = EventTarget()
+    target = IdentifierString()
     validator = colander.Length(min=1)
 
 
@@ -247,7 +212,7 @@ class QuestionList(colander.SchemaNode):
 
 
 class QuestionElementOptions(colander.SchemaNode):
-    fieldId = FieldIdentifier()
+    fieldId = IdentifierString()
     text = LocalizedString()
     audio = AudioSource(missing=colander.drop)
     help = LocalizedString(missing=colander.drop)
@@ -311,7 +276,7 @@ class ElementList(colander.SequenceSchema):
 
 
 class Page(colander.SchemaNode):
-    id = PageIdentifier()  # pylint: disable=invalid-name
+    id = IdentifierString()  # pylint: disable=invalid-name
     elements = ElementList()
 
     def __init__(self, *args, **kwargs):
@@ -365,7 +330,7 @@ class UnpromptedCollection(colander.SchemaNode):
             )
 
         for name, options in iteritems(cstruct):
-            sub_schema(FieldIdentifier, node, name)
+            sub_schema(IdentifierString, node, name)
             sub_schema(UnpromptedOptions, node, options)
 
 
@@ -382,11 +347,6 @@ class ParameterOptions(colander.SchemaNode):
         super(ParameterOptions, self).__init__(*args, **kwargs)
 
 
-class ParameterIdentifier(colander.SchemaNode):
-    schema_type = colander.String
-    validator = colander.Regex(RE_PARAMETER_ID)
-
-
 class ParameterCollection(colander.SchemaNode):
     def __init__(self, *args, **kwargs):
         kwargs['typ'] = colander.Mapping(unknown='preserve')
@@ -401,7 +361,7 @@ class ParameterCollection(colander.SchemaNode):
             )
 
         for name, options in iteritems(cstruct):
-            sub_schema(ParameterIdentifier, node, name)
+            sub_schema(IdentifierString, node, name)
             sub_schema(ParameterOptions, node, options)
 
 

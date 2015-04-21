@@ -34,6 +34,7 @@ def check_bad_file(filename):
     try:
         validator.deserialize(file_structure)
     except ValidationError as exc:
+        #print os.path.relpath(filename, BAD_INSTRUMENT_FILES), exc
         pass
     else:
         assert False, '%s did not fail validation' % filename
