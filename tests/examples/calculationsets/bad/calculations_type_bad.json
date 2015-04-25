@@ -1,0 +1,17 @@
+{
+  "instrument": {
+    "id": "urn:example:bad:calculations:type:bad",
+    "version": "1.0"
+  },
+  "calculations": [
+    {
+      "id": "calc1",
+      "type": "customType",
+      "method": "python",
+      "options": {
+        "expression": "field1 + 10"
+      }
+    }
+  ]
+}
+

@@ -8,7 +8,7 @@ import colander
 from six import iteritems
 
 from .common import ValidationError, sub_schema, LanguageTag, \
-    LocalizedMapping, IdentifierString
+    LocalizedMapping, IdentifierString, Options
 from .instrument import InstrumentReference
 
 
@@ -128,20 +128,6 @@ class AudioElementOptions(colander.SchemaNode):
     def __init__(self, *args, **kwargs):
         kwargs['typ'] = colander.Mapping(unknown='raise')
         super(AudioElementOptions, self).__init__(*args, **kwargs)
-
-
-class Options(colander.SchemaNode):
-    def __init__(self, *args, **kwargs):
-        kwargs['typ'] = colander.Mapping(unknown='preserve')
-        super(Options, self).__init__(*args, **kwargs)
-
-    def validator(self, node, cstruct):
-        cstruct = cstruct or {}
-        if len(cstruct) == 0:
-            raise ValidationError(
-                node,
-                'At least one key/value pair must be defined',
-            )
 
 
 class Widget(colander.SchemaNode):

@@ -23,6 +23,7 @@ __all__ = (
     'OptionalStringType',
     'LanguageTag',
     'LocalizedMapping',
+    'Options',
 )
 
 
@@ -145,4 +146,18 @@ class LocalizedMapping(colander.SchemaNode):
         for language_tag, translation in iteritems(cstruct):
             sub_schema(LanguageTag, node, language_tag)
             sub_schema(self.sub_type, node, translation)
+
+
+class Options(colander.SchemaNode):
+    def __init__(self, *args, **kwargs):
+        kwargs['typ'] = colander.Mapping(unknown='preserve')
+        super(Options, self).__init__(*args, **kwargs)
+
+    def validator(self, node, cstruct):
+        cstruct = cstruct or {}
+        if len(cstruct) == 0:
+            raise ValidationError(
+                node,
+                'At least one key/value pair must be defined',
+            )
 

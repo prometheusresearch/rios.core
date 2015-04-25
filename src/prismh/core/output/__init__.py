@@ -9,12 +9,14 @@ import six
 
 from .common import get_json
 from .assessment import Assessment
+from .calculationset import CalculationSet
 from .instrument import Instrument
 
 
 __all__ = (
     'get_instrument_json',
     'get_assessment_json',
+    'get_calculationset_json',
 )
 
 
@@ -70,4 +72,27 @@ def get_assessment_json(assessment, pretty=True, **kwargs):
     assessment = _get_struct(assessment)
     kwargs['pretty'] = pretty
     return get_json(Assessment(assessment), **kwargs)
+
+
+def get_calculationset_json(calculationset, pretty=True, **kwargs):
+    """
+    Generates a JSON-formatted string containing the specified Calculation Set
+    Definition.
+
+    :param instrument: The Calculation Set Definition generate the JSON for
+    :type instrument: JSON string, dict, or file-like object
+    :param pretty:
+        Whether or not to format the JSON in a human-friendly way. If not
+        specified, defaults to ``True``.
+    :type pretty: bool
+    :param kwargs:
+        Any extra keyword arguments are passed to the underlying ``json.dumps``
+        function.
+    :returns: The JSON-formatted string representing the Calculation Set
+    :rtype: string
+    """
+
+    calculationset = _get_struct(calculationset)
+    kwargs['pretty'] = pretty
+    return get_json(CalculationSet(calculationset), **kwargs)
 

@@ -1,0 +1,35 @@
+{
+  "instrument": {
+    "id": "urn:example:good:all_types",
+    "version": "1.0"
+  },
+
+  "calculations": [
+    {
+      "id": "calc1",
+      "description": "some description",
+      "type": "integer",
+      "method": "python",
+      "options": {
+        "expression": "assesment['integer_field'] * 2"
+      }
+    },
+    {
+      "id": "calc2",
+      "type": "integer",
+      "method": "python",
+      "options": {
+        "callable": "some_module.my_callable"
+      }
+    },
+    {
+      "id": "calc3",
+      "type": "float",
+      "method": "htsql",
+      "options": {
+        "expression": "$float_field / 4"
+      }
+    }
+  ]
+}
+

@@ -1,0 +1,14 @@
+{
+  "instrument": {
+    "id": "urn:example:bad:calculations:htsql:options:missing",
+    "version": "1.0"
+  },
+  "calculations": [
+    {
+      "id": "calc1",
+      "type": "integer",
+      "method": "htsql"
+    }
+  ]
+}
+

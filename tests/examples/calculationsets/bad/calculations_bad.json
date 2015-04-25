@@ -1,0 +1,8 @@
+{
+  "instrument": {
+    "id": "urn:example:bad:calculations:bad",
+    "version": "1.0"
+  },
+  "calculations": false
+}
+

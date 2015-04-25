@@ -1,0 +1,25 @@
+{
+  "instrument": {
+    "id": "urn:example:bad:calculations:id:dupe",
+    "version": "1.0"
+  },
+  "calculations": [
+    {
+      "id": "calc1",
+      "type": "integer",
+      "method": "python",
+      "options": {
+        "expression": "field1 + 10"
+      }
+    },
+    {
+      "id": "calc1",
+      "type": "integer",
+      "method": "python",
+      "options": {
+        "expression": "field1 + 100"
+      }
+    }
+  ]
+}
+

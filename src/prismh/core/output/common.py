@@ -14,6 +14,7 @@ __all__ = (
     'TypedSortedDict',
     'DefinedOrderDict',
     'TypedDefinedOrderDict',
+    'InstrumentReference',
 )
 
 
@@ -145,4 +146,15 @@ class TypedDefinedOrderDict(DefinedOrderDict):
             else:
                 value = type_(value)
         super(TypedDefinedOrderDict, self).__setitem__(key, value)
+
+
+class InstrumentReference(TypedDefinedOrderDict):
+    order = [
+        'id',
+        'version',
+    ]
+
+    key_types = {
+        'version': str,
+    }
 

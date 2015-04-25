@@ -1,0 +1,16 @@
+{
+  "instrument": {
+    "id": "urn:example:bad:calculations:method:missing",
+    "version": "1.0"
+  },
+  "calculations": [
+    {
+      "id": "calc1",
+      "type": "integer",
+      "options": {
+        "expression": "field1 + 10"
+      }
+    }
+  ]
+}
+

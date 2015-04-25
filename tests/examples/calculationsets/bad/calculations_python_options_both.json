@@ -1,0 +1,18 @@
+{
+  "instrument": {
+    "id": "urn:example:bad:calculations:python:options:both",
+    "version": "1.0"
+  },
+  "calculations": [
+    {
+      "id": "calc1",
+      "type": "integer",
+      "method": "python",
+      "options": {
+        "expression": "field1 * 2",
+        "callable": "some_module.my_callable"
+      }
+    }
+  ]
+}
+

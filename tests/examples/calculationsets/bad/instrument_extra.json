@@ -1,0 +1,18 @@
+{
+  "instrument": {
+    "id": "urn:example:bad:version:empty",
+    "version": "1.0",
+    "foo": "bar"
+  },
+  "calculations": [
+    {
+      "id": "calc1",
+      "type": "integer",
+      "method": "python",
+      "options": {
+        "expression": "field1 + 10"
+      }
+    }
+  ]
+}
+

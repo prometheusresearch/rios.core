@@ -1,0 +1,15 @@
+{
+  "instrument": {
+    "id": "urn:example:bad:calculations:python:options:bad",
+    "version": "1.0"
+  },
+  "calculations": [
+    {
+      "id": "calc1",
+      "type": "integer",
+      "method": "python",
+      "options": false
+    }
+  ]
+}
+

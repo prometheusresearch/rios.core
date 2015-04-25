@@ -5,24 +5,13 @@
 
 from six import string_types
 
-from .common import SortedDict, TypedSortedDict, TypedDefinedOrderDict
+from .common import SortedDict, TypedSortedDict, TypedDefinedOrderDict, \
+    InstrumentReference
 
 
 __all__ = (
     'Assessment',
-    'InstrumentReference',
 )
-
-
-class InstrumentReference(TypedDefinedOrderDict):
-    order = [
-        'id',
-        'version',
-    ]
-
-    key_types = {
-        'version': str,
-    }
 
 
 class Value(TypedDefinedOrderDict):
