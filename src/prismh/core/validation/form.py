@@ -40,7 +40,8 @@ __all__ = (
     'Page',
     'PageList',
     'UnpromptedAction',
-    'UnpromptedOptions',
+    'CalculateUnpromptedOptions',
+    'Unprompted',
     'UnpromptedCollection',
     'ParameterType',
     'ParameterCollection',
@@ -293,13 +294,42 @@ class UnpromptedAction(colander.SchemaNode):
     validator = colander.OneOf(UNPROMPTED_ACTIONS_ALL)
 
 
-class UnpromptedOptions(colander.SchemaNode):
+class CalculateUnpromptedOptions(colander.SchemaNode):
+    calculation = Expression()
+
+    def __init__(self, *args, **kwargs):
+        kwargs['typ'] = colander.Mapping(unknown='raise')
+        super(CalculateUnpromptedOptions, self).__init__(*args, **kwargs)
+
+
+UNPROMPTED_ACTION_OPTION_VALIDATORS = {
+    'calculate': CalculateUnpromptedOptions(),
+}
+
+
+class Unprompted(colander.SchemaNode):
     action = UnpromptedAction()
     options = Options(missing=colander.drop)
 
     def __init__(self, *args, **kwargs):
         kwargs['typ'] = colander.Mapping(unknown='raise')
-        super(UnpromptedOptions, self).__init__(*args, **kwargs)
+        super(Unprompted, self).__init__(*args, **kwargs)
+
+    def validator(self, node, cstruct):
+        action = cstruct.get('action', None)
+        validator = UNPROMPTED_ACTION_OPTION_VALIDATORS.get(action, None)
+        options = cstruct.get('options', None)
+        if validator:
+            sub_schema(
+                validator,
+                node.get('options'),
+                options,
+            )
+        elif options is not None:
+            raise ValidationError(
+                node.get('options'),
+                '"%s" actions do not accept options' % action,
+            )
 
 
 class UnpromptedCollection(colander.SchemaNode):
@@ -315,9 +345,9 @@ class UnpromptedCollection(colander.SchemaNode):
                 'At least one key/value pair must be defined',
             )
 
-        for name, options in iteritems(cstruct):
+        for name, defn in iteritems(cstruct):
             sub_schema(IdentifierString, node, name)
-            sub_schema(UnpromptedOptions, node, options)
+            sub_schema(Unprompted, node, defn)
 
 
 class ParameterType(colander.SchemaNode):
