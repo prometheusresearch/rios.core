@@ -5,11 +5,8 @@
 
 import colander
 
-from six import iteritems
-
 from .common import ValidationError, sub_schema, LanguageTag, \
-    LocalizedMapping, IdentifierString, Options, LocalizedString, Descriptor, \
-    DescriptorList
+    IdentifierString, Options, LocalizedString, DescriptorList
 from .instrument import InstrumentReference
 
 
@@ -22,6 +19,9 @@ STEP_TYPES_ALL = (
     'question',
     'text',
 )
+
+
+# pylint: disable=abstract-method
 
 
 class StepType(colander.SchemaNode):
