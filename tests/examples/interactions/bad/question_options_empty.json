@@ -1,0 +1,16 @@
+{
+  "instrument": {
+    "id": "urn:examples:bad:steps:question:options:empty",
+    "version": "1.0"
+  },
+
+  "defaultLocalization": "en",
+
+  "steps": [
+    {
+      "type": "question",
+      "options": {}
+    }
+  ]
+}
+

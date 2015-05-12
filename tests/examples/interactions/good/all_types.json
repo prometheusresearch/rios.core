@@ -1,0 +1,142 @@
+{
+  "instrument": {
+    "id": "urn:example:good:all_interaction_types",
+    "version": "1.0"
+  },
+
+  "defaultLocalization": "en",
+
+  "steps": [
+    {
+      "type": "question",
+      "options": {
+        "fieldId": "nullable_field",
+        "text": {
+          "en": "This is a nullable text field."
+        }
+      }
+    },
+    {
+      "type": "question",
+      "options": {
+        "fieldId": "text_field",
+        "text": {
+          "en": "This is a text field."
+        }
+      }
+    },
+    {
+      "type": "question",
+      "options": {
+        "fieldId": "integer_field",
+        "text": {
+          "en": "This is an integer field."
+        }
+      }
+    },
+    {
+      "type": "question",
+      "options": {
+        "fieldId": "float_field",
+        "text": {
+          "en": "This is a float field."
+        }
+      }
+    },
+    {
+      "type": "question",
+      "options": {
+        "fieldId": "boolean_field",
+        "text": {
+          "en": "This is a boolean field."
+        }
+      }
+    },
+    {
+      "type": "question",
+      "options": {
+        "fieldId": "date_field",
+        "text": {
+          "en": "This is a date field."
+        }
+      }
+    },
+    {
+      "type": "question",
+      "options": {
+        "fieldId": "time_field",
+        "text": {
+          "en": "This is a time field."
+        }
+      }
+    },
+    {
+      "type": "question",
+      "options": {
+        "fieldId": "datetime_field",
+        "text": {
+          "en": "This is a dateTime field."
+        }
+      }
+    },
+    {
+      "type": "question",
+      "options": {
+        "fieldId": "enumeration_field",
+        "text": {
+          "en": "This is an enumeration field."
+        },
+        "enumerations": [
+          {
+            "id": "foo",
+            "text": {
+              "en": "Foo"
+            }
+          },
+          {
+            "id": "bar",
+            "text": {
+              "en": "Bar"
+            }
+          },
+          {
+            "id": "baz",
+            "text": {
+              "en": "Baz"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "question",
+      "options": {
+        "fieldId": "enumerationset_field",
+        "text": {
+          "en": "This is an enumerationSet field."
+        },
+        "enumerations": [
+          {
+            "id": "foo",
+            "text": {
+              "en": "Foo"
+            }
+          },
+          {
+            "id": "bar",
+            "text": {
+              "en": "Bar"
+            }
+          },
+          {
+            "id": "baz",
+            "text": {
+              "en": "Baz"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
+

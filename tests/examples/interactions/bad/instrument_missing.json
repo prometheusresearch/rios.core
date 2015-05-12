@@ -1,0 +1,16 @@
+{
+  "defaultLocalization": "en",
+
+  "steps": [
+    {
+      "type": "question",
+      "options": {
+        "fieldId": "foo",
+        "text": {
+          "en": "This is a text field."
+        }
+      }
+    }
+  ]
+}
+

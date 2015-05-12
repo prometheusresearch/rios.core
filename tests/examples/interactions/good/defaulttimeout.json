@@ -1,0 +1,37 @@
+{
+  "instrument": {
+    "id": "urn:example:good:all_interaction_types",
+    "version": "1.0"
+  },
+
+  "defaultLocalization": "en",
+
+  "defaultTimeout": {
+    "warn": {
+      "threshold": 540,
+      "text": {
+        "en": "You are warned."
+      }
+    },
+
+    "abort": {
+      "threshold": 60,
+      "text": {
+        "en": "Interaction aborted."
+      }
+    }
+  },
+
+  "steps": [
+    {
+      "type": "question",
+      "options": {
+        "fieldId": "foo",
+        "text": {
+          "en": "This is a text field."
+        }
+      }
+    }
+  ]
+}
+

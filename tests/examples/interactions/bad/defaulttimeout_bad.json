@@ -1,0 +1,23 @@
+{
+  "instrument": {
+    "id": "urn:examples:bad:defaulttimeout:bad",
+    "version": "1.0"
+  },
+
+  "defaultLocalization": "en",
+
+  "defaultTimeout": 1,
+
+  "steps": [
+    {
+      "type": "question",
+      "options": {
+        "fieldId": "foo",
+        "text": {
+          "en": "This is a text field."
+        }
+      }
+    }
+  ]
+}
+

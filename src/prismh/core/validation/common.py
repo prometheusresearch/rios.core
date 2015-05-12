@@ -23,7 +23,10 @@ __all__ = (
     'OptionalStringType',
     'LanguageTag',
     'LocalizedMapping',
+    'LocalizedString',
     'Options',
+    'Descriptor',
+    'DescriptorList',
 )
 
 
@@ -148,6 +151,15 @@ class LocalizedMapping(colander.SchemaNode):
             sub_schema(self.sub_type, node, translation)
 
 
+class LocalizedString(LocalizedMapping):
+    def __init__(self, *args, **kwargs):
+        super(LocalizedString, self).__init__(
+            colander.SchemaNode(colander.String()),
+            *args,
+            **kwargs
+        )
+
+
 class Options(colander.SchemaNode):
     def __init__(self, *args, **kwargs):
         kwargs['typ'] = colander.Mapping(unknown='preserve')
@@ -160,4 +172,19 @@ class Options(colander.SchemaNode):
                 node,
                 'At least one key/value pair must be defined',
             )
+
+
+class Descriptor(colander.SchemaNode):
+    id = colander.SchemaNode(colander.String())  # pylint: disable=invalid-name
+    text = LocalizedString()
+    help = LocalizedString(missing=colander.drop)
+
+    def __init__(self, *args, **kwargs):
+        kwargs['typ'] = colander.Mapping(unknown='raise')
+        super(Descriptor, self).__init__(*args, **kwargs)
+
+
+class DescriptorList(colander.SequenceSchema):
+    descriptor = Descriptor()
+    validator = colander.Length(min=1)
 

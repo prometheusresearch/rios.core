@@ -1,0 +1,66 @@
+{
+  "id": "urn:example:good:all_interaction_types",
+  "version": "1.0",
+  "title": "An Instrument Title",
+  "record": [
+    {
+      "id": "nullable_field",
+      "type": "text",
+      "annotation": "optional"
+    },
+    {
+      "id": "text_field",
+      "type": "text",
+      "explanation": "optional"
+    },
+    {
+      "id": "integer_field",
+      "type": "integer",
+      "explanation": "required"
+    },
+    {
+      "id": "float_field",
+      "type": "float",
+      "annotation": "required"
+    },
+    {
+      "id": "boolean_field",
+      "type": "boolean"
+    },
+    {
+      "id": "date_field",
+      "type": "date"
+    },
+    {
+      "id": "time_field",
+      "type": "time"
+    },
+    {
+      "id": "datetime_field",
+      "type": "dateTime"
+    },
+    {
+      "id": "enumeration_field",
+      "type": {
+        "base": "enumeration",
+        "enumerations": {
+          "foo": {},
+          "bar": {},
+          "baz": {}
+        }
+      }
+    },
+    {
+      "id": "enumerationset_field",
+      "type": {
+        "base": "enumerationSet",
+        "enumerations": {
+          "foo": {},
+          "bar": {},
+          "baz": {}
+        }
+      }
+    }
+  ]
+}
+

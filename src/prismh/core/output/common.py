@@ -15,6 +15,7 @@ __all__ = (
     'DefinedOrderDict',
     'TypedDefinedOrderDict',
     'InstrumentReference',
+    'Descriptor',
 )
 
 
@@ -156,5 +157,21 @@ class InstrumentReference(TypedDefinedOrderDict):
 
     key_types = {
         'version': str,
+    }
+
+
+class Descriptor(TypedDefinedOrderDict):
+    order = [
+        'id',
+        'text',
+        'help',
+        'audio',
+    ]
+
+    key_types = {
+        'id': str,
+        'text': SortedDict,
+        'help': SortedDict,
+        'audio': SortedDict,
     }
 

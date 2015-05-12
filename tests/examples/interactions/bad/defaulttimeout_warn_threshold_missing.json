@@ -1,0 +1,29 @@
+{
+  "instrument": {
+    "id": "urn:examples:bad:defaulttimeout:warn:theshold:missing",
+    "version": "1.0"
+  },
+
+  "defaultLocalization": "en",
+
+  "defaultTimeout": {
+    "warn": {
+      "text": {
+        "en": "You have been warned."
+      }
+    }
+  },
+
+  "steps": [
+    {
+      "type": "question",
+      "options": {
+        "fieldId": "foo",
+        "text": {
+          "en": "This is a text field."
+        }
+      }
+    }
+  ]
+}
+

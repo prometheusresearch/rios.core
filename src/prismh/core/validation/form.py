@@ -8,7 +8,8 @@ import colander
 from six import iteritems
 
 from .common import ValidationError, sub_schema, LanguageTag, \
-    LocalizedMapping, IdentifierString, Options
+    LocalizedMapping, IdentifierString, Options, LocalizedString, \
+    Descriptor as BaseDescriptor
 from .instrument import InstrumentReference
 
 
@@ -18,7 +19,8 @@ __all__ = (
     'UNPROMPTED_ACTIONS_ALL',
     'PARAMETER_TYPES_ALL',
 
-    'LocalizedString',
+    'Descriptor',
+    'DescriptorList',
     'UrlList',
     'AudioSource',
     'TagList',
@@ -27,8 +29,6 @@ __all__ = (
     'AudioElementOptions',
     'Options',
     'Widget',
-    'Descriptor',
-    'DescriptorList',
     'Expression',
     'EventAction',
     'EventTargetList',
@@ -82,15 +82,6 @@ PARAMETER_TYPES_ALL = (
 # pylint: disable=abstract-method
 
 
-class LocalizedString(LocalizedMapping):
-    def __init__(self, *args, **kwargs):
-        super(LocalizedString, self).__init__(
-            colander.SchemaNode(colander.String()),
-            *args,
-            **kwargs
-        )
-
-
 class UrlList(colander.SequenceSchema):
     url = colander.SchemaNode(colander.String())
     validator = colander.Length(min=1)
@@ -140,22 +131,6 @@ class Widget(colander.SchemaNode):
         super(Widget, self).__init__(*args, **kwargs)
 
 
-class Descriptor(colander.SchemaNode):
-    id = colander.SchemaNode(colander.String())  # pylint: disable=invalid-name
-    text = LocalizedString()
-    help = LocalizedString(missing=colander.drop)
-    audio = AudioSource(missing=colander.drop)
-
-    def __init__(self, *args, **kwargs):
-        kwargs['typ'] = colander.Mapping(unknown='raise')
-        super(Descriptor, self).__init__(*args, **kwargs)
-
-
-class DescriptorList(colander.SequenceSchema):
-    descriptor = Descriptor()
-    validator = colander.Length(min=1)
-
-
 class Expression(colander.SchemaNode):
     schema_type = colander.String
 
@@ -196,6 +171,15 @@ class QuestionList(colander.SchemaNode):
             allow_complex=False,
             name='question',
         ))
+
+
+class Descriptor(BaseDescriptor):
+    audio = AudioSource(missing=colander.drop)
+
+
+class DescriptorList(colander.SequenceSchema):
+    descriptor = Descriptor()
+    validator = colander.Length(min=1)
 
 
 class QuestionElementOptions(colander.SchemaNode):

@@ -1,0 +1,20 @@
+{
+  "instrument": {
+    "version": "1.0"
+  },
+
+  "defaultLocalization": "en",
+
+  "steps": [
+    {
+      "type": "question",
+      "options": {
+        "fieldId": "foo",
+        "text": {
+          "en": "This is a text field."
+        }
+      }
+    }
+  ]
+}
+

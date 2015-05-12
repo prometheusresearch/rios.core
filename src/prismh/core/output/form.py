@@ -4,28 +4,12 @@
 
 
 from .common import SortedDict, TypedSortedDict, TypedDefinedOrderDict, \
-    InstrumentReference
+    InstrumentReference, Descriptor
 
 
 __all__ = (
     'Form',
 )
-
-
-class Descriptor(TypedDefinedOrderDict):
-    order = [
-        'id',
-        'text',
-        'help',
-        'audio',
-    ]
-
-    key_types = {
-        'id': str,
-        'text': SortedDict,
-        'help': SortedDict,
-        'audio': SortedDict,
-    }
 
 
 class Event(TypedDefinedOrderDict):

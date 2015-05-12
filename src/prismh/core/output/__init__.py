@@ -12,6 +12,7 @@ from .assessment import Assessment
 from .calculationset import CalculationSet
 from .form import Form
 from .instrument import Instrument
+from .interaction import Interaction
 
 
 __all__ = (
@@ -19,6 +20,7 @@ __all__ = (
     'get_assessment_json',
     'get_form_json',
     'get_calculationset_json',
+    'get_interaction_json',
 )
 
 
@@ -120,4 +122,27 @@ def get_calculationset_json(calculationset, pretty=True, **kwargs):
     calculationset = _get_struct(calculationset)
     kwargs['pretty'] = pretty
     return get_json(CalculationSet(calculationset), **kwargs)
+
+
+def get_interaction_json(interaction, pretty=True, **kwargs):
+    """
+    Generates a JSON-formatted string containing the specified SMS Interaction
+    Configuration.
+
+    :param instrument: The SMS Interaction Configuration generate the JSON for
+    :type instrument: JSON string, dict, or file-like object
+    :param pretty:
+        Whether or not to format the JSON in a human-friendly way. If not
+        specified, defaults to ``True``.
+    :type pretty: bool
+    :param kwargs:
+        Any extra keyword arguments are passed to the underlying ``json.dumps``
+        function.
+    :returns: The JSON-formatted string representing the Form
+    :rtype: string
+    """
+
+    interaction = _get_struct(interaction)
+    kwargs['pretty'] = pretty
+    return get_json(Interaction(interaction), **kwargs)
 
