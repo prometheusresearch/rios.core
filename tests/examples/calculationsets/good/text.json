@@ -1,0 +1,26 @@
+{
+  "instrument": {
+    "id": "urn:example:good:text",
+    "version": "1.0"
+  },
+
+  "calculations": [
+    {
+      "id": "calc1",
+      "type": "text",
+      "method": "python",
+      "options": {
+        "expression": "field1 + field2"
+      }
+    },
+    {
+      "id": "calc2",
+      "type": "integer",
+      "method": "python",
+      "options": {
+        "expression": "len(calc1)"
+      }
+    }
+  ]
+}
+

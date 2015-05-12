@@ -1,0 +1,48 @@
+{
+  "instrument": {
+    "id": "urn:example:good:text",
+    "version": "1.0"
+  },
+
+  "defaultLocalization": "en",
+
+  "steps": [
+    {
+      "type": "question",
+      "options": {
+        "fieldId": "field1",
+        "text": {
+          "en": "This is field1"
+        }
+      }
+    },
+    {
+      "type": "question",
+      "options": {
+        "fieldId": "field2",
+        "text": {
+          "en": "This is field2"
+        }
+      }
+    },
+    {
+      "type": "question",
+      "options": {
+        "fieldId": "field3",
+        "text": {
+          "en": "This is field3"
+        }
+      }
+    },
+    {
+      "type": "question",
+      "options": {
+        "fieldId": "field4",
+        "text": {
+          "en": "This is field4"
+        }
+      }
+    }
+  ]
+}
+
