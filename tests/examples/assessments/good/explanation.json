@@ -7,6 +7,10 @@
     "field1": {
       "value": "hello world",
       "explanation": "Some explanation"
+    },
+    "field2": {
+      "value": "hello world",
+      "explanation": null
     }
   }
 }

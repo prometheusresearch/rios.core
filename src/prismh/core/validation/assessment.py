@@ -218,14 +218,16 @@ class Assessment(colander.SchemaNode):
 
     def _check_metafields(self, node, value, field):
         explanation = field.get('explanation', 'none')
-        if 'explanation' in value and explanation == 'none':
+        if 'explanation' in value \
+                and value['explanation'] is not None \
+                and explanation == 'none':
             raise ValidationError(
                 node,
                 'Explanation present where not allowed',
             )
 
         annotation = field.get('annotation', 'none')
-        if 'annotation' in value:
+        if 'annotation' in value and value['annotation'] is not None:
             if annotation == 'none':
                 raise ValidationError(
                     node,

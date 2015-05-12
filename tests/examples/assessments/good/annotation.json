@@ -7,6 +7,10 @@
     "field1": {
       "value": null,
       "annotation": "I don't know the answer"
+    },
+    "field2": {
+      "value": null,
+      "annotation": null
     }
   }
 }
