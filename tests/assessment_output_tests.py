@@ -3,7 +3,7 @@
 #
 
 
-from prismh.core.output import get_assessment_json
+from prismh.core.output import get_assessment_json, get_assessment_yaml
 
 
 ASSESSMENT = {
@@ -73,7 +73,7 @@ ASSESSMENT = {
 }
 
 
-EXPECTED = """{
+EXPECTED_JSON = """{
   "instrument": {
     "id": "urn:some-test",
     "version": "1.0"
@@ -140,7 +140,53 @@ EXPECTED = """{
 }"""
 
 
-def test_output_dict():
+def test_output_json():
     actual = get_assessment_json(ASSESSMENT, pretty=True)
-    assert actual == EXPECTED, actual
+    assert actual == EXPECTED_JSON, actual
+
+
+EXPECTED_YAML = '''instrument:
+  id: urn:some-test
+  version: '1.0'
+meta:
+  foo: bar
+  language: en
+values:
+  integer_field:
+    value: 42
+    meta:
+      bar: baz
+      foo: 1
+  matrix_field:
+    value:
+      row1:
+        col1:
+          value: foo
+        col2:
+          value: bar
+          explanation: Some explanation
+      row2:
+        col1:
+          value: foo
+        col2:
+          value: bar
+  recordlist_field:
+    value:
+    - subfield1:
+        value: foo1
+      subfield2:
+        value: bar1
+    - subfield1:
+        value: foo2
+      subfield2:
+        value: bar2
+  text_field:
+    value: foo
+    annotation: Some annotation
+    explanation: Some explanation'''
+
+
+def test_output_yaml():
+    actual = get_assessment_yaml(ASSESSMENT, pretty=True)
+    assert actual == EXPECTED_YAML, actual
 

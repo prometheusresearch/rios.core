@@ -3,7 +3,7 @@
 #
 
 
-from prismh.core.output import get_interaction_json
+from prismh.core.output import get_interaction_json, get_interaction_yaml
 
 
 INTERACTION = {
@@ -67,7 +67,7 @@ INTERACTION = {
 }
 
 
-EXPECTED = """{
+EXPECTED_JSON = """{
   "instrument": {
     "id": "urn:some-test",
     "version": "1.0"
@@ -128,7 +128,48 @@ EXPECTED = """{
 }"""
 
 
-def test_output_dict():
+def test_output_json():
     actual = get_interaction_json(INTERACTION, pretty=True)
-    assert actual == EXPECTED, actual
+    assert actual == EXPECTED_JSON, actual
+
+
+EXPECTED_YAML = '''instrument:
+  id: urn:some-test
+  version: '1.0'
+defaultLocalization: en
+defaultTimeout:
+  warn:
+    threshold: 40
+    text:
+      en: Warning!
+      fr: French warning
+  abort:
+    threshold: 123
+    text:
+      en: Abort!
+steps:
+- type: text
+  options:
+    text:
+      en: Introductory message
+- type: question
+  options:
+    fieldId: field1
+    text:
+      en: Text for field1
+    error:
+      en: You failed
+    enumerations:
+    - id: foo
+      text:
+        en: Foo
+    - id: bar
+      text:
+        ar: Arabic Bar
+        en: Bar'''
+
+
+def test_output_yaml():
+    actual = get_interaction_yaml(INTERACTION, pretty=True)
+    assert actual == EXPECTED_YAML, actual
 

@@ -6,14 +6,19 @@
 import collections
 import json
 
+import yaml
+
 
 __all__ = (
     'get_json',
+    'get_yaml',
+
     'OrderedDict',
     'SortedDict',
     'TypedSortedDict',
     'DefinedOrderDict',
     'TypedDefinedOrderDict',
+
     'InstrumentReference',
     'Descriptor',
 )
@@ -42,13 +47,69 @@ def get_json(data, pretty=False, **kwargs):
     return json.dumps(data, **kwargs).encode('utf-8')
 
 
-OrderedDict = collections.OrderedDict
+def get_yaml(data, pretty=False, **kwargs):
+    """
+    A convenience wrapper around ``yaml.dump`` that respects the ordering of
+    keys in classes like ``OrderedDict``, ``SortedDict``, and
+    ``DefinedOrderDict``.
+
+    :param data: the object to encode in YAML
+    :param pretty:
+        whether or not the output should be indented in human-friendly ways
+    :type pretty: boolean
+    :returns: a YAML-encoded string
+    """
+
+    kwargs['Dumper'] = OrderedDumper
+    kwargs['allow_unicode'] = True
+
+    if pretty:
+        kwargs['default_flow_style'] = False
+
+    return yaml.dump(data, **kwargs).rstrip()
+
+
+class OrderedDumper(yaml.Dumper):
+    pass
+
+
+def unicode_representer(dumper, ustr):
+    return dumper.represent_scalar(
+        'tag:yaml.org,2002:str',
+        ustr,
+    )
+
+
+OrderedDumper.add_representer(unicode, unicode_representer)
+
+
+def dict_representer(dumper, data):
+    return dumper.represent_mapping(
+        yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
+        data.items()
+    )
+
+
+class OrderedDumperMetaclass(type):
+    def __init__(cls, name, bases, dct):  # noqa
+        super(OrderedDumperMetaclass, cls).__init__(name, bases, dct)
+        OrderedDumper.add_representer(cls, dict_representer)
+
+
+class OrderedDict(collections.OrderedDict):
+    """
+    A functional equivalent to ``collections.OrderedDict``.
+    """
+
+    __metaclass__ = OrderedDumperMetaclass
 
 
 class SortedDict(dict):
     """
     A dictionary class that sorts its keys alphabetically.
     """
+
+    __metaclass__ = OrderedDumperMetaclass
 
     def get_keys(self):
         return sorted(super(SortedDict, self).keys())

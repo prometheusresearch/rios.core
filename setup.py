@@ -33,6 +33,7 @@ setup(
     install_requires=[
         'six>=1.8,<2',
         'colander>=1.0,<1.1',
+        'pyyaml',
     ],
     extras_require={
         'dev': [

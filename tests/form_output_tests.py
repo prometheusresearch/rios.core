@@ -3,7 +3,7 @@
 #
 
 
-from prismh.core.output import get_form_json
+from prismh.core.output import get_form_json, get_form_yaml
 
 
 FORM = {
@@ -148,7 +148,7 @@ FORM = {
 }
 
 
-EXPECTED = """{
+EXPECTED_JSON = """{
   "instrument": {
     "id": "urn:some-test",
     "version": "1.0"
@@ -290,7 +290,94 @@ EXPECTED = """{
 }"""
 
 
-def test_output_dict():
+def test_output_json():
     actual = get_form_json(FORM, pretty=True)
-    assert actual == EXPECTED, actual
+    assert actual == EXPECTED_JSON, actual
+
+
+EXPECTED_YAML = '''instrument:
+  id: urn:some-test
+  version: '1.0'
+defaultLocalization: en
+title:
+  en: Form Title
+pages:
+- id: page1
+  elements:
+  - type: header
+    options:
+      text:
+        en: A Header
+  - type: divider
+    tags:
+    - foo
+    - bar
+  - type: question
+    options:
+      fieldId: field1
+      text:
+        en: Question 1
+        fr: French Question 1
+      help:
+        en: Some Help
+      questions:
+      - fieldId: subfield
+        text:
+          en: SubField
+      rows:
+      - id: row1
+        text:
+          en: Row 1
+        help:
+          en: Help
+      - id: row2
+        text:
+          en: Row 2
+        audio:
+          en:
+          - /foo
+          - /bar
+      widget:
+        type: matrix
+        options:
+          baz: stuff
+          foo: bar
+- id: page2
+  elements:
+  - type: question
+    options:
+      fieldId: field2
+      text:
+        en: Question 2
+      events:
+      - trigger: is_null(field2)
+        action: hide
+        targets:
+        - foo
+      - trigger: '!is_null(field2)'
+        action: fail
+        targets:
+        - field1
+        options:
+          text:
+            en: Failed
+unprompted:
+  ufield1:
+    action: calculate
+    options:
+      calculation: field1 * 2
+  ufield2:
+    action: calculate
+    options:
+      calculation: field1 * 2
+parameters:
+  aaa:
+    type: boolean
+  zzz:
+    type: text'''
+
+
+def test_output_yaml():
+    actual = get_form_yaml(FORM, pretty=True)
+    assert actual == EXPECTED_YAML, actual
 

@@ -3,7 +3,7 @@
 #
 
 
-from prismh.core.output import get_calculationset_json
+from prismh.core.output import get_calculationset_json, get_calculationset_yaml
 
 
 CALCULATIONSET = {
@@ -33,7 +33,7 @@ CALCULATIONSET = {
 }
 
 
-EXPECTED = """{
+EXPECTED_JSON = """{
   "instrument": {
     "id": "urn:some-test",
     "version": "1.0"
@@ -60,7 +60,29 @@ EXPECTED = """{
 }"""
 
 
-def test_output_dict():
+def test_output_json():
     actual = get_calculationset_json(CALCULATIONSET, pretty=True)
-    assert actual == EXPECTED, actual
+    assert actual == EXPECTED_JSON, actual
+
+
+EXPECTED_YAML = '''instrument:
+  id: urn:some-test
+  version: '1.0'
+calculations:
+- id: foo
+  description: Some description
+  type: integer
+  method: python
+  options:
+    expression: field1 * 2
+- id: bar
+  type: integer
+  method: python
+  options:
+    callable: some_module.my_callable'''
+
+
+def test_output_yaml():
+    actual = get_calculationset_yaml(CALCULATIONSET, pretty=True)
+    assert actual == EXPECTED_YAML, actual
 
