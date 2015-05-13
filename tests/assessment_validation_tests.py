@@ -10,46 +10,29 @@ from copy import deepcopy
 
 from prismh.core.validation.assessment import Assessment, ValidationError
 
-
-ASSESSMENT_FILES = os.path.join(os.path.dirname(__file__), 'examples/assessments')
-GOOD_ASSESSMENT_FILES = os.path.join(ASSESSMENT_FILES, 'good')
-BAD_ASSESSMENT_FILES = os.path.join(ASSESSMENT_FILES, 'bad')
+from utils import EXAMPLE_FILES, check_good_validation, check_bad_validation
 
 
-def check_good_file(filename):
-    file_contents = open(filename, 'r').read()
-    file_structure = json.loads(file_contents)
-    validator = Assessment()
-    validator.deserialize(file_structure)
+GOOD_ASSESSMENT_FILES = os.path.join(EXAMPLE_FILES, 'assessments/good')
+BAD_ASSESSMENT_FILES = os.path.join(EXAMPLE_FILES, 'assessments/bad')
+
 
 def test_good_files():
     for dirpath, dirnames, filenames in os.walk(GOOD_ASSESSMENT_FILES):
         for filename in filenames:
-            yield check_good_file, os.path.join(GOOD_ASSESSMENT_FILES, filename)
+            yield check_good_validation, Assessment(), os.path.join(GOOD_ASSESSMENT_FILES, filename)
 
-
-def check_bad_file(filename):
-    file_contents = open(filename, 'r').read()
-    file_structure = json.loads(file_contents)
-    validator = Assessment()
-    try:
-        validator.deserialize(file_structure)
-    except ValidationError as exc:
-        #print os.path.relpath(filename, BAD_ASSESSMENT_FILES), exc
-        pass
-    else:
-        assert False, '%s did not fail validation' % filename
 
 def test_bad_files():
     for dirpath, dirnames, filenames in os.walk(BAD_ASSESSMENT_FILES):
         for filename in filenames:
-            yield check_bad_file, os.path.join(BAD_ASSESSMENT_FILES, filename)
+            yield check_bad_validation, Assessment(), os.path.join(BAD_ASSESSMENT_FILES, filename)
 
 
 
-INSTRUMENT = json.load(open(os.path.join(os.path.dirname(__file__), 'examples/instruments/good/all_types.json'), 'r'))
-ASSESSMENT = json.load(open(os.path.join(ASSESSMENT_FILES, 'good/all_value_types.json'), 'r'))
-ASSESSMENT2 = json.load(open(os.path.join(ASSESSMENT_FILES, 'good/all_nulls.json'), 'r'))
+INSTRUMENT = json.load(open(os.path.join(EXAMPLE_FILES, 'instruments/good/all_types.json'), 'r'))
+ASSESSMENT = json.load(open(os.path.join(EXAMPLE_FILES, 'assessments/good/all_value_types.json'), 'r'))
+ASSESSMENT2 = json.load(open(os.path.join(EXAMPLE_FILES, 'assessments/good/all_nulls.json'), 'r'))
 
 
 def test_good_instrument_validation():

@@ -9,40 +9,29 @@ import os
 from prismh.core.validation.instrument import Instrument, ValidationError, \
     get_full_type_definition, TYPES_ALL
 
-
-INSTRUMENT_FILES = os.path.join(os.path.dirname(__file__), 'examples/instruments')
-GOOD_INSTRUMENT_FILES = os.path.join(INSTRUMENT_FILES, 'good')
-BAD_INSTRUMENT_FILES = os.path.join(INSTRUMENT_FILES, 'bad')
+from utils import EXAMPLE_FILES, check_good_validation, check_bad_validation
 
 
-def check_good_file(filename):
-    file_contents = open(filename, 'r').read()
-    file_structure = json.loads(file_contents)
-    validator = Instrument()
-    validator.deserialize(file_structure)
+GOOD_INSTRUMENT_FILES = os.path.join(EXAMPLE_FILES, 'instruments/good')
+BAD_INSTRUMENT_FILES = os.path.join(EXAMPLE_FILES, 'instruments/bad')
+
 
 def test_good_files():
     for dirpath, dirnames, filenames in os.walk(GOOD_INSTRUMENT_FILES):
         for filename in filenames:
-            yield check_good_file, os.path.join(GOOD_INSTRUMENT_FILES, filename)
+            yield check_good_validation, Instrument(), os.path.join(
+                GOOD_INSTRUMENT_FILES,
+                filename,
+            )
 
-
-def check_bad_file(filename):
-    file_contents = open(filename, 'r').read()
-    file_structure = json.loads(file_contents)
-    validator = Instrument()
-    try:
-        validator.deserialize(file_structure)
-    except ValidationError as exc:
-        #print os.path.relpath(filename, BAD_INSTRUMENT_FILES), exc
-        pass
-    else:
-        assert False, '%s did not fail validation' % filename
 
 def test_bad_files():
     for dirpath, dirnames, filenames in os.walk(BAD_INSTRUMENT_FILES):
         for filename in filenames:
-            yield check_bad_file, os.path.join(BAD_INSTRUMENT_FILES, filename)
+            yield check_bad_validation, Instrument(), os.path.join(
+                BAD_INSTRUMENT_FILES,
+                filename,
+            )
 
 
 
