@@ -25,7 +25,8 @@
     },
     {
       "id": "boolean_field",
-      "type": "boolean"
+      "type": "boolean",
+      "required": true
     },
     {
       "id": "date_field",

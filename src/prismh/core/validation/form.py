@@ -148,7 +148,7 @@ class EventTargetList(colander.SequenceSchema):
 class Event(colander.SchemaNode):
     trigger = Expression()
     action = EventAction()
-    targets = EventTargetList()
+    targets = EventTargetList(missing=colander.drop)
     options = Options(missing=colander.drop)
 
     def __init__(self, *args, **kwargs):

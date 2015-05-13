@@ -1,0 +1,47 @@
+{
+  "instrument": {
+    "id": "urn:example:good:all_types",
+    "version": "1.0"
+  },
+  "values": {
+    "nullable_field": {
+      "value": null
+    },
+    "text_field": {
+      "value": null
+    },
+    "integer_field": {
+      "value": null,
+      "explanation": "Why not?"
+    },
+    "float_field": {
+      "value": null,
+      "annotation": "foo"
+    },
+    "boolean_field": {
+      "value": true
+    },
+    "date_field": {
+      "value": null
+    },
+    "time_field": {
+      "value": null
+    },
+    "datetime_field": {
+      "value": null
+    },
+    "enumeration_field": {
+      "value": null
+    },
+    "enumerationset_field": {
+      "value": null
+    },
+    "recordlist_field": {
+      "value": null
+    },
+    "matrix_field": {
+      "value": null
+    }
+  }
+}
+

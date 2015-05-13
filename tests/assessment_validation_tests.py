@@ -49,11 +49,13 @@ def test_bad_files():
 
 INSTRUMENT = json.load(open(os.path.join(os.path.dirname(__file__), 'examples/instruments/good/all_types.json'), 'r'))
 ASSESSMENT = json.load(open(os.path.join(ASSESSMENT_FILES, 'good/all_value_types.json'), 'r'))
+ASSESSMENT2 = json.load(open(os.path.join(ASSESSMENT_FILES, 'good/all_nulls.json'), 'r'))
 
 
 def test_good_instrument_validation():
     validator = Assessment(instrument=INSTRUMENT)
     validator.deserialize(ASSESSMENT)
+    validator.deserialize(ASSESSMENT2)
 
 
 def test_bad_instrument_id_reference():
@@ -161,10 +163,34 @@ def test_extra_row():
         assert False
 
 
+def test_required_value():
+    validator = Assessment(instrument=INSTRUMENT)
+    assessment = deepcopy(ASSESSMENT)
+    assessment['values']['boolean_field']['value'] = None
+    try:
+        validator.deserialize(assessment)
+    except ValidationError as exc:
+        pass
+    else:
+        assert False
+
+
 def test_undesired_explanation():
     validator = Assessment(instrument=INSTRUMENT)
     assessment = deepcopy(ASSESSMENT)
     assessment['values']['float_field']['explanation'] = 'foo'
+    try:
+        validator.deserialize(assessment)
+    except ValidationError as exc:
+        pass
+    else:
+        assert False
+
+
+def test_required_explanation():
+    validator = Assessment(instrument=INSTRUMENT)
+    assessment = deepcopy(ASSESSMENT)
+    del assessment['values']['integer_field']['explanation']
     try:
         validator.deserialize(assessment)
     except ValidationError as exc:
@@ -189,6 +215,18 @@ def test_undesired_annotation2():
     validator = Assessment(instrument=INSTRUMENT)
     assessment = deepcopy(ASSESSMENT)
     assessment['values']['float_field']['annotation'] = 'foo'
+    try:
+        validator.deserialize(assessment)
+    except ValidationError as exc:
+        pass
+    else:
+        assert False
+
+
+def test_required_annotation():
+    validator = Assessment(instrument=INSTRUMENT)
+    assessment = deepcopy(ASSESSMENT)
+    assessment['values']['float_field']['value'] = None
     try:
         validator.deserialize(assessment)
     except ValidationError as exc:

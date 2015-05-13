@@ -1,0 +1,20 @@
+{
+  "id": "urn:example:bad:range:wrong",
+  "version": "1.0",
+  "title": "An Instrument Title",
+  "record": [
+    {
+      "id": "field1",
+      "type": {
+        "base": "text",
+        "record": [
+          {
+            "id": "subfield1",
+            "type": "integer"
+          }
+        ]
+      }
+    }
+  ]
+}
+

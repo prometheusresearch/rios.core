@@ -191,6 +191,11 @@ class Assessment(colander.SchemaNode):
 
     def check_has_all_fields(self, node, values, fields):
         values = deepcopy(values)
+        if not isinstance(values, dict):
+            raise ValidationError(
+                node,
+                'Value expected to contain a mapping.'
+            )
 
         for field in fields:
             value = values.pop(field['id'], None)
@@ -198,6 +203,14 @@ class Assessment(colander.SchemaNode):
                 raise ValidationError(
                     node,
                     'No value exists for field ID "%s"' % field['id'],
+                )
+
+            if value['value'] is None and field.get('required', False):
+                raise ValidationError(
+                    node,
+                    'No value present for required field ID "%s"' % (
+                        field['id'],
+                    ),
                 )
 
             full_type_def = get_full_type_definition(
@@ -223,7 +236,16 @@ class Assessment(colander.SchemaNode):
                 and explanation == 'none':
             raise ValidationError(
                 node,
-                'Explanation present where not allowed',
+                'Explanation present where not allowed in field ID "%s"' % (
+                    field['id'],
+                ),
+            )
+        elif 'explanation' not in value and explanation == 'required':
+            raise ValidationError(
+                node,
+                'Explanation missing for field ID "%s"' % (
+                    field['id'],
+                ),
             )
 
         annotation = field.get('annotation', 'none')
@@ -239,8 +261,20 @@ class Assessment(colander.SchemaNode):
                     node,
                     'Annotation provided for non-empty value',
                 )
+        elif 'annotation' not in value \
+                and annotation == 'required' \
+                and value['value'] is None:
+            raise ValidationError(
+                node,
+                'Annotation missing for field ID "%s"' % (
+                    field['id'],
+                ),
+            )
 
     def _check_complex_subfields(self, node, full_type_def, value):
+        if value['value'] is None:
+            return
+
         if 'record' in full_type_def:
             for rec in value['value']:
                 self.check_has_all_fields(

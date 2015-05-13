@@ -73,6 +73,7 @@ CONSTRAINTS_ALL = (
     'length',
     'pattern',
     'enumerations',
+    'record',
     'columns',
     'rows',
 )
