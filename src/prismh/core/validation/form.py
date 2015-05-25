@@ -9,7 +9,7 @@ from six import iteritems
 
 from .common import ValidationError, sub_schema, LanguageTag, \
     LocalizedMapping, IdentifierString, Options, LocalizedString, \
-    Descriptor as BaseDescriptor
+    Descriptor as BaseDescriptor, LocalizationChecker
 from .instrument import InstrumentReference
 
 
@@ -379,7 +379,7 @@ class Form(colander.SchemaNode):
         super(Form, self).__init__(*args, **kwargs)
 
     def validator(self, node, cstruct):
-        # TODO make sure all localizable strings have the default localization
+        self._check_localizations(node, cstruct)
 
         # TODO check for duplicated field IDs
 
@@ -396,4 +396,30 @@ class Form(colander.SchemaNode):
         # TODO make sure all fields, columns, rows, and subfields are addressed
 
         # TODO make sure enumeration config is appropriate for type
+
+    def _check_localizations(self, node, cstruct):
+        checker = LocalizationChecker(node, cstruct['defaultLocalization'])
+
+        def _ensure_element(element):
+            if 'options' not in element:
+                return
+            options = element['options']
+
+            checker.ensure(options, 'text', scope='Element Text')
+            checker.ensure(options, 'help', scope='Element Help')
+            checker.ensure(options, 'error', scope='Element Error')
+            checker.ensure(options, 'audio', scope='Element Audio')
+            checker.ensure(options, 'source', scope='Audio Source')
+
+            for question in options.get('questions', []):
+                _ensure_element(question)
+            for enumeration in options.get('enumerations', []):
+                checker.ensure_descriptor(enumeration, scope='Enumeration')
+            for row in options.get('rows', []):
+                checker.ensure_descriptor(row, scope='Matrix Row')
+
+        checker.ensure(cstruct, 'title', node=node.get('title'))
+        for page in cstruct['pages']:
+            for element in page['elements']:
+                _ensure_element(element)
 

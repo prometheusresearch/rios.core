@@ -6,7 +6,8 @@
 import colander
 
 from .common import ValidationError, sub_schema, LanguageTag, \
-    IdentifierString, Options, LocalizedString, DescriptorList
+    IdentifierString, Options, LocalizedString, DescriptorList, \
+    LocalizationChecker
 from .instrument import InstrumentReference
 
 
@@ -126,7 +127,7 @@ class Interaction(colander.SchemaNode):
         super(Interaction, self).__init__(*args, **kwargs)
 
     def validator(self, node, cstruct):
-        # TODO make sure all localizable strings have the default localization
+        self._check_localizations(node, cstruct)
 
         # TODO check for duplicated field IDs
 
@@ -145,4 +146,27 @@ class Interaction(colander.SchemaNode):
         # TODO make sure enumeration config is appropriate for type
 
         # TODO make sure no recordList or matrix field types
+
+    def _check_localizations(self, node, cstruct):
+        checker = LocalizationChecker(node, cstruct['defaultLocalization'])
+
+        timeouts = cstruct.get('defaultTimeout', {})
+        for level in ('warn', 'abort'):
+            if level in timeouts:
+                checker.ensure(
+                    timeouts[level],
+                    'text',
+                    scope='Timeout %s Text' % level,
+                )
+
+        for step in cstruct['steps']:
+            if 'options' not in step:  # pragma: no cover
+                return
+            options = step['options']
+
+            checker.ensure(options, 'text', scope='Step Text')
+            checker.ensure(options, 'error', scope='Step Error')
+
+            for enumeration in options.get('enumerations', []):
+                checker.ensure_descriptor(enumeration, scope='Enumeration')
 

@@ -26,6 +26,7 @@
   "assessments/bad/value_value_bad.json": {"values": "\"foo\" is not a mapping type: Does not implement dict-like functionality."},
   "assessments/bad/value_value_empty.json": {"values.value": "Required"},
   "assessments/bad/value_value_extra.json": {"values": "Unrecognized keys in mapping: \"{u'foo': u'bar'}\""},
+
   "calculationsets/bad/calculations_bad.json": {"calculations": "\"False\" is not iterable"},
   "calculationsets/bad/calculations_empty.json": {"calculations": "Shorter than minimum length 1"},
   "calculationsets/bad/calculations_htsql_options_bad.json": {"calculations.0.options": "\"False\" is not a mapping type: Does not implement dict-like functionality."},
@@ -56,6 +57,7 @@
   "calculationsets/bad/instrument_version_empty.json": {"instrument.version": "Required"},
   "calculationsets/bad/instrument_version_missing.json": {"instrument.version": "Required"},
   "calculationsets/bad/root_extra.json": {"": "Unrecognized keys in mapping: \"{u'foo': u'bar'}\""},
+
   "forms/bad/audio_source_bad.json": {"pages.0.elements.0.source": "\"foo\" is not a mapping type: Does not implement dict-like functionality."},
   "forms/bad/audio_source_bad_url.json": {"pages.0.elements.0.source.0": "42 is not a string: {'url': ''}"},
   "forms/bad/audio_source_empty.json": {"pages.0.elements.0.source": "At least one localization must be specified"},
@@ -106,6 +108,10 @@
   "forms/bad/unprompted_calculate_options_extra.json": {"unprompted": "Unrecognized keys in mapping: \"{u'foo': u'bar'}\""},
   "forms/bad/unprompted_empty.json": {"unprompted": "At least one key/value pair must be defined"},
   "forms/bad/unprompted_id_bad.json": {"unprompted": "String does not match expected pattern"},
+  "forms/bad/question_enumeration_text_missing_locale.json": {"": "Enumeration Text Missing default localization"},
+  "forms/bad/text_text_missing_locale.json": {"": "Element Text Missing default localization"},
+  "forms/bad/title_missing_locale.json": {"title": "Missing default localization"},
+
   "instruments/bad/custom_type_base_bad.json": {"types": "invalid definition, references undefined base type \"TEXT\""},
   "instruments/bad/custom_type_def_bad.json": {"types": "\"text\" is not a mapping type: Does not implement dict-like functionality."},
   "instruments/bad/custom_type_def_missing.json": {"types": "\"None\" is not a mapping type: Does not implement dict-like functionality."},
@@ -175,6 +181,7 @@
   "instruments/bad/type_rows_id_bad.json": {"record.0.type.rows.0.id": "String does not match expected pattern"},
   "instruments/bad/type_rows_id_dupe.json": {"record.0.type.rows": "Row IDs must be unique within a collection"},
   "instruments/bad/type_rows_required_bad.json": {"record.0.type.rows.0.required": "\"u'false'\" is not a boolean value"},
+
   "interactions/bad/defaultlocalization_bad.json": {"defaultLocalization": "1 is not a string: {'defaultLocalization': ''}"},
   "interactions/bad/defaultlocalization_empty.json": {"defaultLocalization": "Required"},
   "interactions/bad/defaultlocalization_missing.json": {"defaultLocalization": "Required"},
@@ -202,6 +209,8 @@
   "interactions/bad/question_fieldid_missing.json": {"steps.0.fieldId": "Required"},
   "interactions/bad/question_options_bad.json": {"steps.0.options": "\"foo\" is not a mapping type: Does not implement dict-like functionality."},
   "interactions/bad/question_options_empty.json": {"steps.0.options": "At least one key/value pair must be defined"},
-  "interactions/bad/question_options_missing.json": {"steps.0": "\"None\" is not a mapping type: Does not implement dict-like functionality."}
+  "interactions/bad/question_options_missing.json": {"steps.0": "\"None\" is not a mapping type: Does not implement dict-like functionality."},
+  "interactions/bad/defaulttimeout_warn_text_missing_locale.json": {"": "Timeout warn Text Missing default localization"},
+  "interactions/bad/question_text_missing_locale.json": {"": "Step Text Missing default localization"}
 }
 

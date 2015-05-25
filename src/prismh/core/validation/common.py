@@ -27,6 +27,7 @@ __all__ = (
     'Options',
     'Descriptor',
     'DescriptorList',
+    'LocalizationChecker',
 )
 
 
@@ -187,4 +188,27 @@ class Descriptor(colander.SchemaNode):
 class DescriptorList(colander.SequenceSchema):
     descriptor = Descriptor()
     validator = colander.Length(min=1)
+
+
+class LocalizationChecker(object):
+    def __init__(self, node, default_localization):
+        self.node = node
+        self.locale = default_localization
+
+    def ensure(self, obj, key, node=None, scope=None):
+        if not isinstance(obj, dict) or key not in obj:
+            return
+        if self.locale not in obj[key]:
+            raise ValidationError(
+                node or self.node,
+                '%sMissing default localization' % (
+                    ('%s ' % scope) if scope else '',
+                )
+            )
+
+    def ensure_descriptor(self, descriptor, scope=None):
+        scope = scope or ''
+        self.ensure(descriptor, 'text', scope=(scope + ' Text').strip())
+        self.ensure(descriptor, 'help', scope=(scope + ' Help').strip())
+        self.ensure(descriptor, 'audio', scope=(scope + ' Audio').strip())
 

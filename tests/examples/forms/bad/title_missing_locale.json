@@ -1,0 +1,27 @@
+{
+  "instrument": {
+    "id": "urn:example:bad:title:missing:locale",
+    "version": "1.0"
+  },
+  "defaultLocalization": "en",
+  "title": {
+    "fr": "French Title"
+  },
+  "pages": [
+    {
+      "id": "page1",
+      "elements": [
+        {
+          "type": "question",
+          "options": {
+            "fieldId": "field1",
+            "text": {
+              "en": "This is a Question?"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+

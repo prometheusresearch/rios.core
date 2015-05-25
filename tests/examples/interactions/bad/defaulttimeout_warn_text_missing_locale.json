@@ -1,0 +1,30 @@
+{
+  "instrument": {
+    "id": "urn:examples:bad:defaulttimeout:warn:text:missing:locale",
+    "version": "1.0"
+  },
+
+  "defaultLocalization": "en",
+
+  "defaultTimeout": {
+    "warn": {
+      "threshold": 600,
+      "text": {
+        "fr": "French warning"
+      }
+    }
+  },
+
+  "steps": [
+    {
+      "type": "question",
+      "options": {
+        "fieldId": "foo",
+        "text": {
+          "en": "This is a text field."
+        }
+      }
+    }
+  ]
+}
+

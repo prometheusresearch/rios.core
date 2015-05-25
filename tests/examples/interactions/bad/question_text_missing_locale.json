@@ -1,0 +1,21 @@
+{
+  "instrument": {
+    "id": "urn:examples:bad:steps:question:text:missing:locale",
+    "version": "1.0"
+  },
+
+  "defaultLocalization": "en",
+
+  "steps": [
+    {
+      "type": "question",
+      "options": {
+        "fieldId": "foo",
+        "text": {
+          "fr": "French Foo"
+        }
+      }
+    }
+  ]
+}
+
