@@ -10,7 +10,7 @@ from six import iteritems
 from .common import ValidationError, sub_schema, LanguageTag, \
     LocalizedMapping, IdentifierString, Options, LocalizedString, \
     Descriptor as BaseDescriptor, LocalizationChecker
-from .instrument import InstrumentReference
+from .instrument import InstrumentReference, get_full_type_definition
 
 
 __all__ = (
@@ -393,9 +393,7 @@ class Form(colander.SchemaNode):
 
         self._check_fields_covered(node, cstruct)
 
-        # TODO make sure all columns, rows, and subfields are addressed
-
-        # TODO make sure enumeration config is appropriate for type
+        self._check_type_specifics(node, cstruct)
 
     def _check_localizations(self, node, cstruct):
         checker = LocalizationChecker(node, cstruct['defaultLocalization'])
@@ -462,5 +460,136 @@ class Form(colander.SchemaNode):
                 'There are extra fields referenced by questions: %s' % (
                     ', '.join(extra),
                 )
+            )
+
+    def _get_instrument_field(self, name):
+        for field in self.instrument['record']:
+            if field['id'] == name:
+                return field
+
+    def _check_type_specifics(self, node, cstruct):
+        for page in cstruct['pages']:
+            for element in page['elements']:
+                if element['type'] != 'question':
+                    continue
+
+                type_def = get_full_type_definition(
+                    self.instrument,
+                    self._get_instrument_field(
+                        element['options']['fieldId'],
+                    )['type'],
+                )
+
+                if type_def['base'] not in ('enumeration', 'enumerationSet') \
+                        and 'enumerations' in element['options']:
+                    raise ValidationError(
+                        node,
+                        'Field "%s" cannot have an enumerations'
+                        ' configuration' % (
+                            element['options']['fieldId'],
+                        ),
+                    )
+
+                self._check_matrix(node, type_def, element)
+                self._check_subquestions(node, type_def, element)
+
+    def _check_matrix(self, node, type_def, element):
+        if type_def['base'] == 'matrix':
+            instrument_rows = set([
+                row['id']
+                for row in type_def['rows']
+            ])
+
+            form_rows = set()
+            for row in element['options'].get('rows', []):
+                if row['id'] in form_rows:
+                    raise ValidationError(
+                        node,
+                        'Row %s is addressed by more than one descriptor in'
+                        ' %s' % (
+                            row['id'],
+                            element['options']['fieldId'],
+                        ),
+                    )
+                else:
+                    form_rows.add(row['id'])
+
+            missing = instrument_rows - form_rows
+            if missing:
+                raise ValidationError(
+                    node,
+                    'There are missing rows in %s: %s' % (
+                        element['options']['fieldId'],
+                        ', '.join(missing),
+                    )
+                )
+
+            extra = form_rows - instrument_rows
+            if extra:
+                raise ValidationError(
+                    node,
+                    'There are extra rows referenced by %s: %s' % (
+                        element['options']['fieldId'],
+                        ', '.join(extra),
+                    )
+                )
+
+        elif 'rows' in element['options']:
+            raise ValidationError(
+                node,
+                'Field "%s" cannot have a rows configuration' % (
+                    element['options']['fieldId'],
+                ),
+            )
+
+    def _check_subquestions(self, node, type_def, element):
+        if type_def['base'] in ('matrix', 'recordList'):
+            instrument_fields = set([
+                field['id']
+                for field in type_def[
+                    'columns' if type_def['base'] == 'matrix' else 'record'
+                ]
+            ])
+
+            form_fields = set()
+            for subfield in element['options'].get('questions', []):
+                if subfield['fieldId'] in form_fields:
+                    raise ValidationError(
+                        node,
+                        'Subfield %s is addressed by more than one question in'
+                        ' %s' % (
+                            subfield['fieldId'],
+                            element['options']['fieldId'],
+                        ),
+                    )
+                else:
+                    form_fields.add(subfield['fieldId'])
+
+            missing = instrument_fields - form_fields
+            if missing:
+                raise ValidationError(
+                    node,
+                    'There are missing subfields in %s: %s' % (
+                        element['options']['fieldId'],
+                        ', '.join(missing),
+                    )
+                )
+
+            extra = form_fields - instrument_fields
+            if extra:
+                raise ValidationError(
+                    node,
+                    'There are extra subfields referenced by %s: %s' % (
+                        element['options']['fieldId'],
+                        ', '.join(extra),
+                    )
+                )
+
+        elif 'questions' in element['options']:
+            raise ValidationError(
+                node,
+                'Field "%s" cannot have a questions configuration' % (
+                    element['options']['fieldId'],
+                ),
             )
 

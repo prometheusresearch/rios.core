@@ -17,6 +17,8 @@ pylint:
     - no-self-use
   enable:
     - fixme
+  options:
+    max-parents: 10
 
 pyflakes:
   disable:

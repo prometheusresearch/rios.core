@@ -105,3 +105,183 @@ def test_duplicate_field():
     else:
         assert False
 
+
+def test_unnecessary_enumeration_field():
+    validator = Form(instrument=INSTRUMENT)
+    form = deepcopy(FORM)
+    form['pages'][0]['elements'][-1]['options']['enumerations'] = [
+        {
+            'id': 'foo',
+            'text': {
+                'en': 'Unnecessary'
+            }
+        }
+    ]
+    try:
+        validator.deserialize(form)
+    except ValidationError as exc:
+        pass
+    else:
+        assert False
+
+
+def test_missing_row():
+    validator = Form(instrument=INSTRUMENT)
+    form = deepcopy(FORM)
+    form['pages'][1]['elements'][3]['options']['rows'].pop()
+    try:
+        validator.deserialize(form)
+    except ValidationError as exc:
+        pass
+    else:
+        assert False
+
+
+def test_duplicate_row():
+    validator = Form(instrument=INSTRUMENT)
+    form = deepcopy(FORM)
+    form['pages'][1]['elements'][3]['options']['rows'][1]['id'] = 'row1'
+    try:
+        validator.deserialize(form)
+    except ValidationError as exc:
+        pass
+    else:
+        assert False
+
+
+def test_extra_row():
+    validator = Form(instrument=INSTRUMENT)
+    form = deepcopy(FORM)
+    form['pages'][1]['elements'][3]['options']['rows'].append({
+        'id': 'extra',
+        'text': {
+            'en': 'Extra!',
+        },
+    })
+    try:
+        validator.deserialize(form)
+    except ValidationError as exc:
+        pass
+    else:
+        assert False
+
+
+def test_unnecessary_row():
+    validator = Form(instrument=INSTRUMENT)
+    form = deepcopy(FORM)
+    form['pages'][0]['elements'][-1]['options']['rows'] = [
+        {
+            'id': 'foo',
+            'text': {
+                'en': 'Foo'
+            }
+        }
+    ]
+    try:
+        validator.deserialize(form)
+    except ValidationError as exc:
+        pass
+    else:
+        assert False
+
+
+def test_missing_column():
+    validator = Form(instrument=INSTRUMENT)
+    form = deepcopy(FORM)
+    form['pages'][1]['elements'][3]['options']['questions'].pop()
+    try:
+        validator.deserialize(form)
+    except ValidationError as exc:
+        pass
+    else:
+        assert False
+
+
+def test_duplicate_column():
+    validator = Form(instrument=INSTRUMENT)
+    form = deepcopy(FORM)
+    form['pages'][1]['elements'][3]['options']['questions'][0]['fieldId'] = 'col1'
+    try:
+        validator.deserialize(form)
+    except ValidationError as exc:
+        pass
+    else:
+        assert False
+
+
+def test_extra_column():
+    validator = Form(instrument=INSTRUMENT)
+    form = deepcopy(FORM)
+    form['pages'][1]['elements'][3]['options']['questions'].append({
+        'fieldId': 'extra',
+        'text': {
+            'en': 'Extra!',
+        },
+    })
+    try:
+        validator.deserialize(form)
+    except ValidationError as exc:
+        pass
+    else:
+        assert False
+
+
+def test_missing_question():
+    validator = Form(instrument=INSTRUMENT)
+    form = deepcopy(FORM)
+    form['pages'][1]['elements'][2]['options']['questions'].pop()
+    try:
+        validator.deserialize(form)
+    except ValidationError as exc:
+        pass
+    else:
+        assert False
+
+
+def test_duplicate_question():
+    validator = Form(instrument=INSTRUMENT)
+    form = deepcopy(FORM)
+    form['pages'][1]['elements'][2]['options']['questions'][0]['fieldId'] = 'col1'
+    try:
+        validator.deserialize(form)
+    except ValidationError as exc:
+        pass
+    else:
+        assert False
+
+
+def test_extra_question():
+    validator = Form(instrument=INSTRUMENT)
+    form = deepcopy(FORM)
+    form['pages'][1]['elements'][2]['options']['questions'].append({
+        'fieldId': 'extra',
+        'text': {
+            'en': 'Extra!',
+        },
+    })
+    try:
+        validator.deserialize(form)
+    except ValidationError as exc:
+        pass
+    else:
+        assert False
+
+
+def test_unnecessary_question():
+    validator = Form(instrument=INSTRUMENT)
+    form = deepcopy(FORM)
+    form['pages'][0]['elements'][-1]['options']['questions'] = [
+        {
+            'fieldId': 'foo',
+            'text': {
+                'en': 'Foo'
+            }
+        }
+    ]
+    try:
+        validator.deserialize(form)
+    except ValidationError as exc:
+        pass
+    else:
+        assert False
+
