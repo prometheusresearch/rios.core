@@ -8,7 +8,8 @@ import colander
 from .common import ValidationError, sub_schema, LanguageTag, \
     IdentifierString, Options, LocalizedString, DescriptorList, \
     LocalizationChecker
-from .instrument import InstrumentReference
+from .instrument import InstrumentReference, TYPES_COMPLEX, \
+    get_full_type_definition
 
 
 __all__ = (
@@ -141,9 +142,7 @@ class Interaction(colander.SchemaNode):
 
         self._check_fields_covered(node, cstruct)
 
-        # TODO make sure enumeration config is appropriate for type
-
-        # TODO make sure no recordList or matrix field types
+        self._check_type_specifics(node, cstruct)
 
     def _check_localizations(self, node, cstruct):
         checker = LocalizationChecker(node, cstruct['defaultLocalization'])
@@ -207,4 +206,36 @@ class Interaction(colander.SchemaNode):
                     ', '.join(extra),
                 )
             )
+
+    def _get_instrument_field(self, name):
+        for field in self.instrument['record']:
+            if field['id'] == name:
+                return field
+
+    def _check_type_specifics(self, node, cstruct):
+        for step in cstruct['steps']:
+            if step['type'] != 'question':
+                continue
+
+            type_def = get_full_type_definition(
+                self.instrument,
+                self._get_instrument_field(
+                    step['options']['fieldId'],
+                )['type'],
+            )
+
+            if type_def['base'] in TYPES_COMPLEX:
+                raise ValidationError(
+                    node.get('steps'),
+                    'Complex Instrument Types are not allowed in Interactions',
+                )
+
+            if type_def['base'] not in ('enumeration', 'enumerationSet') \
+                    and 'enumerations' in step['options']:
+                raise ValidationError(
+                    node.get('steps'),
+                    'Field "%s" cannot have an enumerations configuration' % (
+                        step['options']['fieldId'],
+                    ),
+                )
 

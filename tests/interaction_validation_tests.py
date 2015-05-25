@@ -111,3 +111,42 @@ def test_duplicate_field():
     else:
         assert False
 
+
+def test_unnecessary_enumeration_field():
+    validator = Interaction(instrument=INSTRUMENT)
+    interaction = deepcopy(INTERACTION)
+    interaction['steps'][1]['options']['enumerations'] = [
+        {
+            'id': 'foo',
+            'text': {
+                'en': 'Unnecessary'
+            }
+        }
+    ]
+    try:
+        validator.deserialize(interaction)
+    except ValidationError as exc:
+        pass
+    else:
+        assert False
+
+
+def test_complex_field():
+    instrument = deepcopy(INSTRUMENT)
+    instrument['record'][0]['type'] = {
+        'base': 'recordList',
+        'record': [
+            {
+                'id': 'foo',
+                'type': 'text'
+            }
+        ]
+    }
+    validator = Interaction(instrument=instrument)
+    try:
+        validator.deserialize(INTERACTION)
+    except ValidationError as exc:
+        pass
+    else:
+        assert False
+
