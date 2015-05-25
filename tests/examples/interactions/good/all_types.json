@@ -8,6 +8,14 @@
 
   "steps": [
     {
+      "type": "text",
+      "options": {
+        "text": {
+          "en": "This is a test"
+        }
+      }
+    },
+    {
       "type": "question",
       "options": {
         "fieldId": "nullable_field",

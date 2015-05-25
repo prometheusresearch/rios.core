@@ -129,8 +129,6 @@ class Interaction(colander.SchemaNode):
     def validator(self, node, cstruct):
         self._check_localizations(node, cstruct)
 
-        # TODO check for duplicated field IDs
-
         if not self.instrument:
             return
 
@@ -141,7 +139,7 @@ class Interaction(colander.SchemaNode):
                 'Interaction does not reference the specified version',
             )
 
-        # TODO make sure all fields are addressed
+        self._check_fields_covered(node, cstruct)
 
         # TODO make sure enumeration config is appropriate for type
 
@@ -169,4 +167,44 @@ class Interaction(colander.SchemaNode):
 
             for enumeration in options.get('enumerations', []):
                 checker.ensure_descriptor(enumeration, scope='Enumeration')
+
+    def _check_fields_covered(self, node, cstruct):
+        instrument_fields = set([
+            field['id']
+            for field in self.instrument['record']
+        ])
+
+        intr_fields = set()
+        for step in cstruct['steps']:
+            if step['type'] != 'question':
+                continue
+
+            field_id = step['options']['fieldId']
+            if field_id in intr_fields:
+                raise ValidationError(
+                    node.get('steps'),
+                    'Field "%s" is addressed by more than one question' % (
+                        field_id,
+                    )
+                )
+            else:
+                intr_fields.add(field_id)
+
+        missing = instrument_fields - intr_fields
+        if missing:
+            raise ValidationError(
+                node.get('steps'),
+                'There are Instrument fields which are missing: %s' % (
+                    ', '.join(missing),
+                )
+            )
+
+        extra = intr_fields - instrument_fields
+        if extra:
+            raise ValidationError(
+                node.get('steps'),
+                'There are extra fields referenced by questions: %s' % (
+                    ', '.join(extra),
+                )
+            )
 
