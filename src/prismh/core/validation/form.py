@@ -381,8 +381,6 @@ class Form(colander.SchemaNode):
     def validator(self, node, cstruct):
         self._check_localizations(node, cstruct)
 
-        # TODO check for duplicated field IDs
-
         if not self.instrument:
             return
 
@@ -393,7 +391,9 @@ class Form(colander.SchemaNode):
                 'Form does not reference the specified version',
             )
 
-        # TODO make sure all fields, columns, rows, and subfields are addressed
+        self._check_fields_covered(node, cstruct)
+
+        # TODO make sure all columns, rows, and subfields are addressed
 
         # TODO make sure enumeration config is appropriate for type
 
@@ -422,4 +422,45 @@ class Form(colander.SchemaNode):
         for page in cstruct['pages']:
             for element in page['elements']:
                 _ensure_element(element)
+
+    def _check_fields_covered(self, node, cstruct):
+        instrument_fields = set([
+            field['id']
+            for field in self.instrument['record']
+        ])
+
+        form_fields = set()
+        for page in cstruct['pages']:
+            for element in page['elements']:
+                if element['type'] != 'question':
+                    continue
+
+                field_id = element['options']['fieldId']
+                if field_id in form_fields:
+                    raise ValidationError(
+                        node,
+                        'Field "%s" is addressed by more than one question' % (
+                            field_id,
+                        )
+                    )
+                else:
+                    form_fields.add(field_id)
+
+        missing = instrument_fields - form_fields
+        if missing:
+            raise ValidationError(
+                node,
+                'There are Instrument fields which are missing: %s' % (
+                    ', '.join(missing),
+                )
+            )
+
+        extra = form_fields - instrument_fields
+        if extra:
+            raise ValidationError(
+                node,
+                'There are extra fields referenced by questions: %s' % (
+                    ', '.join(extra),
+                )
+            )
 
