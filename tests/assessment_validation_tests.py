@@ -217,3 +217,41 @@ def test_required_annotation():
     else:
         assert False
 
+
+BAD_VALUE_TESTS = (
+    ('text_field', 42, None),
+    ('integer_field', 'foo', None),
+    ('float_field', 'foo', None),
+    ('enumeration_field', False, None),
+    ('boolean_field', 42, None),
+    ('date_field', '5/22/2015', None),
+    ('time_field', 13231123, None),
+    ('datetime_field', 'foo', None),
+    ('enumerationset_field', 42, None),
+    ('enumerationset_field', [{'blah': {'value': None}}], None),
+    ('recordlist_field', 42, None),
+    ('recordlist_field', [{'subfield1': {'value': 42}, 'subfield2': {'value': 'foo'}}], 'subfield1'),
+    ('matrix_field', 'foo', None),
+    ('matrix_field', {"row1": {"col1": {"value": False},"col2": {"value": "bar1"}},"row2": {"col1": {"value": "foo2"},"col2": {"value": "bar2"}}}, 'col1'),
+)
+
+def check_bad_value_type(field_id, bad_value, sub_field_id=None):
+    validator = Assessment(instrument=INSTRUMENT)
+    assessment = deepcopy(ASSESSMENT)
+    assessment['values'][field_id]['value'] = bad_value
+    try:
+        validator.deserialize(assessment)
+    except ValidationError as exc:
+        msg = 'Value for "%s" is not of the correct type' % (
+            sub_field_id or field_id,
+        )
+        if msg not in str(exc):
+            raise
+        assert msg in str(exc)
+    else:
+        assert False
+
+def test_bad_value_types():
+    for field_id, bad_value, sub_field_id in BAD_VALUE_TESTS:
+        yield check_bad_value_type, field_id, bad_value, sub_field_id
+

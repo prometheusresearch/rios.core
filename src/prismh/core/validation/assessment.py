@@ -9,7 +9,7 @@ from copy import deepcopy
 
 import colander
 
-from six import iteritems
+from six import iteritems, string_types
 
 from .common import ValidationError, sub_schema, AnyType, LanguageTag, \
     validate_instrument_version
@@ -29,7 +29,9 @@ __all__ = (
 
 
 RE_PRODUCT_TOKEN = re.compile(r'^(.+)/(.+)$')
-
+RE_DATE = re.compile(r'^\d{4}-\d{2}-\d{2}$')
+RE_TIME = re.compile(r'^\d{2}:\d{2}:\d{2}$')
+RE_DATETIME = re.compile(r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$')
 
 METADATA_SCOPE_ASSESSMENT = 'assessment'
 METADATA_SCOPE_VALUE = 'value'
@@ -160,6 +162,22 @@ class ValueCollectionMapping(colander.SchemaNode):
             sub_schema(ValueCollection, node, values)
 
 
+VALUE_TYPE_CHECKS = {
+    'integer': lambda val: isinstance(val, (int, long)),
+    'float': lambda val: isinstance(val, (float, int, long)),
+    'text': lambda val: isinstance(val, string_types),
+    'enumeration': lambda val: isinstance(val, string_types),
+    'boolean': lambda val: isinstance(val, bool),
+    'date': lambda val: isinstance(val, string_types) and RE_DATE.match(val),
+    'time': lambda val: isinstance(val, string_types) and RE_TIME.match(val),
+    'dateTime':
+    lambda val: isinstance(val, string_types) and RE_DATETIME.match(val),
+    'enumerationSet': lambda val: isinstance(val, list),
+    'recordList': lambda val: isinstance(val, list),
+    'matrix': lambda val: isinstance(val, dict),
+}
+
+
 class Assessment(colander.SchemaNode):
     instrument = InstrumentReference()
     meta = MetadataCollection(
@@ -218,9 +236,10 @@ class Assessment(colander.SchemaNode):
                 field['type'],
             )
 
-            # TODO check value type
+            self._check_value_type(node, value['value'], field, full_type_def)
 
             self._check_metafields(node, value, field)
+
             self._check_complex_subfields(node, full_type_def, value)
 
         if len(values) > 0:
@@ -228,6 +247,27 @@ class Assessment(colander.SchemaNode):
                 node,
                 'Unknown field IDs found: %s' % ', '.join(values.keys()),
             )
+
+    def _check_value_type(self, node, value, field, type_def):
+        if value is None:
+            return
+
+        error = ValidationError(
+            node,
+            'Value for "%s" is not of the correct type' % (
+                field['id'],
+            ),
+        )
+
+        # Basic checks
+        if not VALUE_TYPE_CHECKS[type_def['base']](value):
+            raise error
+
+        # Deeper checks
+        if type_def['base'] == 'enumerationSet':
+            for subval in value:
+                if not isinstance(subval, string_types):
+                    raise error
 
     def _check_metafields(self, node, value, field):
         explanation = field.get('explanation', 'none')
