@@ -17,6 +17,9 @@ ASSESSMENT = {
             'annotation': 'Some annotation',
             'value': 'foo',
         },
+        'enumerationset_field': {
+            'value': ['foo', 'bar']
+        },
         'recordlist_field': {
             'value': [
                 {
@@ -83,6 +86,12 @@ EXPECTED_JSON = """{
     "language": "en"
   },
   "values": {
+    "enumerationset_field": {
+      "value": [
+        "foo",
+        "bar"
+      ]
+    },
     "integer_field": {
       "value": 42,
       "meta": {
@@ -152,6 +161,10 @@ meta:
   foo: bar
   language: en
 values:
+  enumerationset_field:
+    value:
+    - foo
+    - bar
   integer_field:
     value: 42
     meta:
