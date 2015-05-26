@@ -9,7 +9,7 @@ from copy import deepcopy
 
 import colander
 
-from six import iteritems, string_types
+from six import iteritems, string_types, integer_types
 
 from .common import ValidationError, sub_schema, AnyType, LanguageTag, \
     validate_instrument_version
@@ -163,8 +163,8 @@ class ValueCollectionMapping(colander.SchemaNode):
 
 
 VALUE_TYPE_CHECKS = {
-    'integer': lambda val: isinstance(val, (int, long)),
-    'float': lambda val: isinstance(val, (float, int, long)),
+    'integer': lambda val: isinstance(val, integer_types),
+    'float': lambda val: isinstance(val, (float,) + integer_types),
     'text': lambda val: isinstance(val, string_types),
     'enumeration': lambda val: isinstance(val, string_types),
     'boolean': lambda val: isinstance(val, bool),
@@ -245,7 +245,7 @@ class Assessment(colander.SchemaNode):
         if len(values) > 0:
             raise ValidationError(
                 node,
-                'Unknown field IDs found: %s' % ', '.join(values.keys()),
+                'Unknown field IDs found: %s' % ', '.join(list(values.keys())),
             )
 
     def _check_value_type(self, node, value, field, type_def):
@@ -342,7 +342,7 @@ class Assessment(colander.SchemaNode):
                 raise ValidationError(
                     node,
                     'Unknown row IDs found: %s' % (
-                        ', '.join(value['value'].keys()),
+                        ', '.join(list(value['value'].keys())),
                     ),
                 )
 

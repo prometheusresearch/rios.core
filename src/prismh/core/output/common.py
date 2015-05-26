@@ -8,6 +8,8 @@ import json
 
 import yaml
 
+from six import text_type, add_metaclass
+
 
 __all__ = (
     'get_json',
@@ -80,13 +82,13 @@ def unicode_representer(dumper, ustr):
     )
 
 
-OrderedDumper.add_representer(unicode, unicode_representer)
+OrderedDumper.add_representer(text_type, unicode_representer)
 
 
 def dict_representer(dumper, data):
     return dumper.represent_mapping(
         yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
-        data.items()
+        list(data.items())
     )
 
 
@@ -96,20 +98,20 @@ class OrderedDumperMetaclass(type):
         OrderedDumper.add_representer(cls, dict_representer)
 
 
+@add_metaclass(OrderedDumperMetaclass)
 class OrderedDict(collections.OrderedDict):
     """
     A functional equivalent to ``collections.OrderedDict``.
     """
 
-    __metaclass__ = OrderedDumperMetaclass
+    pass
 
 
+@add_metaclass(OrderedDumperMetaclass)
 class SortedDict(dict):
     """
     A dictionary class that sorts its keys alphabetically.
     """
-
-    __metaclass__ = OrderedDumperMetaclass
 
     def get_keys(self):
         return sorted(super(SortedDict, self).keys())
