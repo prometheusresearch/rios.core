@@ -5,7 +5,8 @@
 
 import colander
 
-from .common import ValidationError, sub_schema, Options
+from .common import ValidationError, sub_schema, Options, \
+    validate_instrument_version
 from .instrument import InstrumentReference, IdentifierString, Description, \
     TYPES_SIMPLE
 
@@ -137,10 +138,9 @@ class CalculationSet(colander.SchemaNode):
         if not self.instrument:
             return
 
-        if self.instrument['id'] != cstruct['instrument']['id'] or \
-                self.instrument['version'] != cstruct['instrument']['version']:
-            raise ValidationError(
-                node.get('instrument'),
-                'CalculationSet does not reference the specified version',
-            )
+        validate_instrument_version(
+            self.instrument,
+            cstruct,
+            node.get('instrument'),
+        )
 

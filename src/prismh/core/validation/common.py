@@ -13,10 +13,11 @@ from six import iteritems
 
 
 __all__ = (
-    'ValidationError',
     'RE_IDENTIFIER',
+
+    'ValidationError',
+
     'IdentifierString',
-    'sub_schema',
     'AnyType',
     'OneOfType',
     'StrictBooleanType',
@@ -27,7 +28,10 @@ __all__ = (
     'Options',
     'Descriptor',
     'DescriptorList',
+
     'LocalizationChecker',
+    'sub_schema',
+    'validate_instrument_version',
 )
 
 
@@ -211,4 +215,13 @@ class LocalizationChecker(object):
         self.ensure(descriptor, 'text', scope=(scope + ' Text').strip())
         self.ensure(descriptor, 'help', scope=(scope + ' Help').strip())
         self.ensure(descriptor, 'audio', scope=(scope + ' Audio').strip())
+
+
+def validate_instrument_version(instrument, obj, node):
+    if instrument['id'] != obj['instrument']['id'] or \
+            instrument['version'] != obj['instrument']['version']:
+        raise ValidationError(
+            node,
+            'Incorrect Instrument version referenced',
+        )
 

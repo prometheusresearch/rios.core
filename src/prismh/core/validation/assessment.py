@@ -11,7 +11,8 @@ import colander
 
 from six import iteritems
 
-from .common import ValidationError, sub_schema, AnyType, LanguageTag
+from .common import ValidationError, sub_schema, AnyType, LanguageTag, \
+    validate_instrument_version
 from .instrument import InstrumentReference, IdentifierString, \
     get_full_type_definition
 
@@ -176,12 +177,11 @@ class Assessment(colander.SchemaNode):
         if not self.instrument:
             return
 
-        if self.instrument['id'] != cstruct['instrument']['id'] or \
-                self.instrument['version'] != cstruct['instrument']['version']:
-            raise ValidationError(
-                node.get('instrument'),
-                'Assessment does not reference the specified version',
-            )
+        validate_instrument_version(
+            self.instrument,
+            cstruct,
+            node.get('instrument'),
+        )
 
         self.check_has_all_fields(
             node.get('values'),

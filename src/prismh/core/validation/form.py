@@ -9,7 +9,8 @@ from six import iteritems
 
 from .common import ValidationError, sub_schema, LanguageTag, \
     LocalizedMapping, IdentifierString, Options, LocalizedString, \
-    Descriptor as BaseDescriptor, LocalizationChecker
+    Descriptor as BaseDescriptor, LocalizationChecker, \
+    validate_instrument_version
 from .instrument import InstrumentReference, get_full_type_definition
 
 
@@ -384,12 +385,11 @@ class Form(colander.SchemaNode):
         if not self.instrument:
             return
 
-        if self.instrument['id'] != cstruct['instrument']['id'] or \
-                self.instrument['version'] != cstruct['instrument']['version']:
-            raise ValidationError(
-                node.get('instrument'),
-                'Form does not reference the specified version',
-            )
+        validate_instrument_version(
+            self.instrument,
+            cstruct,
+            node.get('instrument'),
+        )
 
         self._check_fields_covered(node, cstruct)
 
