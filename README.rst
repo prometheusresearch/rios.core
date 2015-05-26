@@ -59,6 +59,15 @@ restrictions.
 
 .. _`Semantic Versioning`: http://semver.org
 
+A development environment can be set up to work on this package by doing the
+following::
+
+    $ virtualenv prismh
+    $ cd prismh
+    $ . bin/activate
+    $ hg clone ssh://hg@bitbucket.org/prometheus/prismh.core
+    $ pip install -e ./prismh.core[dev]
+
 
 License/Copyright
 =================
