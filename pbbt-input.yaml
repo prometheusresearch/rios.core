@@ -4,6 +4,9 @@
 
 title: REX.INSTRUMENT
 tests:
+  - sh: pip install --quiet coverage nose
+    ignore: true
+
   - sh: nosetests --quiet
     ignore: true
 

@@ -4,5 +4,7 @@
 ---
 suite: rex.instrument
 tests:
+- sh: pip install --quiet coverage nose
+  stdout: ''
 - sh: nosetests --quiet
-  stdout: ""
+  stdout: ''
