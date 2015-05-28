@@ -46,7 +46,7 @@ def get_json(data, pretty=False, **kwargs):
         kwargs['indent'] = 2
         kwargs['separators'] = (',', ': ')
 
-    return json.dumps(data, **kwargs).encode('utf-8')
+    return json.dumps(data, **kwargs)
 
 
 def get_yaml(data, pretty=False, **kwargs):
