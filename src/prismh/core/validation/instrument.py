@@ -470,7 +470,7 @@ class Instrument(colander.SchemaNode):
         except Exception as exc:
             raise ValidationError(
                 node,
-                exc.message,
+                str(exc),
             )
 
         self._check_required_constraints(full_type_def, node, type_def)

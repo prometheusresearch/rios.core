@@ -63,7 +63,7 @@ GFTD_TESTER = {
 def check_gftd_base_type(type_id):
     type_def = get_full_type_definition(GFTD_TESTER, type_id)
     assert isinstance(type_def, dict)
-    assert len(type_def.keys()) == 1
+    assert len(list(type_def.keys())) == 1
     assert type_def['base'] == type_id
 
 def test_gftd_base_id():
@@ -74,7 +74,7 @@ def test_gftd_base_id():
 def test_gftd_custom_id():
     type_def = get_full_type_definition(GFTD_TESTER, 'customText')
     assert isinstance(type_def, dict)
-    assert len(type_def.keys()) == 2
+    assert len(list(type_def.keys())) == 2
     assert type_def['base'] == 'text'
     assert type_def['pattern'] == 'foo'
 
@@ -82,11 +82,11 @@ def test_gftd_custom_id():
 def test_gftd_inherited_custom_id():
     type_def = get_full_type_definition(GFTD_TESTER, 'customText2')
     assert isinstance(type_def, dict)
-    assert len(type_def.keys()) == 3
+    assert len(list(type_def.keys())) == 3
     assert type_def['base'] == 'text'
     assert type_def['pattern'] == 'foo'
     assert isinstance(type_def['length'], dict)
-    assert len(type_def['length'].keys()) == 1
+    assert len(list(type_def['length'].keys())) == 1
     assert type_def['length']['min'] == 2
 
 
@@ -97,7 +97,7 @@ def test_gtfd_custom_def():
     }
     type_def = get_full_type_definition(GFTD_TESTER, custom_def)
     assert isinstance(type_def, dict)
-    assert len(type_def.keys()) == 2
+    assert len(list(type_def.keys())) == 2
     assert type_def['base'] == 'text'
     assert type_def['pattern'] == 'bar'
 
@@ -109,11 +109,11 @@ def test_gtfd_inherited_custom_def():
     }
     type_def = get_full_type_definition(GFTD_TESTER, custom_def)
     assert isinstance(type_def, dict)
-    assert len(type_def.keys()) == 3
+    assert len(list(type_def.keys())) == 3
     assert type_def['base'] == 'text'
     assert type_def['pattern'] == 'bar'
     assert isinstance(type_def['length'], dict)
-    assert len(type_def['length'].keys()) == 1
+    assert len(list(type_def['length'].keys())) == 1
     assert type_def['length']['min'] == 2
 
 
@@ -121,7 +121,7 @@ def test_gftd_unknown_id():
     try:
         type_def = get_full_type_definition(GFTD_TESTER, 'foobar')
     except ValueError as exc:
-        assert 'no type is defined for identifier' in exc.message
+        assert 'no type is defined for identifier' in str(exc)
     else:
         assert False, 'gftd did not fail, got %r' % type_def
 
@@ -134,7 +134,7 @@ def test_gtfd_unknown_def_base():
     try:
         type_def = get_full_type_definition(GFTD_TESTER, custom_def)
     except ValueError as exc:
-        assert 'references undefined base' in exc.message
+        assert 'references undefined base' in str(exc)
     else:
         assert False, 'gftd did not fail, got %r' % type_def
 
@@ -143,7 +143,7 @@ def test_gftd_bad_input():
     try:
         type_def = get_full_type_definition(GFTD_TESTER, False)
     except TypeError as exc:
-        assert 'type_def must be a string or dict' in exc.message
+        assert 'type_def must be a string or dict' in str(exc)
     else:
         assert False, 'gftd did not fail, got %r' % type_def
 

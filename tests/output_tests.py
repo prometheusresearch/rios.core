@@ -57,7 +57,7 @@ TESTS = (
 
 def check_output(func, obj):
     output = func(obj)
-    assert isinstance(output, six.string_types)
+    assert isinstance(output, six.string_types), type(output)
     assert len(output) > 0
 
 def test_output():

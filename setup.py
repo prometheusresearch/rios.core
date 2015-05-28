@@ -45,6 +45,7 @@ setup(
             'wheel>=0.24,<0.25',
             'Sphinx>=1.3,<2',
             'sphinx-autobuild>=0.5,<0.6',
+            'tox>=2,<3',
         ],
     },
     test_suite='nose.collector',

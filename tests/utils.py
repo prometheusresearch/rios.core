@@ -1,5 +1,9 @@
+from __future__ import print_function
+
 import json
 import os
+
+from six import PY3
 
 from prismh.core.validation.common import ValidationError
 
@@ -30,14 +34,18 @@ def check_bad_validation(validator, filename):
     except ValidationError as exc:
         filename = os.path.relpath(filename, EXAMPLE_FILES)
         if filename not in FAILURES:
-            print filename, exc
+            print(filename, exc)
         else:
             expected = FAILURES[filename]
             actual = exc.asdict()
-            for key, value in expected.items():
+            for key, value in list(expected.items()):
                 if key in actual:
                     key_actual = actual.pop(key)
-                    assert expected[key] == key_actual, 'Expected "%s" to have "%s", got "%s"' % (key, expected[key], key_actual)
+                    key_expected = expected[key]
+                    if PY3:
+                        # %r under PY3 doesn't output the old "u" unicode marker
+                        key_expected = key_expected.replace("u'", "'")
+                    assert key_expected == key_actual, 'Expected "%s" to have "%s", got "%s"' % (key, key_expected, key_actual)
                 else:
                     assert False, 'Expected failure for "%s"' % (key,)
             if actual:
