@@ -1,3 +1,14 @@
+.. image:: https://drone.io/bitbucket.org/prometheus/prismh.core/status.png
+   :target: https://drone.io/bitbucket.org/prometheus/prismh.core/latest
+   :alt: Build Status
+.. image:: https://readthedocs.org/projects/prismhcore/badge/?version=latest
+   :target: https://prismhcore.readthedocs.org
+   :alt: Documentation Status
+.. image:: https://img.shields.io/pypi/v/prismh.core.svg
+   :target: https://pypi.python.org/pypi/prismh.core
+.. image:: https://img.shields.io/pypi/l/prismh.core.svg
+   :target: https://pypi.python.org/pypi/prismh.core
+
 ********************
 PRISMH.CORE Overview
 ********************
