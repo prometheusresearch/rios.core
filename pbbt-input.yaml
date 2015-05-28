@@ -1,0 +1,9 @@
+#
+# Copyright (c) 2014, Prometheus Research, LLC
+#
+
+title: REX.INSTRUMENT
+tests:
+  - sh: nosetests --quiet
+    ignore: true
+
