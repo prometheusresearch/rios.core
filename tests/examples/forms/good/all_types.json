@@ -84,15 +84,6 @@
         {
           "type": "question",
           "options": {
-            "fieldId": "boolean_field",
-            "text": {
-              "en": "This is a boolean question."
-            }
-          }
-        },
-        {
-          "type": "question",
-          "options": {
             "fieldId": "date_field",
             "text": {
               "en": "This is a date question."
@@ -243,6 +234,15 @@
         }
       ]
     }
-  ]
+  ],
+
+  "unprompted": {
+    "boolean_field": {
+      "action": "calculate",
+      "options": {
+        "calculation": "true()"
+      }
+    }
+  }
 }
 
