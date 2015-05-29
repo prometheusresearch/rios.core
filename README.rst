@@ -18,7 +18,7 @@ formatting functionality for data structures that adhere to the `PRISMH`_
 specifications.
 
 .. _`Python`: https://www.python.org
-.. _`PRISMH`:
+.. _`PRISMH`: https://prismh-specification.readthedocs.org
 
 
 Example Usage
