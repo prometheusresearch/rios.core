@@ -27,9 +27,9 @@ __all__ = (
 
 def _get_struct(src):
     if isinstance(src, six.string_types):
-        src = json.loads(src)
+        src = json.loads(src, encoding='utf-8')
     elif hasattr(src, 'read'):
-        src = json.load(src)
+        src = json.load(src, encoding='utf-8')
     return src
 
 

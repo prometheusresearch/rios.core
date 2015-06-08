@@ -3,9 +3,13 @@
 #
 
 
+import os
+
 from six import StringIO
 
 from prismh.core.scripts import validate
+
+from utils import EXAMPLE_FILES
 
 
 def run_validate(args, expected, exit=0):
@@ -17,29 +21,34 @@ def run_validate(args, expected, exit=0):
 
 def test_validate_good_instrument():
     run_validate(
-        ['instrument', 'tests/examples/instruments/good/all_types.json'],
-        'tests/examples/instruments/good/all_types.json successfully validated.',
+        ['instrument', os.path.join(EXAMPLE_FILES, 'instruments/good/all_types.json')],
+        'Successful validation.',
     )
 
 
 def test_validate_bad_instrument():
     run_validate(
-        ['instrument', 'tests/examples/instruments/bad/title_missing.json'],
-        'tests/examples/instruments/bad/title_missing.json failed validation.\ntitle: Required',
+        ['instrument', os.path.join(EXAMPLE_FILES, 'instruments/bad/title_missing.json')],
+        'FAILED validation.\ntitle: Required',
         exit=1,
     )
 
 
 def test_validate_form():
     run_validate(
-        ['form', 'tests/examples/forms/good/all_types.json'],
-        'tests/examples/forms/good/all_types.json successfully validated.',
+        ['form', os.path.join(EXAMPLE_FILES, 'forms/good/all_types.json')],
+        'Successful validation.',
     )
 
 
 def test_validate_form_with_instrument():
     run_validate(
-        ['form', 'tests/examples/forms/good/all_types.json', '-i', 'tests/examples/instruments/good/all_types.json'],
-        'tests/examples/forms/good/all_types.json successfully validated.',
+        [
+            'form',
+            os.path.join(EXAMPLE_FILES, 'forms/good/all_types.json'),
+            '-i',
+            os.path.join(EXAMPLE_FILES, 'instruments/good/all_types.json'),
+        ],
+        'Successful validation.',
     )
 

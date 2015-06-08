@@ -4,7 +4,6 @@
 
 
 import argparse
-import codecs
 import pkg_resources
 import sys
 
@@ -62,7 +61,7 @@ class ValidationScript(object):
 
         self.parser.add_argument(
             'filename',
-            type=argparse.FileType('r', 0),
+            type=argparse.FileType('r'),
             help='The file containing the structure to validate. To read from'
             ' standard input, specify a "-" here.',
         )
@@ -70,7 +69,7 @@ class ValidationScript(object):
         self.parser.add_argument(
             '-i',
             '--instrument',
-            type=argparse.FileType('r', 0),
+            type=argparse.FileType('r'),
             help='The file containing the Common Instrument Definition to'
             ' validate against. To read from standard input, specify a "-"'
             ' here.',
@@ -80,17 +79,13 @@ class ValidationScript(object):
         args = self.parser.parse_args(argv)
         self._stdout = stdout
 
-        input_file = codecs.EncodedFile(args.filename, 'utf-8')
-        input_file_name = input_file.stream.name
-
-        instrument_file = None
-        if args.instrument:
-            instrument_file = codecs.EncodedFile(args.instrument, 'utf-8')
-
         try:
-            VALIDATORS[args.spectype](input_file, instrument=instrument_file)
+            VALIDATORS[args.spectype](
+                args.filename,
+                instrument=args.instrument,
+            )
         except ValidationError as exc:
-            self.out('%s failed validation.' % input_file_name)
+            self.out('FAILED validation.')
             for source, message in iteritems(exc.asdict()):
                 self.out('%s: %s' % (
                     source,
@@ -98,7 +93,7 @@ class ValidationScript(object):
                 ))
             return 1
         else:
-            self.out('%s successfully validated.' % input_file_name)
+            self.out('Successful validation.')
             return 0
 
     def out(self, message):
