@@ -3,7 +3,7 @@ PRISMH.CORE Change History
 **************************
 
 
-0.2.0 (2015-xx-xx)
+0.2.0 (2015-06-08)
 ==================
 
 * Added a command line tool, ``prismh-validate``, to perform validations on
