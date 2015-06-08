@@ -111,6 +111,7 @@
   "forms/bad/question_enumeration_text_missing_locale.json": {"": "Enumeration Text Missing default localization"},
   "forms/bad/text_text_missing_locale.json": {"": "Element Text Missing default localization"},
   "forms/bad/title_missing_locale.json": {"title": "Missing default localization"},
+  "forms/bad/event_target_bad.json": {"pages.0.elements.0.events.0.targets.0": "String does not match expected pattern"},
 
   "instruments/bad/custom_type_base_bad.json": {"types": "invalid definition, references undefined base type \"TEXT\""},
   "instruments/bad/custom_type_def_bad.json": {"types": "\"text\" is not a mapping type: Does not implement dict-like functionality."},

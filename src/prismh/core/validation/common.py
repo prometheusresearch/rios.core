@@ -18,6 +18,7 @@ __all__ = (
     'ValidationError',
 
     'IdentifierString',
+    'CompoundIdentifierString',
     'AnyType',
     'OneOfType',
     'StrictBooleanType',
@@ -40,13 +41,24 @@ __all__ = (
 
 ValidationError = colander.Invalid
 
-
-RE_IDENTIFIER = re.compile(r'^[a-z](?:[a-z0-9]|[_](?![_]))*[a-z0-9]$')
+BASE_IDENTIFIER_RESTR = r'[a-z](?:[a-z0-9]|[_](?![_]))*[a-z0-9]'
+RE_IDENTIFIER = re.compile(r'^%s$' % BASE_IDENTIFIER_RESTR)
+RE_COMPOUND_IDENTIFIER = re.compile(
+    r'^%s(\.%s)*$' % (
+        BASE_IDENTIFIER_RESTR,
+        BASE_IDENTIFIER_RESTR,
+    )
+)
 
 
 class IdentifierString(colander.SchemaNode):
     schema_type = colander.String
     validator = colander.Regex(RE_IDENTIFIER)
+
+
+class CompoundIdentifierString(colander.SchemaNode):
+    schema_type = colander.String
+    validator = colander.Regex(RE_COMPOUND_IDENTIFIER)
 
 
 def sub_schema(schema, node, cstruct):

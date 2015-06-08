@@ -10,7 +10,7 @@ from six import iteritems, iterkeys
 from .common import ValidationError, sub_schema, LanguageTag, \
     LocalizedMapping, IdentifierString, Options, LocalizedString, \
     Descriptor as BaseDescriptor, LocalizationChecker, \
-    validate_instrument_version
+    validate_instrument_version, CompoundIdentifierString
 from .instrument import InstrumentReference, get_full_type_definition
 
 
@@ -142,7 +142,7 @@ class EventAction(colander.SchemaNode):
 
 
 class EventTargetList(colander.SequenceSchema):
-    target = IdentifierString()
+    target = CompoundIdentifierString()
     validator = colander.Length(min=1)
 
 
