@@ -8,7 +8,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='prismh.core',
-    version='0.1.1',
+    version='0.2.0',
     description='Parsing and Validation library for PRISMH Files',
     long_description=open('README.rst', 'r').read(),
     keywords='prismh instrument assessment validation',
@@ -30,6 +30,11 @@ setup(
     zip_safe=True,
     include_package_data=True,
     namespace_packages=['prismh'],
+    entry_points={
+        'console_scripts': [
+            'prismh-validate = prismh.core.scripts:validate',
+        ]
+    },
     install_requires=[
         'six>=1.8,<2',
         'colander>=1.0,<1.1',

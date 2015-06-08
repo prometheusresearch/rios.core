@@ -18,6 +18,7 @@ pylint:
   enable:
     - fixme
   options:
+    min-public-methods: 1
     max-parents: 10
 
 pyflakes:

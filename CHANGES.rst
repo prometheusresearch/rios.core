@@ -3,6 +3,13 @@ PRISMH.CORE Change History
 **************************
 
 
+0.2.0 (2015-xx-xx)
+==================
+
+* Added a command line tool, ``prismh-validate``, to perform validations on
+  files containing PRIMSH files.
+
+
 0.1.1 (2015-05-29)
 ==================
 
