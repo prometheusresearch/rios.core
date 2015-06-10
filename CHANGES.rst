@@ -3,6 +3,12 @@ PRISMH.CORE Change History
 **************************
 
 
+0.2.1 (2015-06-10)
+==================
+
+* Widened the acceptible version range for the ``six`` dependency.
+
+
 0.2.0 (2015-06-08)
 ==================
 
