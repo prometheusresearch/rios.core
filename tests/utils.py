@@ -18,6 +18,7 @@ __all__ = (
 
 EXAMPLE_FILES = os.path.join(os.path.dirname(__file__), 'examples')
 FAILURES = json.load(open(os.path.join(EXAMPLE_FILES, 'failures.json')))
+FAILURE_EXCEPTIONS = json.load(open(os.path.join(EXAMPLE_FILES, 'failure_exceptions.json')))
 
 
 def check_good_validation(validator, filename):
@@ -29,10 +30,10 @@ def check_good_validation(validator, filename):
 def check_bad_validation(validator, filename):
     file_contents = open(filename, 'r').read()
     file_structure = json.loads(file_contents)
+    filename = os.path.relpath(filename, EXAMPLE_FILES)
     try:
         validator.deserialize(file_structure)
     except ValidationError as exc:
-        filename = os.path.relpath(filename, EXAMPLE_FILES)
         if filename not in FAILURES:
             print(filename, exc)
         else:
@@ -52,5 +53,8 @@ def check_bad_validation(validator, filename):
                 assert False, 'Got unexpected failures: "%s"' % (actual,)
 
     else:
+        if PY3:
+            if filename in FAILURE_EXCEPTIONS['PY3']:
+                return
         assert False, '%s did not fail validation' % filename
 

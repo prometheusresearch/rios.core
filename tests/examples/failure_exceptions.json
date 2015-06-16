@@ -1,0 +1,7 @@
+{
+  "PY3": [
+    "calculationsets/bad/calculations_python_options_expression_bad.json",
+    "calculationsets/bad/calculations_htsql_options_expression_bad.json"
+  ]
+}
+

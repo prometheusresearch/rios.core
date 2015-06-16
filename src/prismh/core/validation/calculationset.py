@@ -5,10 +5,23 @@
 
 import colander
 
+from six import PY3
+
 from .common import ValidationError, sub_schema, Options, \
     validate_instrument_version
 from .instrument import InstrumentReference, IdentifierString, Description, \
     TYPES_SIMPLE
+
+CAN_CHECK_HTSQL = False
+if not PY3:
+    try:
+        from htsql import HTSQL
+        from htsql.core.error import Error as HtsqlError
+        from htsql.core.syn.parse import parse as parse_htsql
+    except ImportError:  # pragma: no cover
+        pass
+    else:
+        CAN_CHECK_HTSQL = True
 
 
 __all__ = (
@@ -29,6 +42,16 @@ METHODS_ALL = (
     'python',
     'htsql',
 )
+
+
+_HTSQL = None
+
+
+def get_htsql():
+    global _HTSQL  # pylint: disable=global-statement
+    if not _HTSQL and CAN_CHECK_HTSQL:
+        _HTSQL = HTSQL({'engine': 'sqlite', 'database': ':memory:'})
+    return _HTSQL
 
 
 # pylint: disable=abstract-method
@@ -65,7 +88,7 @@ class PythonOptions(colander.SchemaNode):
             )
 
         expr = cstruct.get('expression', None)
-        if expr:
+        if expr and not PY3:
             try:
                 compile(expr, '<string>', 'eval')
             except SyntaxError as exc:
@@ -84,6 +107,23 @@ class HtsqlOptions(colander.SchemaNode):
     def __init__(self, *args, **kwargs):
         kwargs['typ'] = colander.Mapping(unknown='raise')
         super(HtsqlOptions, self).__init__(*args, **kwargs)
+
+    def validator(self, node, cstruct):
+        expr = cstruct.get('expression', None)
+        if expr:
+            htsql = get_htsql()
+            if htsql:
+                try:
+                    with htsql:
+                        parse_htsql(expr)
+                except HtsqlError as exc:
+                    raise ValidationError(
+                        node.get('expression'),
+                        'The HTSQL expression "%s" is invalid: %s' % (
+                            expr,
+                            exc,
+                        ),
+                    )
 
 
 METHOD_OPTION_VALIDATORS = {

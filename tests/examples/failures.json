@@ -58,6 +58,7 @@
   "calculationsets/bad/instrument_version_missing.json": {"instrument.version": "Required"},
   "calculationsets/bad/root_extra.json": {"": "Unrecognized keys in mapping: \"{u'foo': u'bar'}\""},
   "calculationsets/bad/calculations_python_options_expression_bad.json": {"calculations.0": "The Python expression \"field1 ]2\" is invalid: invalid syntax (<string>, line 1)"},
+  "calculationsets/bad/calculations_htsql_options_expression_bad.json": {"calculations.0": "The HTSQL expression \"field1 ]2\" is invalid: cannot find a matching '['\nWhile parsing:\n    field1 ]2\n           ^"},
 
   "forms/bad/audio_source_bad.json": {"pages.0.elements.0.source": "\"foo\" is not a mapping type: Does not implement dict-like functionality."},
   "forms/bad/audio_source_bad_url.json": {"pages.0.elements.0.source.0": "42 is not a string: {'url': ''}"},

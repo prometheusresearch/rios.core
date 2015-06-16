@@ -1,0 +1,17 @@
+{
+  "instrument": {
+    "id": "urn:example:bad:calculations:htsql:options:expression:bad",
+    "version": "1.0"
+  },
+  "calculations": [
+    {
+      "id": "calc1",
+      "type": "integer",
+      "method": "htsql",
+      "options": {
+        "expression": "field1 ]2"
+      }
+    }
+  ]
+}
+

@@ -6,10 +6,13 @@ PRISMH.CORE Change History
 0.3.0 (2015-xx-xx)
 ==================
 
-* Added validation to Calculation Sets to make sure calculation IDs don't
+* Added validation logic to Calculation Sets to make sure calculation IDs don't
   replicate Instrument Field IDs.
-* Added validation to Calculation Sets that will check to see if Python
-  expressions are valid Python syntax.
+* Added validation logic to Calculation Sets that will check to see if Python
+  expressions are valid syntax (only enabled on Python 2).
+* Added validation logic to Calculation Sets that will check to see if HTSQL
+  expressions are valid syntax (only enabled on Python 2 if HTSQL is
+  installed).
 
 
 0.2.1 (2015-06-10)

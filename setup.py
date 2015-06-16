@@ -51,6 +51,7 @@ setup(
             'Sphinx>=1.3,<2',
             'sphinx-autobuild>=0.5,<0.6',
             'tox>=2,<3',
+            'HTSQL>=2.3,<2.4',
         ],
     },
     test_suite='nose.collector',
