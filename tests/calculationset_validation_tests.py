@@ -68,3 +68,15 @@ def test_bad_instrument_version_reference():
     else:
         assert False
 
+
+def test_duped_instrument_field_id():
+    validator = CalculationSet(instrument=INSTRUMENT)
+    calculation = deepcopy(CALCULATION)
+    calculation['calculations'][0]['id'] = 'text_field'
+    try:
+        validator.deserialize(calculation)
+    except ValidationError as exc:
+        pass
+    else:
+        assert False
+

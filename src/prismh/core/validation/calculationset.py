@@ -144,3 +144,21 @@ class CalculationSet(colander.SchemaNode):
             node.get('instrument'),
         )
 
+        calculation_ids = set([
+            calc['id']
+            for calc in cstruct['calculations']
+        ])
+        instrument_ids = set([
+            field['id']
+            for field in self.instrument['record']
+        ])
+        duped = calculation_ids & instrument_ids
+        if duped:
+            raise ValidationError(
+                node.get('calculations'),
+                'Calculation IDs cannot be the same as Instrument Field IDs:'
+                ' %s' % (
+                    ', '.join(duped),
+                ),
+            )
+

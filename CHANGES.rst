@@ -3,6 +3,13 @@ PRISMH.CORE Change History
 **************************
 
 
+0.3.0 (2015-xx-xx)
+==================
+
+* Added validation to Calculation Sets to make sure calculation IDs don't
+  replicate Instrument Field IDs.
+
+
 0.2.1 (2015-06-10)
 ==================
 
