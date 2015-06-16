@@ -40,7 +40,7 @@
   "calculationsets/bad/calculations_method_missing.json": {"calculations.0.method": "Required"},
   "calculationsets/bad/calculations_missing.json": {"calculations": "Required"},
   "calculationsets/bad/calculations_python_options_bad.json": {"calculations.0.options": "\"False\" is not a mapping type: Does not implement dict-like functionality."},
-  "calculationsets/bad/calculations_python_options_both.json": {"calculations.0": "Exactly one option of \"exression\" or \"callable\" must be specified"},
+  "calculationsets/bad/calculations_python_options_both.json": {"calculations.0": "Exactly one option of \"expression\" or \"callable\" must be specified"},
   "calculationsets/bad/calculations_python_options_empty.json": {"calculations.0.options": "At least one key/value pair must be defined"},
   "calculationsets/bad/calculations_python_options_extra.json": {"calculations.0": "Unrecognized keys in mapping: \"{u'foo': u'bar'}\""},
   "calculationsets/bad/calculations_python_options_missing.json": {"calculations.0": "\"None\" is not a mapping type: Does not implement dict-like functionality."},

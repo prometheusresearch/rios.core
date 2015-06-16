@@ -60,7 +60,7 @@ class PythonOptions(colander.SchemaNode):
         if ('expression' in cstruct) == ('callable' in cstruct):
             raise ValidationError(
                 node,
-                'Exactly one option of "exression" or "callable" must be'
+                'Exactly one option of "expression" or "callable" must be'
                 ' specified',
             )
 
