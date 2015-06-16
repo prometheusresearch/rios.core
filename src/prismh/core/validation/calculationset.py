@@ -64,6 +64,19 @@ class PythonOptions(colander.SchemaNode):
                 ' specified',
             )
 
+        expr = cstruct.get('expression', None)
+        if expr:
+            try:
+                compile(expr, '<string>', 'eval')
+            except SyntaxError as exc:
+                raise ValidationError(
+                    node.get('expression'),
+                    'The Python expression "%s" is invalid: %s' % (
+                        expr,
+                        exc,
+                    ),
+                )
+
 
 class HtsqlOptions(colander.SchemaNode):
     expression = Expression()

@@ -8,6 +8,8 @@ PRISMH.CORE Change History
 
 * Added validation to Calculation Sets to make sure calculation IDs don't
   replicate Instrument Field IDs.
+* Added validation to Calculation Sets that will check to see if Python
+  expressions are valid Python syntax.
 
 
 0.2.1 (2015-06-10)
