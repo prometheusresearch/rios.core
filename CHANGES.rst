@@ -3,7 +3,7 @@ PRISMH.CORE Change History
 **************************
 
 
-0.3.0 (2015-xx-xx)
+0.3.0 (2015-06-17)
 ==================
 
 * Added validation logic to Calculation Sets to make sure calculation IDs don't
