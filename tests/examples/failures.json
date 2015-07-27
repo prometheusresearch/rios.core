@@ -117,7 +117,7 @@
   "forms/bad/widget_option_size_bad.json": {"pages.0.elements.0.options.width": "\"huge\" is not one of small, medium, large"},
   "forms/bad/widget_option_addlabel_bad.json": {"pages.0.elements.0.options.addLabel": "\"foo\" is not a mapping type: Does not implement dict-like functionality."},
   "forms/bad/widget_option_autohotkeys_bad.json": {"pages.0.elements.0.options.autoHotkeys": "\"u'foo'\" is not a boolean value"},
-  "forms/bad/widget_option_orientation_bad.json": {"pages.0.elements.0.options.orientation": "\"foo\" is not one of verical, horizontal"},
+  "forms/bad/widget_option_orientation_bad.json": {"pages.0.elements.0.options.orientation": "\"foo\" is not one of vertical, horizontal"},
   "forms/bad/widget_option_hotkeys_bad.json": {"pages.0.elements.0.options.hotkeys": "\"foo\" is not a mapping type: Does not implement dict-like functionality."},
   "forms/bad/widget_option_hotkeys_hotkey_bad.json": {"pages.0.elements.0.options.hotkeys": "\"x\" is not one of 0, 1, 2, 3, 4, 5, 6, 7, 8, 9"},
   "forms/bad/widget_option_hotkeys_empty.json": {"pages.0.elements.0.options.hotkeys": "At least one Hotkey must be defined"},

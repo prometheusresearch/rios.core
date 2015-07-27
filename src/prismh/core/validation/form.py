@@ -99,7 +99,7 @@ WIDGET_SIZES_ALL = (
 
 
 WIDGET_ORIENTATIONS_ALL = (
-    'verical',
+    'vertical',
     'horizontal',
 )
 
