@@ -93,6 +93,15 @@
         {
           "type": "question",
           "options": {
+            "fieldId": "boolean_field",
+            "text": {
+              "en": "This is a boolean question."
+            }
+          }
+        },
+        {
+          "type": "question",
+          "options": {
             "fieldId": "float_field",
             "text": {
               "en": "This is a float question."
@@ -275,15 +284,6 @@
         }
       ]
     }
-  ],
-
-  "unprompted": {
-    "boolean_field": {
-      "action": "calculate",
-      "options": {
-        "calculation": "true()"
-      }
-    }
-  }
+  ]
 }
 

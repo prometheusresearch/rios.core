@@ -1,6 +1,6 @@
 {
   "instrument": {
-    "id": "urn:example:bad:unprompted:calculate:options:bad",
+    "id": "urn:example:bad:event:options:unneeded",
     "version": "1.0"
   },
   "defaultLocalization": "en",
@@ -14,17 +14,20 @@
             "fieldId": "field1",
             "text": {
               "en": "This is a Question?"
-            }
+            },
+            "events": [
+              {
+                "trigger": "true()",
+                "action": "hide",
+                "options": {
+                  "foo": "bar"
+                }
+              }
+            ]
           }
         }
       ]
     }
-  ],
-  "unprompted": {
-    "field2": {
-      "action": "calculate",
-      "options": false
-    }
-  }
+  ]
 }
 

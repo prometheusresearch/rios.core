@@ -1,6 +1,6 @@
 {
   "instrument": {
-    "id": "urn:example:good:event:targets",
+    "id": "urn:example:bad:event:options:extra",
     "version": "1.0"
   },
   "defaultLocalization": "en",
@@ -18,12 +18,13 @@
             "events": [
               {
                 "trigger": "true()",
-                "action": "hide",
-                "targets": [
-                  "foo",
-                  "foo.bar",
-                  "foo.bar.baz"
-                ]
+                "action": "fail",
+                "options": {
+                  "text": {
+                    "en": "You have failed"
+                  },
+                  "foo": "bar"
+                }
               }
             ]
           }

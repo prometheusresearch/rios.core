@@ -68,7 +68,6 @@ EVENT_ACTIONS_ALL = (
     'disable',
     'hideEnumeration',
     'fail',
-    'calculate',
 )
 
 
@@ -250,6 +249,33 @@ class EventTargetList(colander.SequenceSchema):
     validator = colander.Length(min=1)
 
 
+class FailEventOptions(colander.SchemaNode):
+    text = LocalizedString()
+
+    def __init__(self, *args, **kwargs):
+        kwargs['typ'] = colander.Mapping(unknown='raise')
+        super(FailEventOptions, self).__init__(*args, **kwargs)
+
+
+class EnumerationList(colander.SequenceSchema):
+    enumeration = colander.SchemaNode(colander.String())
+    validator = colander.Length(min=1)
+
+
+class HideEnumerationEventOptions(colander.SchemaNode):
+    enumerations = EnumerationList()
+
+    def __init__(self, *args, **kwargs):
+        kwargs['typ'] = colander.Mapping(unknown='raise')
+        super(HideEnumerationEventOptions, self).__init__(*args, **kwargs)
+
+
+EVENT_ACTION_OPTION_VALIDATORS = {
+    'fail': FailEventOptions(),
+    'hideEnumeration': HideEnumerationEventOptions(),
+}
+
+
 class Event(colander.SchemaNode):
     trigger = Expression()
     action = EventAction()
@@ -260,6 +286,21 @@ class Event(colander.SchemaNode):
         kwargs['typ'] = colander.Mapping(unknown='raise')
         super(Event, self).__init__(*args, **kwargs)
 
+    def validator(self, node, cstruct):
+        action = cstruct.get('action', None)
+        validator = EVENT_ACTION_OPTION_VALIDATORS.get(action, None)
+        options = cstruct.get('options', None)
+        if validator:
+            sub_schema(
+                validator,
+                node.get('options'),
+                options,
+            )
+        elif options is not None:
+            raise ValidationError(
+                node.get('options'),
+                '"%s" events do not accept options' % action,
+            )
 
 class EventList(colander.SequenceSchema):
     event = Event()
@@ -378,67 +419,6 @@ class PageList(colander.SequenceSchema):
             )
 
 
-class UnpromptedAction(colander.SchemaNode):
-    schema_type = colander.String
-    validator = colander.OneOf(UNPROMPTED_ACTIONS_ALL)
-
-
-class CalculateUnpromptedOptions(colander.SchemaNode):
-    calculation = Expression()
-
-    def __init__(self, *args, **kwargs):
-        kwargs['typ'] = colander.Mapping(unknown='raise')
-        super(CalculateUnpromptedOptions, self).__init__(*args, **kwargs)
-
-
-UNPROMPTED_ACTION_OPTION_VALIDATORS = {
-    'calculate': CalculateUnpromptedOptions(),
-}
-
-
-class Unprompted(colander.SchemaNode):
-    action = UnpromptedAction()
-    options = Options(missing=colander.drop)
-
-    def __init__(self, *args, **kwargs):
-        kwargs['typ'] = colander.Mapping(unknown='raise')
-        super(Unprompted, self).__init__(*args, **kwargs)
-
-    def validator(self, node, cstruct):
-        action = cstruct.get('action', None)
-        validator = UNPROMPTED_ACTION_OPTION_VALIDATORS.get(action, None)
-        options = cstruct.get('options', None)
-        if validator:
-            sub_schema(
-                validator,
-                node.get('options'),
-                options,
-            )
-        elif options is not None:
-            raise ValidationError(
-                node.get('options'),
-                '"%s" actions do not accept options' % action,
-            )
-
-
-class UnpromptedCollection(colander.SchemaNode):
-    def __init__(self, *args, **kwargs):
-        kwargs['typ'] = colander.Mapping(unknown='preserve')
-        super(UnpromptedCollection, self).__init__(*args, **kwargs)
-
-    def validator(self, node, cstruct):
-        cstruct = cstruct or {}
-        if len(cstruct) == 0:
-            raise ValidationError(
-                node,
-                'At least one key/value pair must be defined',
-            )
-
-        for name, defn in iteritems(cstruct):
-            sub_schema(IdentifierString, node, name)
-            sub_schema(Unprompted, node, defn)
-
-
 class ParameterType(colander.SchemaNode):
     schema_type = colander.String
     validator = colander.OneOf(PARAMETER_TYPES_ALL)
@@ -475,7 +455,6 @@ class Form(colander.SchemaNode):
     defaultLocalization = LanguageTag()
     title = LocalizedString(missing=colander.drop)
     pages = PageList()
-    unprompted = UnpromptedCollection(missing=colander.drop)
     parameters = ParameterCollection(missing=colander.drop)
 
     def __init__(self, instrument=None, *args, **kwargs):

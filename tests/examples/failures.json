@@ -121,6 +121,12 @@
   "forms/bad/widget_option_hotkeys_bad.json": {"pages.0.elements.0.options.hotkeys": "\"foo\" is not a mapping type: Does not implement dict-like functionality."},
   "forms/bad/widget_option_hotkeys_hotkey_bad.json": {"pages.0.elements.0.options.hotkeys": "\"x\" is not one of 0, 1, 2, 3, 4, 5, 6, 7, 8, 9"},
   "forms/bad/widget_option_hotkeys_empty.json": {"pages.0.elements.0.options.hotkeys": "At least one Hotkey must be defined"},
+  "forms/bad/event_action_bad.json": {"pages.0.elements.0.events.0.action": "\"foo\" is not one of hide, disable, hideEnumeration, fail"},
+  "forms/bad/event_options_bad.json": {"pages.0.elements.0.events.0.options": "\"foo\" is not a mapping type: Does not implement dict-like functionality."},
+  "forms/bad/event_options_empty.json": {"pages.0.elements.0.events.0.options": "At least one key/value pair must be defined"},
+  "forms/bad/event_options_extra.json": {"pages.0.elements.0.events.0": "Unrecognized keys in mapping: \"{u'foo': u'bar'}\""},
+  "forms/bad/event_options_missing.json": {"pages.0.elements.0.events.0": "\"None\" is not a mapping type: Does not implement dict-like functionality."},
+  "forms/bad/event_options_unneeded.json": {"pages.0.elements.0.events.0": "\"hide\" events do not accept options"},
 
   "instruments/bad/custom_type_base_bad.json": {"types": "invalid definition, references undefined base type \"TEXT\""},
   "instruments/bad/custom_type_def_bad.json": {"types": "\"text\" is not a mapping type: Does not implement dict-like functionality."},

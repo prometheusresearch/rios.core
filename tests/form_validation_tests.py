@@ -106,23 +106,6 @@ def test_duplicate_field():
         assert False
 
 
-def test_duplicate_unprompted_field():
-    validator = Form(instrument=INSTRUMENT)
-    form = deepcopy(FORM)
-    form['unprompted']['text_field'] = {
-        'action': 'calculate',
-        'options': {
-            'calculation': '"foo"'
-        }
-    }
-    try:
-        validator.deserialize(form)
-    except ValidationError as exc:
-        pass
-    else:
-        assert False
-
-
 def test_unnecessary_enumeration_field():
     validator = Form(instrument=INSTRUMENT)
     form = deepcopy(FORM)

@@ -1,6 +1,6 @@
 {
   "instrument": {
-    "id": "urn:example:bad:unprompted:id:bad",
+    "id": "urn:example:bad:event:action:bad",
     "version": "1.0"
   },
   "defaultLocalization": "en",
@@ -14,19 +14,17 @@
             "fieldId": "field1",
             "text": {
               "en": "This is a Question?"
-            }
+            },
+            "events": [
+              {
+                "trigger": "true()",
+                "action": "foo"
+              }
+            ]
           }
         }
       ]
     }
-  ],
-  "unprompted": {
-    "BAD__ID": {
-      "action": "calculate",
-      "options": {
-        "calculation": "field1 + 2"
-      }
-    }
-  }
+  ]
 }
 

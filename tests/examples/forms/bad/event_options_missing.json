@@ -1,6 +1,6 @@
 {
   "instrument": {
-    "id": "urn:example:bad:unprompted:empty",
+    "id": "urn:example:bad:event:options:missing",
     "version": "1.0"
   },
   "defaultLocalization": "en",
@@ -14,12 +14,17 @@
             "fieldId": "field1",
             "text": {
               "en": "This is a Question?"
-            }
+            },
+            "events": [
+              {
+                "trigger": "true()",
+                "action": "fail"
+              }
+            ]
           }
         }
       ]
     }
-  ],
-  "unprompted": {}
+  ]
 }
 
