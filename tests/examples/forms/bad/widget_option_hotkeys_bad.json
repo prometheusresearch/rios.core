@@ -1,0 +1,30 @@
+{
+  "instrument": {
+    "id": "urn:example:bad:widget:option:hotkeys:bad",
+    "version": "1.0"
+  },
+  "defaultLocalization": "en",
+  "pages": [
+    {
+      "id": "page1",
+      "elements": [
+        {
+          "type": "question",
+          "options": {
+            "fieldId": "field1",
+            "text": {
+              "en": "This is a Question?"
+            },
+            "widget": {
+              "type": "radioGroup",
+              "options": {
+                "hotkeys": "foo"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+

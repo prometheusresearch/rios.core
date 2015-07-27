@@ -51,6 +51,12 @@
             "fieldId": "nullable_field",
             "text": {
               "en": "This Field can be Null"
+            },
+            "widget": {
+              "type": "inputText",
+              "options": {
+                "height": "large"
+              }
             }
           }
         },
@@ -60,6 +66,12 @@
             "fieldId": "text_field",
             "text": {
               "en": "This is a text question."
+            },
+            "widget": {
+              "type": "inputText",
+              "options": {
+                "height": "small"
+              }
             }
           }
         },
@@ -69,6 +81,12 @@
             "fieldId": "integer_field",
             "text": {
               "en": "This is an integer question."
+            },
+            "widget": {
+              "type": "inputNumber",
+              "options": {
+                "width": "large"
+              }
             }
           }
         },
@@ -140,7 +158,16 @@
                   "en": "Bar"
                 }
               }
-            ]
+            ],
+            "widget": {
+              "type": "radioGroup",
+              "options": {
+                "hotkeys": {
+                  "foo": "2",
+                  "bar": "7"
+                }
+              }
+            }
           }
         },
         {
@@ -169,7 +196,13 @@
                   "en": "Bar"
                 }
               }
-            ]
+            ],
+            "widget": {
+              "type": "checkGroup",
+              "options": {
+                "autoHotkeys": true
+              }
+            }
           }
         },
         {
@@ -192,7 +225,15 @@
                   "en": "Sub Field 1"
                 }
               }
-            ]
+            ],
+            "widget": {
+              "type": "recordList",
+              "options": {
+                "removeLabel": {
+                  "en": "Remove this Thing"
+                }
+              }
+            }
           }
         },
         {

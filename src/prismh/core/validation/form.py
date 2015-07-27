@@ -3,6 +3,8 @@
 #
 
 
+import string
+
 import colander
 
 from six import iteritems, iterkeys
@@ -10,7 +12,7 @@ from six import iteritems, iterkeys
 from .common import ValidationError, sub_schema, LanguageTag, \
     LocalizedMapping, IdentifierString, Options, LocalizedString, \
     Descriptor as BaseDescriptor, LocalizationChecker, \
-    validate_instrument_version, CompoundIdentifierString
+    validate_instrument_version, CompoundIdentifierString, StrictBooleanType
 from .instrument import InstrumentReference, get_full_type_definition
 
 
@@ -19,6 +21,8 @@ __all__ = (
     'EVENT_ACTIONS_ALL',
     'UNPROMPTED_ACTIONS_ALL',
     'PARAMETER_TYPES_ALL',
+    'WIDGET_SIZES_ALL',
+    'WIDGET_ORIENTATIONS_ALL',
 
     'Descriptor',
     'DescriptorList',
@@ -80,6 +84,19 @@ PARAMETER_TYPES_ALL = (
 )
 
 
+WIDGET_SIZES_ALL = (
+    'small',
+    'medium',
+    'large',
+)
+
+
+WIDGET_ORIENTATIONS_ALL = (
+    'verical',
+    'horizontal',
+)
+
+
 # pylint: disable=abstract-method
 
 
@@ -123,6 +140,82 @@ class AudioElementOptions(colander.SchemaNode):
         super(AudioElementOptions, self).__init__(*args, **kwargs)
 
 
+class WidgetSize(colander.SchemaNode):
+    schema_type = colander.String
+    validator = colander.OneOf(WIDGET_SIZES_ALL)
+
+
+class WidgetOrientation(colander.SchemaNode):
+    schema_type = colander.String
+    validator = colander.OneOf(WIDGET_ORIENTATIONS_ALL)
+
+
+class TextWidgetOptions(colander.SchemaNode):
+    width = WidgetSize(missing=colander.drop)
+
+    def __init__(self, *args, **kwargs):
+        kwargs['typ'] = colander.Mapping(unknown='ignore')
+        super(TextWidgetOptions, self).__init__(*args, **kwargs)
+
+
+class TextAreaWidgetOptions(TextWidgetOptions):
+    height = WidgetSize(missing=colander.drop)
+
+
+class RecordListWidgetOptions(colander.SchemaNode):
+    addLabel = LocalizedString(missing=colander.drop)
+    removeLabel = LocalizedString(missing=colander.drop)
+
+    def __init__(self, *args, **kwargs):
+        kwargs['typ'] = colander.Mapping(unknown='ignore')
+        super(RecordListWidgetOptions, self).__init__(*args, **kwargs)
+
+
+class Hotkey(colander.SchemaNode):
+    schema_type = colander.String
+    validator = colander.OneOf(string.digits)
+
+
+class HotkeyCollection(colander.SchemaNode):
+    def __init__(self, *args, **kwargs):
+        kwargs['typ'] = colander.Mapping(unknown='preserve')
+        super(HotkeyCollection, self).__init__(*args, **kwargs)
+
+    def validator(self, node, cstruct):
+        cstruct = cstruct or {}
+        if len(cstruct) == 0:
+            raise ValidationError(
+                node,
+                'At least one Hotkey must be defined',
+            )
+
+        for _, hotkey in iteritems(cstruct):
+            sub_schema(Hotkey, node, hotkey)
+
+
+class EnumerationWidgetOptions(colander.SchemaNode):
+    hotkeys = HotkeyCollection(missing=colander.drop)
+    autoHotkeys = colander.SchemaNode(
+        StrictBooleanType(),
+        missing=colander.drop,
+    )
+    orientation = WidgetOrientation(missing=colander.drop)
+
+    def __init__(self, *args, **kwargs):
+        kwargs['typ'] = colander.Mapping(unknown='ignore')
+        super(EnumerationWidgetOptions, self).__init__(*args, **kwargs)
+
+
+WIDGET_TYPE_OPTION_VALIDATORS = {
+    'inputText': TextWidgetOptions(),
+    'inputNumber': TextWidgetOptions(),
+    'textArea': TextAreaWidgetOptions(),
+    'recordList': RecordListWidgetOptions(),
+    'radioGroup': EnumerationWidgetOptions(),
+    'checkGroup': EnumerationWidgetOptions(),
+}
+
+
 class Widget(colander.SchemaNode):
     type = colander.SchemaNode(colander.String())
     options = Options(missing=colander.drop)
@@ -130,6 +223,17 @@ class Widget(colander.SchemaNode):
     def __init__(self, *args, **kwargs):
         kwargs['typ'] = colander.Mapping(unknown='raise')
         super(Widget, self).__init__(*args, **kwargs)
+
+    def validator(self, node, cstruct):
+        widget_type = cstruct.get('type', None)
+        validator = WIDGET_TYPE_OPTION_VALIDATORS.get(widget_type, None)
+        options = cstruct.get('options', None)
+        if validator:
+            sub_schema(
+                validator,
+                node.get('options'),
+                options,
+            )
 
 
 class Expression(colander.SchemaNode):
