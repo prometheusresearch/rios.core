@@ -235,7 +235,7 @@ class Widget(colander.SchemaNode):
         widget_type = cstruct.get('type', None)
         validator = WIDGET_TYPE_OPTION_VALIDATORS.get(widget_type, None)
         options = cstruct.get('options', None)
-        if validator:
+        if validator and options:
             sub_schema(
                 validator,
                 node.get('options'),
