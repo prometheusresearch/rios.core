@@ -535,16 +535,6 @@ class Form(colander.SchemaNode):
                     )
                 else:
                     form_fields.add(field_id)
-        for field_id in iterkeys(cstruct.get('unprompted', {})):
-            if field_id in form_fields:
-                raise ValidationError(
-                    node,
-                    'Field "%s" is addressed by unprompted and a question' % (
-                        field_id,
-                    ),
-                )
-            else:
-                form_fields.add(field_id)
 
         missing = instrument_fields - form_fields
         if missing:
