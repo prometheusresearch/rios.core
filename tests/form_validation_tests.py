@@ -31,6 +31,8 @@ def test_bad_files():
 
 INSTRUMENT = json.load(open(os.path.join(EXAMPLE_FILES, 'instruments/good/all_types.json'), 'r'))
 FORM = json.load(open(os.path.join(EXAMPLE_FILES, 'forms/good/all_types.json'), 'r'))
+MATRIX_INSTRUMENT = json.load(open(os.path.join(EXAMPLE_FILES, 'instruments/good/matrix.json'), 'r'))
+MATRIX_FORM = json.load(open(os.path.join(EXAMPLE_FILES, 'forms/good/matrix.json'), 'r'))
 
 
 def test_good_instrument_validation():
@@ -302,6 +304,18 @@ def test_bad_enumerationset_desc():
     validator = Form(instrument=INSTRUMENT)
     form = deepcopy(FORM)
     form['pages'][1]['elements'][1]['options']['enumerations'][0]['id'] = 'wrong'
+    try:
+        validator.deserialize(form)
+    except ValidationError as exc:
+        pass
+    else:
+        assert False
+
+
+def test_bad_deep_enumeration_desc():
+    validator = Form(instrument=MATRIX_INSTRUMENT)
+    form = deepcopy(MATRIX_FORM)
+    form['pages'][0]['elements'][0]['options']['questions'][0]['enumerations'][0]['id'] = 'wrong'
     try:
         validator.deserialize(form)
     except ValidationError as exc:

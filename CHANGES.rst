@@ -14,6 +14,7 @@ PRISMH.CORE Change History
   by the Instrument.
 * Added validation logic that prevents Form Questions from describing
   enumeration values that aren't allowed for the field.
+* Added validation of Form subfield configurations.
 
 
 0.3.0 (2015-06-17)

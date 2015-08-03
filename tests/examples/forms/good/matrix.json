@@ -1,0 +1,86 @@
+{
+  "instrument": {
+    "id": "urn:example:good:matrix",
+    "version": "1.0"
+  },
+  "defaultLocalization": "en",
+  "pages": [
+    {
+      "id": "page1",
+      "elements": [
+        {
+          "type": "question",
+          "options": {
+            "fieldId": "field1",
+            "text": {
+              "en": "Matrix Question"
+            },
+            "questions": [
+              {
+                "fieldId": "col1",
+                "text": {"en": "Question 1"},
+                "enumerations": [
+                  {
+                    "id": "foo",
+                    "text": {"en": "Foo"}
+                  },
+                  {
+                    "id": "bar",
+                    "text": {"en": "Bar"}
+                  }
+                ]
+              },
+              {
+                "fieldId": "col2",
+                "text": {"en": "Question 2"}
+              },
+              {
+                "fieldId": "col3",
+                "text": {"en": "Question 3"}
+              },
+              {
+                "fieldId": "col4",
+                "text": {"en": "Question 4"}
+              },
+              {
+                "fieldId": "col5",
+                "text": {"en": "Question 5"}
+              },
+              {
+                "fieldId": "col6",
+                "text": {"en": "Question 6"}
+              },
+              {
+                "fieldId": "col7",
+                "text": {"en": "Question 7"}
+              },
+              {
+                "fieldId": "col8",
+                "text": {"en": "Question 8"}
+              }
+            ],
+            "rows": [
+              {
+                "id": "row1",
+                "text": {"en": "Row 1"}
+              },
+              {
+                "id": "row2",
+                "text": {"en": "Row 2"}
+              },
+              {
+                "id": "row3",
+                "text": {"en": "Row 3"}
+              },
+              {
+                "id": "row4",
+                "text": {"en": "Row 4"}
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
+

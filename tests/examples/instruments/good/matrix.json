@@ -10,7 +10,13 @@
         "columns": [
           {
             "id": "col1",
-            "type": "text"
+            "type": {
+              "base": "enumeration",
+              "enumerations": {
+                "foo": {},
+                "bar": {}
+              }
+            }
           },
           {
             "id": "col2",

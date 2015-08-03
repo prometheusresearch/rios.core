@@ -485,7 +485,11 @@ class Form(colander.SchemaNode):
 
         self._check_fields_covered(node, cstruct)
 
-        self._check_type_specifics(node, cstruct)
+        for page in cstruct['pages']:
+            for element in page['elements']:
+                if element['type'] != 'question':
+                    continue
+                self._check_type_specifics(node, element.get('options' ,{}))
 
     def _check_localizations(self, node, cstruct):
         checker = LocalizationChecker(node, cstruct['defaultLocalization'])
@@ -554,55 +558,52 @@ class Form(colander.SchemaNode):
                 )
             )
 
-    def _get_instrument_field(self, name):
-        for field in self.instrument['record']:
+    def _get_instrument_field_type(self, name, record=None):
+        record = record or self.instrument['record']
+        for field in record:
             if field['id'] == name:
-                return field
-
-    def _check_type_specifics(self, node, cstruct):
-        for page in cstruct['pages']:
-            for element in page['elements']:
-                if element['type'] != 'question':
-                    continue
-
-                type_def = get_full_type_definition(
+                return get_full_type_definition(
                     self.instrument,
-                    self._get_instrument_field(
-                        element['options']['fieldId'],
-                    )['type'],
+                    field['type'],
                 )
 
-                if 'enumerations' in element['options']:
-                    if type_def['base'] in ('enumeration', 'enumerationSet'):
-                        described_choices = [
-                            desc['id']
-                            for desc in element['options']['enumerations']
-                        ]
-                        actual_choices = type_def['enumerations'].keys()
-                        for described_choice in described_choices:
-                            if described_choice not in actual_choices:
-                                raise ValidationError(
-                                    node,
-                                    'Field "%s" describes an invalid'
-                                    ' enumeration "%s"' % (
-                                        element['options']['fieldId'],
-                                        described_choice,
-                                    ),
-                                )
+    def _check_type_specifics(self, node, options, record=None):
+        type_def = self._get_instrument_field_type(
+            options['fieldId'],
+            record=record,
+        )
 
-                    else:
+        if 'enumerations' in options:
+            if type_def['base'] in ('enumeration', 'enumerationSet'):
+                described_choices = [
+                    desc['id']
+                    for desc in options['enumerations']
+                ]
+                actual_choices = type_def['enumerations'].keys()
+                for described_choice in described_choices:
+                    if described_choice not in actual_choices:
                         raise ValidationError(
                             node,
-                            'Field "%s" cannot have an enumerations'
-                            ' configuration' % (
-                                element['options']['fieldId'],
+                            'Field "%s" describes an invalid'
+                            ' enumeration "%s"' % (
+                                options['fieldId'],
+                                described_choice,
                             ),
                         )
 
-                self._check_matrix(node, type_def, element)
-                self._check_subquestions(node, type_def, element)
+            else:
+                raise ValidationError(
+                    node,
+                    'Field "%s" cannot have an enumerations'
+                    ' configuration' % (
+                        options['fieldId'],
+                    ),
+                )
 
-    def _check_matrix(self, node, type_def, element):
+        self._check_matrix(node, type_def, options)
+        self._check_subquestions(node, type_def, options)
+
+    def _check_matrix(self, node, type_def, options):
         if type_def['base'] == 'matrix':
             instrument_rows = set([
                 row['id']
@@ -610,14 +611,14 @@ class Form(colander.SchemaNode):
             ])
 
             form_rows = set()
-            for row in element['options'].get('rows', []):
+            for row in options.get('rows', []):
                 if row['id'] in form_rows:
                     raise ValidationError(
                         node,
                         'Row %s is addressed by more than one descriptor in'
                         ' %s' % (
                             row['id'],
-                            element['options']['fieldId'],
+                            options['fieldId'],
                         ),
                     )
                 else:
@@ -628,7 +629,7 @@ class Form(colander.SchemaNode):
                 raise ValidationError(
                     node,
                     'There are missing rows in %s: %s' % (
-                        element['options']['fieldId'],
+                        options['fieldId'],
                         ', '.join(missing),
                     )
                 )
@@ -638,37 +639,35 @@ class Form(colander.SchemaNode):
                 raise ValidationError(
                     node,
                     'There are extra rows referenced by %s: %s' % (
-                        element['options']['fieldId'],
+                        options['fieldId'],
                         ', '.join(extra),
                     )
                 )
 
-        elif 'rows' in element['options']:
+        elif 'rows' in options:
             raise ValidationError(
                 node,
                 'Field "%s" cannot have a rows configuration' % (
-                    element['options']['fieldId'],
+                    options['fieldId'],
                 ),
             )
 
-    def _check_subquestions(self, node, type_def, element):
+    def _check_subquestions(self, node, type_def, options):
         if type_def['base'] in ('matrix', 'recordList'):
-            instrument_fields = set([
-                field['id']
-                for field in type_def[
-                    'columns' if type_def['base'] == 'matrix' else 'record'
-                ]
-            ])
+            record = type_def[
+                'columns' if type_def['base'] == 'matrix' else 'record'
+            ]
+            instrument_fields = set([ field['id'] for field in record])
 
             form_fields = set()
-            for subfield in element['options'].get('questions', []):
+            for subfield in options.get('questions', []):
                 if subfield['fieldId'] in form_fields:
                     raise ValidationError(
                         node,
                         'Subfield %s is addressed by more than one question in'
                         ' %s' % (
                             subfield['fieldId'],
-                            element['options']['fieldId'],
+                            options['fieldId'],
                         ),
                     )
                 else:
@@ -679,7 +678,7 @@ class Form(colander.SchemaNode):
                 raise ValidationError(
                     node,
                     'There are missing subfields in %s: %s' % (
-                        element['options']['fieldId'],
+                        options['fieldId'],
                         ', '.join(missing),
                     )
                 )
@@ -689,16 +688,19 @@ class Form(colander.SchemaNode):
                 raise ValidationError(
                     node,
                     'There are extra subfields referenced by %s: %s' % (
-                        element['options']['fieldId'],
+                        options['fieldId'],
                         ', '.join(extra),
                     )
                 )
 
-        elif 'questions' in element['options']:
+            for question in options['questions']:
+                self._check_type_specifics(node, question, record=record)
+
+        elif 'questions' in options:
             raise ValidationError(
                 node,
                 'Field "%s" cannot have a questions configuration' % (
-                    element['options']['fieldId'],
+                    options['fieldId'],
                 ),
             )
 
