@@ -255,3 +255,27 @@ def test_bad_value_types():
     for field_id, bad_value, sub_field_id in BAD_VALUE_TESTS:
         yield check_bad_value_type, field_id, bad_value, sub_field_id
 
+
+def test_bad_enumeration_choice():
+    validator = Assessment(instrument=INSTRUMENT)
+    assessment = deepcopy(ASSESSMENT)
+    assessment['values']['enumeration_field']['value'] = 'wrong'
+    try:
+        validator.deserialize(assessment)
+    except ValidationError as exc:
+        pass
+    else:
+        assert False
+
+
+def test_bad_enumerationset_choice():
+    validator = Assessment(instrument=INSTRUMENT)
+    assessment = deepcopy(ASSESSMENT)
+    assessment['values']['enumerationset_field']['value'] = ['wrong']
+    try:
+        validator.deserialize(assessment)
+    except ValidationError as exc:
+        pass
+    else:
+        assert False
+

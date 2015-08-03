@@ -252,22 +252,37 @@ class Assessment(colander.SchemaNode):
         if value is None:
             return
 
-        error = ValidationError(
+        wrong_type_error = ValidationError(
             node,
             'Value for "%s" is not of the correct type' % (
                 field['id'],
             ),
         )
 
+        bad_choice_error = ValidationError(
+            node,
+            'Value for "%s" is not an accepted enumeration' % (
+                field['id'],
+            ),
+        )
+
         # Basic checks
         if not VALUE_TYPE_CHECKS[type_def['base']](value):
-            raise error
+            raise wrong_type_error
 
         # Deeper checks
         if type_def['base'] == 'enumerationSet':
+            choices = type_def['enumerations'].keys()
             for subval in value:
                 if not isinstance(subval, string_types):
-                    raise error
+                    raise wrong_type_error
+                if subval not in choices:
+                    raise bad_choice_error
+        if type_def['base'] == 'enumeration':
+            choices = type_def['enumerations'].keys()
+            if value not in choices:
+                    raise bad_choice_error
+
 
     def _check_metafields(self, node, value, field):
         explanation = field.get('explanation', 'none')

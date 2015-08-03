@@ -10,6 +10,8 @@ PRISMH.CORE Change History
 * Added validation logic for the event options.
 * Removed support for Unprompted Fields and Calculate Events in Forms to match
   changes made to the specification.
+* Added validation logic that ensures Assessment enumeration values are allowed
+  by the Instrument.
 
 
 0.3.0 (2015-06-17)
