@@ -572,15 +572,32 @@ class Form(colander.SchemaNode):
                     )['type'],
                 )
 
-                if type_def['base'] not in ('enumeration', 'enumerationSet') \
-                        and 'enumerations' in element['options']:
-                    raise ValidationError(
-                        node,
-                        'Field "%s" cannot have an enumerations'
-                        ' configuration' % (
-                            element['options']['fieldId'],
-                        ),
-                    )
+                if 'enumerations' in element['options']:
+                    if type_def['base'] in ('enumeration', 'enumerationSet'):
+                        described_choices = [
+                            desc['id']
+                            for desc in element['options']['enumerations']
+                        ]
+                        actual_choices = type_def['enumerations'].keys()
+                        for described_choice in described_choices:
+                            if described_choice not in actual_choices:
+                                raise ValidationError(
+                                    node,
+                                    'Field "%s" describes an invalid'
+                                    ' enumeration "%s"' % (
+                                        element['options']['fieldId'],
+                                        described_choice,
+                                    ),
+                                )
+
+                    else:
+                        raise ValidationError(
+                            node,
+                            'Field "%s" cannot have an enumerations'
+                            ' configuration' % (
+                                element['options']['fieldId'],
+                            ),
+                        )
 
                 self._check_matrix(node, type_def, element)
                 self._check_subquestions(node, type_def, element)

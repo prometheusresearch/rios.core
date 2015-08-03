@@ -285,3 +285,27 @@ def test_unnecessary_question():
     else:
         assert False
 
+
+def test_bad_enumeration_desc():
+    validator = Form(instrument=INSTRUMENT)
+    form = deepcopy(FORM)
+    form['pages'][1]['elements'][0]['options']['enumerations'][0]['id'] = 'wrong'
+    try:
+        validator.deserialize(form)
+    except ValidationError as exc:
+        pass
+    else:
+        assert False
+
+
+def test_bad_enumerationset_desc():
+    validator = Form(instrument=INSTRUMENT)
+    form = deepcopy(FORM)
+    form['pages'][1]['elements'][1]['options']['enumerations'][0]['id'] = 'wrong'
+    try:
+        validator.deserialize(form)
+    except ValidationError as exc:
+        pass
+    else:
+        assert False
+
