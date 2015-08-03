@@ -272,14 +272,14 @@ class Assessment(colander.SchemaNode):
 
         # Deeper checks
         if type_def['base'] == 'enumerationSet':
-            choices = type_def['enumerations'].keys()
+            choices = list(type_def['enumerations'].keys())
             for subval in value:
                 if not isinstance(subval, string_types):
                     raise wrong_type_error
                 if subval not in choices:
                     raise bad_choice_error
         if type_def['base'] == 'enumeration':
-            choices = type_def['enumerations'].keys()
+            choices = list(type_def['enumerations'].keys())
             if value not in choices:
                     raise bad_choice_error
 

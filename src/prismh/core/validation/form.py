@@ -579,7 +579,7 @@ class Form(colander.SchemaNode):
                     desc['id']
                     for desc in options['enumerations']
                 ]
-                actual_choices = type_def['enumerations'].keys()
+                actual_choices = list(type_def['enumerations'].keys())
                 for described_choice in described_choices:
                     if described_choice not in actual_choices:
                         raise ValidationError(
