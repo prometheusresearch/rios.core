@@ -42,7 +42,6 @@ __all__ = (
 # pylint: disable=abstract-method
 
 
-
 BASE_IDENTIFIER_RESTR = r'[a-z](?:[a-z0-9]|[_](?![_]))*[a-z0-9]'
 RE_IDENTIFIER = re.compile(r'^%s$' % BASE_IDENTIFIER_RESTR)
 RE_COMPOUND_IDENTIFIER = re.compile(

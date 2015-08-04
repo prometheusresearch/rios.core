@@ -281,8 +281,7 @@ class Assessment(colander.SchemaNode):
         if type_def['base'] == 'enumeration':
             choices = list(type_def['enumerations'].keys())
             if value not in choices:
-                    raise bad_choice_error
-
+                raise bad_choice_error
 
     def _check_metafields(self, node, value, field):
         explanation = field.get('explanation', 'none')

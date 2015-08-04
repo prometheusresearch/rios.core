@@ -7,13 +7,13 @@ import string
 
 import colander
 
-from six import iteritems, iterkeys
+from six import iteritems
 
 from .common import ValidationError, sub_schema, LanguageTag, \
     LocalizedMapping, IdentifierString, Options, LocalizedString, \
     Descriptor as BaseDescriptor, LocalizationChecker, \
     validate_instrument_version, CompoundIdentifierString, StrictBooleanType, \
-    guard, guard_sequence
+    guard_sequence
 from .instrument import InstrumentReference, get_full_type_definition
 
 
@@ -494,7 +494,7 @@ class Form(colander.SchemaNode):
                             continue
                         self._check_type_specifics(
                             onode.get('options'),
-                            element.get('options' ,{}),
+                            element.get('options', {}),
                         )
 
     def _check_localizations(self, node, cstruct):
@@ -542,7 +542,7 @@ class Form(colander.SchemaNode):
                     if element['type'] != 'question':
                         continue
 
-                    with guard_sequence(enode, 'element', eidx) as onode:
+                    with guard_sequence(enode, 'element', eidx):
                         field_id = element['options']['fieldId']
                         if field_id in form_fields:
                             raise ValidationError(
@@ -672,7 +672,7 @@ class Form(colander.SchemaNode):
             record = type_def[
                 'columns' if type_def['base'] == 'matrix' else 'record'
             ]
-            instrument_fields = set([ field['id'] for field in record])
+            instrument_fields = set([field['id'] for field in record])
 
             form_fields = set()
             for subfield in options.get('questions', []):
