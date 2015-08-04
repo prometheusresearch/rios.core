@@ -13,6 +13,7 @@ __all__ = (
     'FAILURES',
     'check_good_validation',
     'check_bad_validation',
+    'assert_validation_error',
 )
 
 
@@ -48,7 +49,7 @@ def check_bad_validation(validator, filename):
                         key_expected = key_expected.replace("u'", "'")
                     assert key_expected == key_actual, 'Expected "%s" to have "%s", got "%s"' % (key, key_expected, key_actual)
                 else:
-                    assert False, 'Expected failure for "%s"' % (key,)
+                    assert False, 'Expected failure for %s: %s' % (key, exc)
             if actual:
                 assert False, 'Got unexpected failures: "%s"' % (actual,)
 
@@ -57,4 +58,15 @@ def check_bad_validation(validator, filename):
             if filename in FAILURE_EXCEPTIONS['PY3']:
                 return
         assert False, '%s did not fail validation' % filename
+
+
+def assert_validation_error(exc, expected):
+    actual = exc.asdict()
+    if actual != expected:
+        raise AssertionError(
+            'Expected %r but got %r' % (
+                expected,
+                actual,
+            )
+        )
 

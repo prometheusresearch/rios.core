@@ -12,7 +12,8 @@ from six import iteritems, iterkeys
 from .common import ValidationError, sub_schema, LanguageTag, \
     LocalizedMapping, IdentifierString, Options, LocalizedString, \
     Descriptor as BaseDescriptor, LocalizationChecker, \
-    validate_instrument_version, CompoundIdentifierString, StrictBooleanType
+    validate_instrument_version, CompoundIdentifierString, StrictBooleanType, \
+    guard, guard_sequence
 from .instrument import InstrumentReference, get_full_type_definition
 
 
@@ -485,20 +486,30 @@ class Form(colander.SchemaNode):
 
         self._check_fields_covered(node, cstruct)
 
-        for page in cstruct['pages']:
-            for element in page['elements']:
-                if element['type'] != 'question':
-                    continue
-                self._check_type_specifics(node, element.get('options' ,{}))
+        for pidx, page in enumerate(cstruct['pages']):
+            with guard_sequence(node, 'page', pidx) as enode:
+                for eidx, element in enumerate(page['elements']):
+                    with guard_sequence(enode, 'element', eidx) as onode:
+                        if element['type'] != 'question':
+                            continue
+                        self._check_type_specifics(
+                            onode.get('options'),
+                            element.get('options' ,{}),
+                        )
 
     def _check_localizations(self, node, cstruct):
         checker = LocalizationChecker(node, cstruct['defaultLocalization'])
+        checker.ensure(cstruct, 'title', node=node.get('title'))
 
-        def _ensure_element(element):
+        def _ensure_element(element, subnode):
             if 'options' not in element:
                 return
             options = element['options']
 
+            checker = LocalizationChecker(
+                subnode.get('options'),
+                cstruct['defaultLocalization'],
+            )
             checker.ensure(options, 'text', scope='Element Text')
             checker.ensure(options, 'help', scope='Element Help')
             checker.ensure(options, 'error', scope='Element Error')
@@ -506,16 +517,17 @@ class Form(colander.SchemaNode):
             checker.ensure(options, 'source', scope='Audio Source')
 
             for question in options.get('questions', []):
-                _ensure_element(question)
+                _ensure_element(question, subnode)
             for enumeration in options.get('enumerations', []):
                 checker.ensure_descriptor(enumeration, scope='Enumeration')
             for row in options.get('rows', []):
                 checker.ensure_descriptor(row, scope='Matrix Row')
 
-        checker.ensure(cstruct, 'title', node=node.get('title'))
-        for page in cstruct['pages']:
-            for element in page['elements']:
-                _ensure_element(element)
+        for pidx, page in enumerate(cstruct['pages']):
+            with guard_sequence(node, 'page', pidx) as enode:
+                for eidx, element in enumerate(page['elements']):
+                    with guard_sequence(enode, 'element', eidx) as onode:
+                        _ensure_element(element, onode)
 
     def _check_fields_covered(self, node, cstruct):
         instrument_fields = set([
@@ -524,21 +536,24 @@ class Form(colander.SchemaNode):
         ])
 
         form_fields = set()
-        for page in cstruct['pages']:
-            for element in page['elements']:
-                if element['type'] != 'question':
-                    continue
+        for pidx, page in enumerate(cstruct['pages']):
+            with guard_sequence(node, 'page', pidx) as enode:
+                for eidx, element in enumerate(page['elements']):
+                    if element['type'] != 'question':
+                        continue
 
-                field_id = element['options']['fieldId']
-                if field_id in form_fields:
-                    raise ValidationError(
-                        node,
-                        'Field "%s" is addressed by more than one question' % (
-                            field_id,
-                        )
-                    )
-                else:
-                    form_fields.add(field_id)
+                    with guard_sequence(enode, 'element', eidx) as onode:
+                        field_id = element['options']['fieldId']
+                        if field_id in form_fields:
+                            raise ValidationError(
+                                node,
+                                'Field "%s" is addressed by more than one'
+                                ' question' % (
+                                    field_id,
+                                )
+                            )
+                        else:
+                            form_fields.add(field_id)
 
         missing = instrument_fields - form_fields
         if missing:

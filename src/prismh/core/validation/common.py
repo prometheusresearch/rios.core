@@ -6,6 +6,7 @@
 import re
 
 from collections import Callable
+from contextlib import contextmanager
 
 import colander
 
@@ -16,6 +17,8 @@ __all__ = (
     'RE_IDENTIFIER',
 
     'ValidationError',
+    'guard',
+    'guard_sequence',
 
     'IdentifierString',
     'CompoundIdentifierString',
@@ -39,7 +42,6 @@ __all__ = (
 # pylint: disable=abstract-method
 
 
-ValidationError = colander.Invalid
 
 BASE_IDENTIFIER_RESTR = r'[a-z](?:[a-z0-9]|[_](?![_]))*[a-z0-9]'
 RE_IDENTIFIER = re.compile(r'^%s$' % BASE_IDENTIFIER_RESTR)
@@ -49,6 +51,28 @@ RE_COMPOUND_IDENTIFIER = re.compile(
         BASE_IDENTIFIER_RESTR,
     )
 )
+
+
+ValidationError = colander.Invalid
+
+
+@contextmanager
+def guard(node, index=None):
+    try:
+        yield node
+    except ValidationError as exc:
+        new_exc = ValidationError(node)
+        new_exc.add(exc, index)
+        raise new_exc
+
+
+@contextmanager
+def guard_sequence(node, name, index):
+    node = node.get(name + 's')
+    with guard(node, index):
+        subnode = node.get(name)
+        with guard(subnode):
+            yield subnode
 
 
 class IdentifierString(colander.SchemaNode):

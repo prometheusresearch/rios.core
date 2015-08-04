@@ -11,7 +11,7 @@ from copy import deepcopy
 from prismh.core.validation.calculationset import CalculationSet, \
     ValidationError
 
-from utils import EXAMPLE_FILES, check_good_validation, check_bad_validation
+from utils import *
 
 
 GOOD_CALCULATION_FILES = os.path.join(EXAMPLE_FILES, 'calculationsets/good')
@@ -52,7 +52,10 @@ def test_bad_instrument_id_reference():
     try:
         validator.deserialize(calculation)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'instrument': 'Incorrect Instrument version referenced'},
+        )
     else:
         assert False
 
@@ -64,7 +67,10 @@ def test_bad_instrument_version_reference():
     try:
         validator.deserialize(calculation)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'instrument': 'Incorrect Instrument version referenced'},
+        )
     else:
         assert False
 
@@ -76,7 +82,10 @@ def test_duped_instrument_field_id():
     try:
         validator.deserialize(calculation)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'calculations': 'Calculation IDs cannot be the same as Instrument Field IDs: text_field'},
+        )
     else:
         assert False
 

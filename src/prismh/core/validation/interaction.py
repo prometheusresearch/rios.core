@@ -7,7 +7,7 @@ import colander
 
 from .common import ValidationError, sub_schema, LanguageTag, \
     IdentifierString, Options, LocalizedString, DescriptorList, \
-    LocalizationChecker, validate_instrument_version
+    LocalizationChecker, validate_instrument_version, guard, guard_sequence
 from .instrument import InstrumentReference, TYPES_COMPLEX, \
     get_full_type_definition
 
@@ -144,27 +144,36 @@ class Interaction(colander.SchemaNode):
         self._check_type_specifics(node, cstruct)
 
     def _check_localizations(self, node, cstruct):
-        checker = LocalizationChecker(node, cstruct['defaultLocalization'])
+        with guard(node.get('defaultTimeout')) as dtnode:
+            timeouts = cstruct.get('defaultTimeout', {})
+            for level in ('warn', 'abort'):
+                if level in timeouts:
+                    checker = LocalizationChecker(
+                        dtnode.get(level),
+                        cstruct['defaultLocalization'],
+                    )
+                    checker.ensure(
+                        timeouts[level],
+                        'text',
+                        scope='Timeout %s Text' % level,
+                    )
 
-        timeouts = cstruct.get('defaultTimeout', {})
-        for level in ('warn', 'abort'):
-            if level in timeouts:
-                checker.ensure(
-                    timeouts[level],
-                    'text',
-                    scope='Timeout %s Text' % level,
+        for sidx, step in enumerate(cstruct['steps']):
+            with guard_sequence(node, 'step', sidx) as snode:
+                if 'options' not in step:  # pragma: no cover
+                    return
+
+                checker = LocalizationChecker(
+                    snode.get('options'),
+                    cstruct['defaultLocalization'],
                 )
+                options = step['options']
 
-        for step in cstruct['steps']:
-            if 'options' not in step:  # pragma: no cover
-                return
-            options = step['options']
+                checker.ensure(options, 'text', scope='Step Text')
+                checker.ensure(options, 'error', scope='Step Error')
 
-            checker.ensure(options, 'text', scope='Step Text')
-            checker.ensure(options, 'error', scope='Step Error')
-
-            for enumeration in options.get('enumerations', []):
-                checker.ensure_descriptor(enumeration, scope='Enumeration')
+                for enumeration in options.get('enumerations', []):
+                    checker.ensure_descriptor(enumeration, scope='Enumeration')
 
     def _check_fields_covered(self, node, cstruct):
         instrument_fields = set([
@@ -212,29 +221,32 @@ class Interaction(colander.SchemaNode):
                 return field
 
     def _check_type_specifics(self, node, cstruct):
-        for step in cstruct['steps']:
-            if step['type'] != 'question':
-                continue
+        for sidx, step in enumerate(cstruct['steps']):
+            with guard_sequence(node, 'step', sidx) as snode:
+                if step['type'] != 'question':
+                    continue
 
-            type_def = get_full_type_definition(
-                self.instrument,
-                self._get_instrument_field(
-                    step['options']['fieldId'],
-                )['type'],
-            )
-
-            if type_def['base'] in TYPES_COMPLEX:
-                raise ValidationError(
-                    node.get('steps'),
-                    'Complex Instrument Types are not allowed in Interactions',
-                )
-
-            if type_def['base'] not in ('enumeration', 'enumerationSet') \
-                    and 'enumerations' in step['options']:
-                raise ValidationError(
-                    node.get('steps'),
-                    'Field "%s" cannot have an enumerations configuration' % (
+                type_def = get_full_type_definition(
+                    self.instrument,
+                    self._get_instrument_field(
                         step['options']['fieldId'],
-                    ),
+                    )['type'],
                 )
+
+                if type_def['base'] in TYPES_COMPLEX:
+                    raise ValidationError(
+                        snode.get('options'),
+                        'Complex Instrument Types are not allowed in'
+                        ' Interactions',
+                    )
+
+                if type_def['base'] not in ('enumeration', 'enumerationSet') \
+                        and 'enumerations' in step['options']:
+                    raise ValidationError(
+                        snode.get('options'),
+                        'Field "%s" cannot have an enumerations'
+                        ' configuration' % (
+                            step['options']['fieldId'],
+                        ),
+                    )
 

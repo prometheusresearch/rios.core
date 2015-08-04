@@ -10,7 +10,7 @@ from copy import deepcopy
 
 from prismh.core.validation.assessment import Assessment, ValidationError
 
-from utils import EXAMPLE_FILES, check_good_validation, check_bad_validation
+from utils import *
 
 
 GOOD_ASSESSMENT_FILES = os.path.join(EXAMPLE_FILES, 'assessments/good')
@@ -48,7 +48,10 @@ def test_bad_instrument_id_reference():
     try:
         validator.deserialize(assessment)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'instrument': 'Incorrect Instrument version referenced'},
+        )
     else:
         assert False
 
@@ -60,7 +63,10 @@ def test_bad_instrument_version_reference():
     try:
         validator.deserialize(assessment)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'instrument': 'Incorrect Instrument version referenced'},
+        )
     else:
         assert False
 
@@ -72,7 +78,10 @@ def test_missing_field():
     try:
         validator.deserialize(assessment)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'values': 'No value exists for field ID "text_field"'},
+        )
     else:
         assert False
 
@@ -86,7 +95,10 @@ def test_extra_field():
     try:
         validator.deserialize(assessment)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'values': 'Unknown field IDs found: extra_field'},
+        )
     else:
         assert False
 
@@ -98,7 +110,10 @@ def test_missing_recordlist_field():
     try:
         validator.deserialize(assessment)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'values': 'No value exists for field ID "subfield1"'},
+        )
     else:
         assert False
 
@@ -110,7 +125,10 @@ def test_missing_matrix_row():
     try:
         validator.deserialize(assessment)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'values': 'Missing values for row ID "row2"'},
+        )
     else:
         assert False
 
@@ -122,7 +140,10 @@ def test_missing_matrix_column():
     try:
         validator.deserialize(assessment)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'values': 'No value exists for field ID "col2"'},
+        )
     else:
         assert False
 
@@ -141,7 +162,10 @@ def test_extra_row():
     try:
         validator.deserialize(assessment)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'values': 'Unknown row IDs found: extra_row'},
+        )
     else:
         assert False
 
@@ -153,7 +177,10 @@ def test_required_value():
     try:
         validator.deserialize(assessment)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'values': 'No value present for required field ID "boolean_field"'},
+        )
     else:
         assert False
 
@@ -165,7 +192,10 @@ def test_undesired_explanation():
     try:
         validator.deserialize(assessment)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'values': 'Explanation present where not allowed in field ID "float_field"'},
+        )
     else:
         assert False
 
@@ -177,7 +207,10 @@ def test_required_explanation():
     try:
         validator.deserialize(assessment)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'values': 'Explanation missing for field ID "integer_field"'},
+        )
     else:
         assert False
 
@@ -189,7 +222,10 @@ def test_undesired_annotation():
     try:
         validator.deserialize(assessment)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'values': 'Annotation present where not allowed'},
+        )
     else:
         assert False
 
@@ -201,7 +237,10 @@ def test_undesired_annotation2():
     try:
         validator.deserialize(assessment)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'values': 'Annotation provided for non-empty value'},
+        )
     else:
         assert False
 
@@ -213,7 +252,10 @@ def test_required_annotation():
     try:
         validator.deserialize(assessment)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'values': 'Annotation missing for field ID "float_field"'},
+        )
     else:
         assert False
 
@@ -263,7 +305,10 @@ def test_bad_enumeration_choice():
     try:
         validator.deserialize(assessment)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'values': 'Value for "enumeration_field" is not an accepted enumeration'},
+        )
     else:
         assert False
 
@@ -275,7 +320,10 @@ def test_bad_enumerationset_choice():
     try:
         validator.deserialize(assessment)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'values': 'Value for "enumerationset_field" is not an accepted enumeration'},
+        )
     else:
         assert False
 

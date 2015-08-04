@@ -10,7 +10,7 @@ from copy import deepcopy
 
 from prismh.core.validation.form import Form, ValidationError
 
-from utils import EXAMPLE_FILES, check_good_validation, check_bad_validation
+from utils import *
 
 
 GOOD_FORM_FILES = os.path.join(EXAMPLE_FILES, 'forms/good')
@@ -47,7 +47,10 @@ def test_bad_instrument_id_reference():
     try:
         validator.deserialize(form)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'instrument': 'Incorrect Instrument version referenced'},
+        )
     else:
         assert False
 
@@ -59,7 +62,10 @@ def test_bad_instrument_version_reference():
     try:
         validator.deserialize(form)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'instrument': 'Incorrect Instrument version referenced'},
+        )
     else:
         assert False
 
@@ -71,7 +77,10 @@ def test_missing_field():
     try:
         validator.deserialize(form)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'': 'There are Instrument fields which are missing: datetime_field'},
+        )
     else:
         assert False
 
@@ -91,7 +100,10 @@ def test_extra_field():
     try:
         validator.deserialize(form)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'': 'There are extra fields referenced by questions: extra_field'},
+        )
     else:
         assert False
 
@@ -103,7 +115,10 @@ def test_duplicate_field():
     try:
         validator.deserialize(form)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'pages.0.elements.12': 'Field "datetime_field" is addressed by more than one question'},
+        )
     else:
         assert False
 
@@ -122,7 +137,10 @@ def test_unnecessary_enumeration_field():
     try:
         validator.deserialize(form)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'pages.0.elements.11.options': 'Field "datetime_field" cannot have an enumerations configuration'},
+        )
     else:
         assert False
 
@@ -134,7 +152,10 @@ def test_missing_row():
     try:
         validator.deserialize(form)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'pages.1.elements.3.options': 'There are missing rows in matrix_field: row2'},
+        )
     else:
         assert False
 
@@ -146,7 +167,10 @@ def test_duplicate_row():
     try:
         validator.deserialize(form)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'pages.1.elements.3.options': 'Row row1 is addressed by more than one descriptor in matrix_field'},
+        )
     else:
         assert False
 
@@ -163,7 +187,10 @@ def test_extra_row():
     try:
         validator.deserialize(form)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'pages.1.elements.3.options': 'There are extra rows referenced by matrix_field: extra'},
+        )
     else:
         assert False
 
@@ -182,7 +209,10 @@ def test_unnecessary_row():
     try:
         validator.deserialize(form)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'pages.0.elements.11.options': 'Field "datetime_field" cannot have a rows configuration'},
+        )
     else:
         assert False
 
@@ -194,7 +224,10 @@ def test_missing_column():
     try:
         validator.deserialize(form)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'pages.1.elements.3.options': 'There are missing subfields in matrix_field: col1'},
+        )
     else:
         assert False
 
@@ -206,7 +239,10 @@ def test_duplicate_column():
     try:
         validator.deserialize(form)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'pages.1.elements.3.options': 'Subfield col1 is addressed by more than one question in matrix_field'},
+        )
     else:
         assert False
 
@@ -223,7 +259,10 @@ def test_extra_column():
     try:
         validator.deserialize(form)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'pages.1.elements.3.options': 'There are extra subfields referenced by matrix_field: extra'},
+        )
     else:
         assert False
 
@@ -235,7 +274,10 @@ def test_missing_question():
     try:
         validator.deserialize(form)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'pages.1.elements.2.options': 'There are missing subfields in recordlist_field: subfield1'},
+        )
     else:
         assert False
 
@@ -243,11 +285,14 @@ def test_missing_question():
 def test_duplicate_question():
     validator = Form(instrument=INSTRUMENT)
     form = deepcopy(FORM)
-    form['pages'][1]['elements'][2]['options']['questions'][0]['fieldId'] = 'col1'
+    form['pages'][1]['elements'][2]['options']['questions'][0]['fieldId'] = 'subfield1'
     try:
         validator.deserialize(form)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'pages.1.elements.2.options': 'Subfield subfield1 is addressed by more than one question in recordlist_field'},
+        )
     else:
         assert False
 
@@ -264,7 +309,10 @@ def test_extra_question():
     try:
         validator.deserialize(form)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'pages.1.elements.2.options': 'There are extra subfields referenced by recordlist_field: extra'},
+        )
     else:
         assert False
 
@@ -283,7 +331,10 @@ def test_unnecessary_question():
     try:
         validator.deserialize(form)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'pages.0.elements.11.options': 'Field "datetime_field" cannot have a questions configuration'},
+        )
     else:
         assert False
 
@@ -295,7 +346,10 @@ def test_bad_enumeration_desc():
     try:
         validator.deserialize(form)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'pages.1.elements.0.options': 'Field "enumeration_field" describes an invalid enumeration "wrong"'},
+        )
     else:
         assert False
 
@@ -307,7 +361,10 @@ def test_bad_enumerationset_desc():
     try:
         validator.deserialize(form)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'pages.1.elements.1.options': 'Field "enumerationset_field" describes an invalid enumeration "wrong"'},
+        )
     else:
         assert False
 
@@ -319,7 +376,10 @@ def test_bad_deep_enumeration_desc():
     try:
         validator.deserialize(form)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'pages.0.elements.0.options': 'Field "col1" describes an invalid enumeration "wrong"'},
+        )
     else:
         assert False
 

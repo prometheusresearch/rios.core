@@ -110,8 +110,8 @@
   "forms/bad/unprompted_calculate_options_extra.json": {"unprompted": "Unrecognized keys in mapping: \"{u'foo': u'bar'}\""},
   "forms/bad/unprompted_empty.json": {"unprompted": "At least one key/value pair must be defined"},
   "forms/bad/unprompted_id_bad.json": {"unprompted": "String does not match expected pattern"},
-  "forms/bad/question_enumeration_text_missing_locale.json": {"": "Enumeration Text Missing default localization"},
-  "forms/bad/text_text_missing_locale.json": {"": "Element Text Missing default localization"},
+  "forms/bad/question_enumeration_text_missing_locale.json": {"pages.0.elements.0.options": "Enumeration Text Missing default localization"},
+  "forms/bad/text_text_missing_locale.json": {"pages.0.elements.0.options": "Element Text Missing default localization"},
   "forms/bad/title_missing_locale.json": {"title": "Missing default localization"},
   "forms/bad/event_target_bad.json": {"pages.0.elements.0.events.0.targets.0": "String does not match expected pattern"},
   "forms/bad/widget_option_size_bad.json": {"pages.0.elements.0.options.width": "\"huge\" is not one of small, medium, large"},
@@ -226,7 +226,7 @@
   "interactions/bad/question_options_bad.json": {"steps.0.options": "\"foo\" is not a mapping type: Does not implement dict-like functionality."},
   "interactions/bad/question_options_empty.json": {"steps.0.options": "At least one key/value pair must be defined"},
   "interactions/bad/question_options_missing.json": {"steps.0": "\"None\" is not a mapping type: Does not implement dict-like functionality."},
-  "interactions/bad/defaulttimeout_warn_text_missing_locale.json": {"": "Timeout warn Text Missing default localization"},
-  "interactions/bad/question_text_missing_locale.json": {"": "Step Text Missing default localization"}
+  "interactions/bad/defaulttimeout_warn_text_missing_locale.json": {"defaultTimeout.warn": "Timeout warn Text Missing default localization"},
+  "interactions/bad/question_text_missing_locale.json": {"steps.0.options": "Step Text Missing default localization"}
 }
 

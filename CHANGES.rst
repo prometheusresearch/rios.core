@@ -15,6 +15,7 @@ PRISMH.CORE Change History
 * Added validation logic that prevents Form Questions from describing
   enumeration values that aren't allowed for the field.
 * Added validation of Form subfield configurations.
+* Improved the accuracy of the locations reported by some errors.
 
 
 0.3.0 (2015-06-17)

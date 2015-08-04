@@ -10,7 +10,7 @@ from copy import deepcopy
 
 from prismh.core.validation.interaction import Interaction, ValidationError
 
-from utils import EXAMPLE_FILES, check_good_validation, check_bad_validation
+from utils import *
 
 
 GOOD_INTERACTION_FILES = os.path.join(EXAMPLE_FILES, 'interactions/good')
@@ -51,7 +51,10 @@ def test_bad_instrument_id_reference():
     try:
         validator.deserialize(interaction)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'instrument': 'Incorrect Instrument version referenced'},
+        )
     else:
         assert False
 
@@ -63,7 +66,10 @@ def test_bad_instrument_version_reference():
     try:
         validator.deserialize(interaction)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'instrument': 'Incorrect Instrument version referenced'},
+        )
     else:
         assert False
 
@@ -75,7 +81,10 @@ def test_missing_field():
     try:
         validator.deserialize(interaction)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'steps': 'There are Instrument fields which are missing: enumerationset_field'},
+        )
     else:
         assert False
 
@@ -95,7 +104,10 @@ def test_extra_field():
     try:
         validator.deserialize(interaction)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'steps': 'There are extra fields referenced by questions: extra_field'},
+        )
     else:
         assert False
 
@@ -107,7 +119,10 @@ def test_duplicate_field():
     try:
         validator.deserialize(interaction)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'steps': 'Field "nullable_field" is addressed by more than one question'},
+        )
     else:
         assert False
 
@@ -126,7 +141,10 @@ def test_unnecessary_enumeration_field():
     try:
         validator.deserialize(interaction)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'steps.1.options': 'Field "nullable_field" cannot have an enumerations configuration'},
+        )
     else:
         assert False
 
@@ -146,7 +164,10 @@ def test_complex_field():
     try:
         validator.deserialize(INTERACTION)
     except ValidationError as exc:
-        pass
+        assert_validation_error(
+            exc,
+            {'steps.1.options': 'Complex Instrument Types are not allowed in Interactions'},
+        )
     else:
         assert False
 
