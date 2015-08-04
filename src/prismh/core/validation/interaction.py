@@ -240,13 +240,30 @@ class Interaction(colander.SchemaNode):
                         ' Interactions',
                     )
 
-                if type_def['base'] not in ('enumeration', 'enumerationSet') \
-                        and 'enumerations' in step['options']:
-                    raise ValidationError(
-                        snode.get('options'),
-                        'Field "%s" cannot have an enumerations'
-                        ' configuration' % (
-                            step['options']['fieldId'],
-                        ),
-                    )
+                if 'enumerations' in step['options']:
+                    if type_def['base'] in ('enumeration', 'enumerationSet'):
+                        described_choices = [
+                            desc['id']
+                            for desc in step['options']['enumerations']
+                        ]
+                        actual_choices = list(type_def['enumerations'].keys())
+                        for described_choice in described_choices:
+                            if described_choice not in actual_choices:
+                                raise ValidationError(
+                                    snode.get('options'),
+                                    'Field "%s" describes an invalid'
+                                    ' enumeration "%s"' % (
+                                        step['options']['fieldId'],
+                                        described_choice,
+                                    ),
+                                )
+
+                    else:
+                        raise ValidationError(
+                            snode.get('options'),
+                            'Field "%s" cannot have an enumerations'
+                            ' configuration' % (
+                                step['options']['fieldId'],
+                            ),
+                        )
 

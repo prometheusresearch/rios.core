@@ -12,8 +12,8 @@ PRISMH.CORE Change History
   changes made to the specification.
 * Added validation logic that ensures Assessment enumeration values are allowed
   by the Instrument.
-* Added validation logic that prevents Form Questions from describing
-  enumeration values that aren't allowed for the field.
+* Added validation logic that prevents Form and Interaction Questions from
+  describing enumeration values that aren't allowed for the field.
 * Added validation of Form subfield configurations.
 * Improved the accuracy of the locations reported by some errors.
 

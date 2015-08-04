@@ -171,3 +171,33 @@ def test_complex_field():
     else:
         assert False
 
+
+def test_bad_enumeration_desc():
+    validator = Interaction(instrument=INSTRUMENT)
+    interaction = deepcopy(INTERACTION)
+    interaction['steps'][9]['options']['enumerations'][0]['id'] = 'wrong'
+    try:
+        validator.deserialize(interaction)
+    except ValidationError as exc:
+        assert_validation_error(
+            exc,
+            {'steps.9.options': 'Field "enumeration_field" describes an invalid enumeration "wrong"'},
+        )
+    else:
+        assert False
+
+
+def test_bad_enumerationset_desc():
+    validator = Interaction(instrument=INSTRUMENT)
+    interaction = deepcopy(INTERACTION)
+    interaction['steps'][10]['options']['enumerations'][0]['id'] = 'wrong'
+    try:
+        validator.deserialize(interaction)
+    except ValidationError as exc:
+        assert_validation_error(
+            exc,
+            {'steps.10.options': 'Field "enumerationset_field" describes an invalid enumeration "wrong"'},
+        )
+    else:
+        assert False
+
