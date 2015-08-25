@@ -3,7 +3,7 @@ PRISMH.CORE Change History
 **************************
 
 
-0.4.0 (2015-xx-xx)
+0.4.0 (2015-08-25)
 ==================
 
 * Added validation logic for the standard widget options.
