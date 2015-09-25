@@ -3,7 +3,7 @@
 #
 
 
-from prismh.core.output import get_assessment_json, get_assessment_yaml
+from rios.core.output import get_assessment_json, get_assessment_yaml
 
 
 ASSESSMENT = {

@@ -1,6 +1,14 @@
-**************************
-PRISMH.CORE Change History
-**************************
+************************
+RIOS.CORE Change History
+************************
+
+
+0.5.0 (2015-09-25)
+==================
+
+* Renamed package to rios.core to follow the rename of the standard from PRISMH
+  to RIOS.
+* Renamed the ``prismh-validate`` command line tool to ``rios-validate``.
 
 
 0.4.0 (2015-08-25)

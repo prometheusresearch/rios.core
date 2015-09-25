@@ -6,7 +6,7 @@
 import json
 import os
 
-from prismh.core.validation import *
+from rios.core.validation import *
 
 
 INSTRUMENT_FILE = os.path.join(os.path.dirname(__file__), 'examples/instruments/good/text.json')

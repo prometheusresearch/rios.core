@@ -1,33 +1,33 @@
-.. image:: https://drone.io/bitbucket.org/prometheus/prismh.core/status.png
-   :target: https://drone.io/bitbucket.org/prometheus/prismh.core/latest
+.. image:: https://drone.io/bitbucket.org/prometheus/rios.core/status.png
+   :target: https://drone.io/bitbucket.org/prometheus/rios.core/latest
    :alt: Build Status
-.. image:: https://readthedocs.org/projects/prismhcore/badge/?version=latest
-   :target: https://prismhcore.readthedocs.org
+.. image:: https://readthedocs.org/projects/rioscore/badge/?version=latest
+   :target: https://rioscore.readthedocs.org
    :alt: Documentation Status
-.. image:: https://img.shields.io/pypi/v/prismh.core.svg
-   :target: https://pypi.python.org/pypi/prismh.core
-.. image:: https://img.shields.io/pypi/l/prismh.core.svg
-   :target: https://pypi.python.org/pypi/prismh.core
+.. image:: https://img.shields.io/pypi/v/rios.core.svg
+   :target: https://pypi.python.org/pypi/rios.core
+.. image:: https://img.shields.io/pypi/l/rios.core.svg
+   :target: https://pypi.python.org/pypi/rios.core
 
-********************
-PRISMH.CORE Overview
-********************
+******************
+RIOS.CORE Overview
+******************
 
-PRISMH.CORE is a `Python`_ package that provides basic validation and
-formatting functionality for data structures that adhere to the `PRISMH`_
-specifications.
+RIOS.CORE is a `Python`_ package that provides basic validation and
+formatting functionality for data structures that adhere to the `RIOS`_
+specifications (formally known as PRISMH).
 
 .. _`Python`: https://www.python.org
-.. _`PRISMH`: https://prismh-specification.readthedocs.org
+.. _`RIOS`: https://rios.readthedocs.org
 
 
 Example Usage
 =============
 
 This package exposes a handful of simple functions for validating and
-formatting the standard PRISMH data structures::
+formatting the standard RIOS data structures::
 
-    >>> from prismh.core import validate_instrument, get_instrument_json
+    >>> from rios.core import validate_instrument, get_instrument_json
 
     >>> instrument = {"foo": "bar", "id": "urn:my-instrument", "title": "An Instrument Title", "record": [{"id": "field1","type": "text"}], "version": "1.0"}
     >>> validate_instrument(instrument)
@@ -73,11 +73,11 @@ restrictions.
 A development environment can be set up to work on this package by doing the
 following::
 
-    $ virtualenv prismh
-    $ cd prismh
+    $ virtualenv rios
+    $ cd rios
     $ . bin/activate
-    $ hg clone ssh://hg@bitbucket.org/prometheus/prismh.core
-    $ pip install -e ./prismh.core[dev]
+    $ hg clone ssh://hg@bitbucket.org/prometheus/rios.core
+    $ pip install -e ./rios.core[dev]
 
 
 License/Copyright

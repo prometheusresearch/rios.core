@@ -8,7 +8,7 @@ import os
 
 from copy import deepcopy
 
-from prismh.core.validation.assessment import Assessment, ValidationError
+from rios.core.validation.assessment import Assessment, ValidationError
 
 from utils import *
 

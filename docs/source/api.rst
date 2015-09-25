@@ -4,20 +4,20 @@ API Reference
 
 .. contents:: Table of Contents
 
-.. automodule:: prismh.core
+.. automodule:: rios.core
 
 
 Validation
 ==========
 
-.. automodule:: prismh.core.validation
+.. automodule:: rios.core.validation
     :members:
     :exclude-members: ValidationError
 
 .. py:exception:: ValidationError
 
     The exception thrown by the validation functions when the given input does
-    not meet the PRISMH specifications.
+    not meet the RIOS specifications.
 
     .. py:method:: asdict
 
@@ -32,6 +32,6 @@ Validation
 Output
 ======
 
-.. automodule:: prismh.core.output
+.. automodule:: rios.core.output
     :members:
 

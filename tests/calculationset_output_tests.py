@@ -3,7 +3,7 @@
 #
 
 
-from prismh.core.output import get_calculationset_json, get_calculationset_yaml
+from rios.core.output import get_calculationset_json, get_calculationset_yaml
 
 
 CALCULATIONSET = {

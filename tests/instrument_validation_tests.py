@@ -6,7 +6,7 @@
 import json
 import os
 
-from prismh.core.validation.instrument import Instrument, ValidationError, \
+from rios.core.validation.instrument import Instrument, ValidationError, \
     get_full_type_definition, TYPES_ALL
 
 from utils import EXAMPLE_FILES, check_good_validation, check_bad_validation

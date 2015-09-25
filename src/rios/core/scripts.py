@@ -32,12 +32,12 @@ class ValidationScript(object):
         self._stdout = None
 
         self.parser = argparse.ArgumentParser(
-            description='A tool for validating the format of PRISMH files.',
+            description='A tool for validating the format of RIOS files.',
         )
 
         try:
             self_version = \
-                pkg_resources.get_distribution('prismh.core').version
+                pkg_resources.get_distribution('rios.core').version
         except pkg_resources.DistributionNotFound:  # pragma: no cover
             self_version = 'UNKNOWN'
         self.parser.add_argument(
@@ -56,7 +56,7 @@ class ValidationScript(object):
                 'form',
                 'interaction',
             ],
-            help='The type of PRISMH file to validate.',
+            help='The type of RIOS file to validate.',
         )
 
         self.parser.add_argument(

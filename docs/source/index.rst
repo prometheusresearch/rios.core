@@ -1,13 +1,13 @@
-****************************************
-Welcome to the PRISMH.CORE Documentation
-****************************************
+**************************************
+Welcome to the RIOS.CORE Documentation
+**************************************
 
-PRISMH.CORE is a `Python`_ package that provides basic validation and
-formatting functionality for data structures that adhere to the `PRISMH`_
+RIOS.CORE is a `Python`_ package that provides basic validation and
+formatting functionality for data structures that adhere to the `RIOS`_
 specifications.
 
 .. _`Python`: https://www.python.org
-.. _`PRISMH`:
+.. _`RIOS`: https://rios.readthedocs.org
 
 
 Overview

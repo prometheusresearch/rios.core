@@ -8,7 +8,7 @@ import os
 
 from copy import deepcopy
 
-from prismh.core.validation.interaction import Interaction, ValidationError
+from rios.core.validation.interaction import Interaction, ValidationError
 
 from utils import *
 

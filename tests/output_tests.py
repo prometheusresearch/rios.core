@@ -8,7 +8,7 @@ import os
 
 import six
 
-from prismh.core.output import *
+from rios.core.output import *
 
 
 INSTRUMENT_FILE = os.path.join(os.path.dirname(__file__), 'examples/instruments/good/text.json')

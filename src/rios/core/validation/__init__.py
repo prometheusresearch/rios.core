@@ -35,7 +35,7 @@ def _get_struct(src):
 
 def validate_instrument(instrument):
     """
-    Validates the input against the PRISMH Instrument Definition
+    Validates the input against the RIOS Instrument Definition
     specification.
 
     :param instrument: The Instrument Definition to validate
@@ -50,7 +50,7 @@ def validate_instrument(instrument):
 
 def validate_assessment(assessment, instrument=None):
     """
-    Validates the input against the PRISMH Assessment Document specification.
+    Validates the input against the RIOS Assessment Document specification.
 
     :param assessment: The Assessment Document to validate
     :type assessment: JSON string, dict, or file-like object
@@ -73,7 +73,7 @@ def validate_assessment(assessment, instrument=None):
 
 def validate_calculationset(calculationset, instrument=None):
     """
-    Validates the input against the PRISMH Calculation Set Definition
+    Validates the input against the RIOS Calculation Set Definition
     specification.
 
     :param form: The Calculation Set Definition to validate
@@ -97,7 +97,7 @@ def validate_calculationset(calculationset, instrument=None):
 
 def validate_form(form, instrument=None):
     """
-    Validates the input against the PRISMH Web Form Configuration
+    Validates the input against the RIOS Web Form Configuration
     specification.
 
     :param form: The Web Form Configuration to validate
@@ -121,7 +121,7 @@ def validate_form(form, instrument=None):
 
 def validate_interaction(interaction, instrument=None):
     """
-    Validates the input against the PRISMH SMS Interaction Configuration
+    Validates the input against the RIOS SMS Interaction Configuration
     specification.
 
     :param interaction: The SMS Interaction Configuration to validate

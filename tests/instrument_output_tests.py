@@ -3,7 +3,7 @@
 #
 
 
-from prismh.core.output import get_instrument_json, get_instrument_yaml
+from rios.core.output import get_instrument_json, get_instrument_yaml
 
 
 INSTRUMENT = {

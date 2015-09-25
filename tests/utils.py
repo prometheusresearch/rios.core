@@ -5,7 +5,7 @@ import os
 
 from six import PY3
 
-from prismh.core.validation.common import ValidationError
+from rios.core.validation.common import ValidationError
 
 
 __all__ = (

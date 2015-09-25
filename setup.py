@@ -7,11 +7,11 @@ from setuptools import setup, find_packages
 
 
 setup(
-    name='prismh.core',
+    name='rios.core',
     version='0.4.0',
-    description='Parsing and Validation library for PRISMH Files',
+    description='Parsing and Validation Library for RIOS Files',
     long_description=open('README.rst', 'r').read(),
-    keywords='prismh instrument assessment validation',
+    keywords='rios prismh research instrument assessment standard validation',
     author='Prometheus Research, LLC',
     author_email='contact@prometheusresearch.com',
     license='AGPLv3',
@@ -24,15 +24,15 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
     ],
-    url='https://bitbucket.org/prometheus/prismh.core',
+    url='https://bitbucket.org/prometheus/rios.core',
     package_dir={'': 'src'},
     packages=find_packages('src'),
     zip_safe=True,
     include_package_data=True,
-    namespace_packages=['prismh'],
+    namespace_packages=['rios'],
     entry_points={
         'console_scripts': [
-            'prismh-validate = prismh.core.scripts:validate',
+            'rios-validate = rios.core.scripts:validate',
         ]
     },
     install_requires=[

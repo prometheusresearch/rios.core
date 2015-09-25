@@ -3,7 +3,7 @@
 #
 
 
-from prismh.core.output import get_interaction_json, get_interaction_yaml
+from rios.core.output import get_interaction_json, get_interaction_yaml
 
 
 INTERACTION = {

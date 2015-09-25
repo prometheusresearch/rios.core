@@ -7,7 +7,7 @@ import os
 
 from six import StringIO
 
-from prismh.core.scripts import validate
+from rios.core.scripts import validate
 
 from utils import EXAMPLE_FILES
 
