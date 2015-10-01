@@ -1,0 +1,17 @@
+{
+  "instrument": {
+    "id": "urn:example:bad:calculations:type:enumeration",
+    "version": "1.0"
+  },
+  "calculations": [
+    {
+      "id": "calc1",
+      "type": "enumeration",
+      "method": "python",
+      "options": {
+        "expression": "'foo'"
+      }
+    }
+  ]
+}
+

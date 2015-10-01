@@ -3,6 +3,13 @@ RIOS.CORE Change History
 ************************
 
 
+0.6.0 (2015-xx-xx)
+==================
+
+* Restricted calculation result types to match specification update (removed
+  enumeration and enumerationSet).
+
+
 0.5.0 (2015-09-25)
 ==================
 

@@ -9,8 +9,7 @@ from six import PY3
 
 from .common import ValidationError, sub_schema, Options, \
     validate_instrument_version
-from .instrument import InstrumentReference, IdentifierString, Description, \
-    TYPES_SIMPLE
+from .instrument import InstrumentReference, IdentifierString, Description
 
 CAN_CHECK_HTSQL = False
 if not PY3:
@@ -25,6 +24,7 @@ if not PY3:
 
 
 __all__ = (
+    'RESULT_TYPES',
     'METHODS_ALL',
 
     'CalculationResultType',
@@ -35,6 +35,17 @@ __all__ = (
     'Calculation',
     'CalculationList',
     'CalculationSet',
+)
+
+
+RESULT_TYPES = (
+    'text',
+    'integer',
+    'float',
+    'boolean',
+    'date',
+    'time',
+    'dateTime',
 )
 
 
@@ -59,7 +70,7 @@ def get_htsql():
 
 class CalculationResultType(colander.SchemaNode):
     schema_type = colander.String
-    validator = colander.OneOf(TYPES_SIMPLE)
+    validator = colander.OneOf(RESULT_TYPES)
 
 
 class CalculationMethod(colander.SchemaNode):
