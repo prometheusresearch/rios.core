@@ -1,0 +1,35 @@
+{
+  "instrument": {
+    "id": "urn:example:bad:event:options:text:missing-locale",
+    "version": "1.0"
+  },
+  "defaultLocalization": "en",
+  "pages": [
+    {
+      "id": "page1",
+      "elements": [
+        {
+          "type": "question",
+          "options": {
+            "fieldId": "field1",
+            "text": {
+              "en": "This is a Question?"
+            },
+            "events": [
+              {
+                "trigger": "true()",
+                "action": "fail",
+                "options": {
+                  "text": {
+                    "fr": "French error!"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
+

@@ -522,6 +522,13 @@ class Form(colander.SchemaNode):
                 checker.ensure_descriptor(enumeration, scope='Enumeration')
             for row in options.get('rows', []):
                 checker.ensure_descriptor(row, scope='Matrix Row')
+            for event in options.get('events', []):
+                checker.ensure(
+                    event.get('options', {}),
+                    'text',
+                    scope='Event Text',
+                    node=subnode.get('options').get('events'),
+                )
 
         for pidx, page in enumerate(cstruct['pages']):
             with guard_sequence(node, 'page', pidx) as enode:

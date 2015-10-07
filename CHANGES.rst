@@ -8,6 +8,8 @@ RIOS.CORE Change History
 
 * Restricted calculation result types to match specification update (removed
   enumeration and enumerationSet).
+* Fixed issue where form event failure text was not being checked for the
+  default localization.
 
 
 0.5.0 (2015-09-25)
