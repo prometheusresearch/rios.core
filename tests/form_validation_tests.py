@@ -383,3 +383,18 @@ def test_bad_deep_enumeration_desc():
     else:
         assert False
 
+
+def test_nonunique_tag():
+    validator = Form(instrument=INSTRUMENT)
+    form = deepcopy(FORM)
+    form['pages'][1]['elements'][0]['tags'] = ['text_field', 'page1']
+    try:
+        validator.deserialize(form)
+    except ValidationError as exc:
+        assert_validation_error(
+            exc,
+            {'pages.1.elements.0.tags': u'Tag(s) are duplicates of existing identifiers: text_field, page1'},
+        )
+    else:
+        assert False
+

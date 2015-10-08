@@ -122,6 +122,7 @@
   "forms/bad/event_options_missing.json": {"pages.0.elements.0.events.0": "\"None\" is not a mapping type: Does not implement dict-like functionality."},
   "forms/bad/event_options_unneeded.json": {"pages.0.elements.0.events.0": "\"hide\" events do not accept options"},
   "forms/bad/event_options_text_missing_locale.json": {"pages.0.elements.0.options": "Event Text Missing default localization"},
+  "forms/bad/tag_nonunique.json": {"pages.0.elements.0.tags": "Tag(s) are duplicates of existing identifiers: page1"},
 
   "instruments/bad/custom_type_base_bad.json": {"types": "invalid definition, references undefined base type \"TEXT\""},
   "instruments/bad/custom_type_def_bad.json": {"types": "\"text\" is not a mapping type: Does not implement dict-like functionality."},

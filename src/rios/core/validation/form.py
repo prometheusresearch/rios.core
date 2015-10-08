@@ -476,8 +476,30 @@ class Form(colander.SchemaNode):
         self._check_localizations(node, cstruct)
 
         if not self.instrument:
-            return
+            self._standalone_checks(node, cstruct)
+        else:
+            self._instrument_checks(node, cstruct)
 
+    def _standalone_checks(self, node, cstruct):
+        invalid_tag_ids = set([page['id'] for page in cstruct['pages']])
+
+        for pidx, page in enumerate(cstruct['pages']):
+            with guard_sequence(node, 'page', pidx) as enode:
+                for eidx, element in enumerate(page['elements']):
+                    with guard_sequence(enode, 'element', eidx) as onode:
+                        if element.get('tags', []):
+                            tags = set(element['tags'])
+                            duped = invalid_tag_ids & tags
+                            if duped:
+                                raise ValidationError(
+                                    onode.get('tags'),
+                                    'Tag(s) are duplicates of existing'
+                                    ' identifiers: %s' % (
+                                        ', '.join(duped),
+                                    )
+                                )
+
+    def _instrument_checks(self, node, cstruct):
         validate_instrument_version(
             self.instrument,
             cstruct,
@@ -486,10 +508,29 @@ class Form(colander.SchemaNode):
 
         self._check_fields_covered(node, cstruct)
 
+        invalid_tag_ids = [page['id'] for page in cstruct['pages']]
+        invalid_tag_ids.extend([
+            field['id']
+            for field in self.instrument['record']
+        ])
+        invalid_tag_ids = set(invalid_tag_ids)
+
         for pidx, page in enumerate(cstruct['pages']):
             with guard_sequence(node, 'page', pidx) as enode:
                 for eidx, element in enumerate(page['elements']):
                     with guard_sequence(enode, 'element', eidx) as onode:
+                        if element.get('tags', []):
+                            tags = set(element['tags'])
+                            duped = invalid_tag_ids & tags
+                            if duped:
+                                raise ValidationError(
+                                    onode.get('tags'),
+                                    'Tag(s) are duplicates of existing'
+                                    ' identifiers: %s' % (
+                                        ', '.join(duped),
+                                    )
+                                )
+
                         if element['type'] != 'question':
                             continue
                         self._check_type_specifics(
