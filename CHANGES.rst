@@ -12,6 +12,7 @@ RIOS.CORE Change History
   default localization.
 * Added validation logic to ensure tag identifiers don't collide with page or
   field IDs.
+* Added validation logic to ensure tags are unique within an element's list.
 
 
 0.5.0 (2015-09-25)

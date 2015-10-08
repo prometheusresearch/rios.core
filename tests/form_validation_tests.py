@@ -393,7 +393,7 @@ def test_nonunique_tag():
     except ValidationError as exc:
         assert_validation_error(
             exc,
-            {'pages.1.elements.0.tags': u'Tag(s) are duplicates of existing identifiers: text_field, page1'},
+            {'pages.1.elements.0.tags': u'Tag(s) are duplicates of existing identifiers: page1, text_field'},
         )
     else:
         assert False

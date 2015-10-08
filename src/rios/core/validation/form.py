@@ -396,6 +396,15 @@ class Element(colander.SchemaNode):
                 '"%s" elements do not accept options' % element_type,
             )
 
+        tags = cstruct.get('tags', [])
+        if tags:
+            unique_tags = set(tags)
+            if len(unique_tags) != len(tags):
+                raise ValidationError(
+                    node.get('tags'),
+                    'Tags can only be assigned to an element once',
+                )
+
 
 class ElementList(colander.SequenceSchema):
     element = Element()
@@ -480,24 +489,27 @@ class Form(colander.SchemaNode):
         else:
             self._instrument_checks(node, cstruct)
 
+    def _check_tags(self, node, element, invalid_tags):
+        if element.get('tags', []):
+            tags = set(element['tags'])
+            duped = invalid_tags & tags
+            if duped:
+                raise ValidationError(
+                    node.get('tags'),
+                    'Tag(s) are duplicates of existing'
+                    ' identifiers: %s' % (
+                        ', '.join(sorted(duped)),
+                    )
+                )
+
     def _standalone_checks(self, node, cstruct):
-        invalid_tag_ids = set([page['id'] for page in cstruct['pages']])
+        invalid_tags = set([page['id'] for page in cstruct['pages']])
 
         for pidx, page in enumerate(cstruct['pages']):
             with guard_sequence(node, 'page', pidx) as enode:
                 for eidx, element in enumerate(page['elements']):
                     with guard_sequence(enode, 'element', eidx) as onode:
-                        if element.get('tags', []):
-                            tags = set(element['tags'])
-                            duped = invalid_tag_ids & tags
-                            if duped:
-                                raise ValidationError(
-                                    onode.get('tags'),
-                                    'Tag(s) are duplicates of existing'
-                                    ' identifiers: %s' % (
-                                        ', '.join(duped),
-                                    )
-                                )
+                        self._check_tags(onode, element, invalid_tags)
 
     def _instrument_checks(self, node, cstruct):
         validate_instrument_version(
@@ -508,28 +520,18 @@ class Form(colander.SchemaNode):
 
         self._check_fields_covered(node, cstruct)
 
-        invalid_tag_ids = [page['id'] for page in cstruct['pages']]
-        invalid_tag_ids.extend([
+        invalid_tags = [page['id'] for page in cstruct['pages']]
+        invalid_tags.extend([
             field['id']
             for field in self.instrument['record']
         ])
-        invalid_tag_ids = set(invalid_tag_ids)
+        invalid_tags = set(invalid_tags)
 
         for pidx, page in enumerate(cstruct['pages']):
             with guard_sequence(node, 'page', pidx) as enode:
                 for eidx, element in enumerate(page['elements']):
                     with guard_sequence(enode, 'element', eidx) as onode:
-                        if element.get('tags', []):
-                            tags = set(element['tags'])
-                            duped = invalid_tag_ids & tags
-                            if duped:
-                                raise ValidationError(
-                                    onode.get('tags'),
-                                    'Tag(s) are duplicates of existing'
-                                    ' identifiers: %s' % (
-                                        ', '.join(duped),
-                                    )
-                                )
+                        self._check_tags(onode, element, invalid_tags)
 
                         if element['type'] != 'question':
                             continue
