@@ -3,7 +3,7 @@ RIOS.CORE Change History
 ************************
 
 
-0.6.0 (2015-xx-xx)
+0.6.0 (2015-10-29)
 ==================
 
 * Restricted calculation result types to match specification update (removed
