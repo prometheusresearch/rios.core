@@ -402,8 +402,9 @@ class Element(colander.SchemaNode):
             if duplicates:
                 raise ValidationError(
                     node.get('tags'),
-                    'Tags can only be assigned to an element once: %s' % (
-                        duplicates
+                    'Tags can only be assigned to an element once:'
+                    ' %s' % (
+                        ', '.join(duplicates)
                     ), 
                 )
 
@@ -437,7 +438,7 @@ class PageList(colander.SequenceSchema):
         if duplicates:
             raise ValidationError(
                 node,
-                'Page IDs must be unique: %s' % duplicates,
+                'Page IDs must be unique: %s' % ', '.join(duplicates),
             )
 
 

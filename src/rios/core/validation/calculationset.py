@@ -186,7 +186,7 @@ class CalculationList(colander.SequenceSchema):
         if duplicates:
             raise ValidationError(
                 node,
-                'Calculation IDs must be unique: %s' % duplicates,
+                'Calculation IDs must be unique: ' + ', '.join(duplicates),
             )   
 
 
