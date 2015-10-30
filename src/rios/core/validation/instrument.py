@@ -315,7 +315,7 @@ class ColumnCollection(colander.SequenceSchema):
         if duplicates:
             raise ValidationError(
                 node,
-                'Column IDs must be unique within a collection: %' %  (
+                'Column IDs must be unique within a collection: %s' %  (
                     duplicates
                 ),
             )
@@ -433,7 +433,7 @@ class Record(colander.SequenceSchema):
         if duplicates:
             raise ValidationError(
                 node,
-                'Field IDs must be unique within a record: %s' % duplicates),
+                'Field IDs must be unique within a record: %s' % duplicates,
             )
 
 

@@ -401,7 +401,7 @@ class Element(colander.SchemaNode):
             duplicates = list(set([x for x in tags if tags.count(x) > 1]))
             if duplicates:
                 raise ValidationError(
-                    node,
+                    node.get('tags'),
                     'Tags can only be assigned to an element once: %s' % (
                         duplicates
                     ), 
