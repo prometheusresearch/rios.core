@@ -398,11 +398,13 @@ class Element(colander.SchemaNode):
 
         tags = cstruct.get('tags', [])
         if tags:
-            unique_tags = set(tags)
-            if len(unique_tags) != len(tags):
+            duplicates = list(set([x for x in tags if tags.count(x) > 1]))
+            if duplicates:
                 raise ValidationError(
-                    node.get('tags'),
-                    'Tags can only be assigned to an element once',
+                    node,
+                    'Tags can only be assigned to an element once: %s' % (
+                        duplicates
+                    ), 
                 )
 
 
@@ -431,10 +433,11 @@ class PageList(colander.SequenceSchema):
             )
 
         ids = [page['id'] for page in cstruct]
-        if len(ids) != len(set(ids)):
+        duplicates = list(set([x for x in ids if ids.count(x) > 1]))
+        if duplicates:
             raise ValidationError(
                 node,
-                'Page IDs must be unique',
+                'Page IDs must be unique: %s' % duplicates,
             )
 
 

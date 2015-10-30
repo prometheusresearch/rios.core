@@ -3,6 +3,11 @@ RIOS.CORE Change History
 ************************
 
 
+0.6.1 (2015-10-29)
+==================
+
+* Display duplicate IDs and more information in error messages.
+
 0.6.0 (2015-10-29)
 ==================
 

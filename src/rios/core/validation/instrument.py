@@ -248,7 +248,8 @@ class BoundConstraint(colander.SchemaNode):
                     and min_value > max_value:
                 raise ValidationError(
                     node,
-                    'The minimum bound must be lower than than maximum',
+                    'The minimum bound must be lower than'
+                    ' the maximum: %s < %s' % (min_value, max_value),
                 )
 
 
@@ -310,10 +311,13 @@ class ColumnCollection(colander.SequenceSchema):
             )
 
         ids = [col['id'] for col in cstruct]
-        if len(ids) != len(set(ids)):
+        duplicates = list(set([x for x in ids if ids.count(x) > 1]))
+        if duplicates:
             raise ValidationError(
                 node,
-                'Column IDs must be unique within a collection',
+                'Column IDs must be unique within a collection: %' %  (
+                    duplicates
+                ),
             )
 
 
@@ -341,10 +345,11 @@ class RowCollection(colander.SequenceSchema):
             )
 
         ids = [row['id'] for row in cstruct]
-        if len(ids) != len(set(ids)):
+        duplicates = list(set([x for x in ids if ids.count(x) > 1]))
+        if duplicates:
             raise ValidationError(
                 node,
-                'Row IDs must be unique within a collection',
+                'Row IDs must be unique within a collection: %s' % duplicates,
             )
 
 
@@ -408,7 +413,8 @@ class Field(colander.SchemaNode):
             if 'required' in cstruct and cstruct['required']:
                 raise ValidationError(
                     node,
-                    'A Field cannot have an annotation if it is required',
+                    'A Field cannot have an annotation'
+                    ' if it is required: %s' % cstruct['id'],
                 )
 
 
@@ -423,10 +429,11 @@ class Record(colander.SequenceSchema):
             )
 
         ids = [field['id'] for field in cstruct]
-        if len(ids) != len(set(ids)):
+        duplicates = list(set([x for x in ids if ids.count(x) > 1]))
+        if duplicates:
             raise ValidationError(
                 node,
-                'Field IDs must be unique within a record',
+                'Field IDs must be unique within a record: %s' % duplicates),
             )
 
 
@@ -564,5 +571,4 @@ def get_full_type_definition(instrument, type_def):
         return parent_type_def
 
     else:
-        raise TypeError('type_def must be a string or dict, got "%r"')
-
+        raise TypeError('type_def must be a string or dict, got "%r"' % type_def)

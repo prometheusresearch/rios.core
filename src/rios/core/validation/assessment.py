@@ -212,23 +212,22 @@ class Assessment(colander.SchemaNode):
         if not isinstance(values, dict):
             raise ValidationError(
                 node,
-                'Value expected to contain a mapping.'
+                'Value expected to contain a mapping: %s' % values
             )
 
         for field in fields:
             value = values.pop(field['id'], None)
+            fid = field['id']
             if value is None:
                 raise ValidationError(
                     node,
-                    'No value exists for field ID "%s"' % field['id'],
+                    'No value exists for field ID "%s"' % fid,
                 )
 
             if value['value'] is None and field.get('required', False):
                 raise ValidationError(
                     node,
-                    'No value present for required field ID "%s"' % (
-                        field['id'],
-                    ),
+                    'No value present for required field ID "%s"' % fid,
                 )
 
             full_type_def = get_full_type_definition(
@@ -285,21 +284,18 @@ class Assessment(colander.SchemaNode):
 
     def _check_metafields(self, node, value, field):
         explanation = field.get('explanation', 'none')
+        fid = field['id']
         if 'explanation' in value \
                 and value['explanation'] is not None \
                 and explanation == 'none':
             raise ValidationError(
                 node,
-                'Explanation present where not allowed in field ID "%s"' % (
-                    field['id'],
-                ),
+                'Explanation present where not allowed in field ID "%s"' % fid,
             )
         elif 'explanation' not in value and explanation == 'required':
             raise ValidationError(
                 node,
-                'Explanation missing for field ID "%s"' % (
-                    field['id'],
-                ),
+                'Explanation missing for field ID "%s"' % fid,
             )
 
         annotation = field.get('annotation', 'none')
@@ -307,22 +303,20 @@ class Assessment(colander.SchemaNode):
             if annotation == 'none':
                 raise ValidationError(
                     node,
-                    'Annotation present where not allowed',
+                    'Annotation present where not allowed: %s' % fid,
                 )
 
             elif value['value'] is not None:
                 raise ValidationError(
                     node,
-                    'Annotation provided for non-empty value',
+                    'Annotation provided for non-empty value: %s' % fid,
                 )
         elif 'annotation' not in value \
                 and annotation == 'required' \
                 and value['value'] is None:
             raise ValidationError(
                 node,
-                'Annotation missing for field ID "%s"' % (
-                    field['id'],
-                ),
+                'Annotation missing for field ID "%s"' % fid,
             )
 
     def _check_complex_subfields(self, node, full_type_def, value):
@@ -359,4 +353,3 @@ class Assessment(colander.SchemaNode):
                         ', '.join(list(value['value'].keys())),
                     ),
                 )
-

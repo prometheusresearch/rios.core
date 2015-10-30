@@ -182,11 +182,12 @@ class CalculationList(colander.SequenceSchema):
             )
 
         ids = [calculation['id'] for calculation in cstruct]
-        if len(ids) != len(set(ids)):
+        duplicates = list(set([x for x in ids if ids.count(x) > 1]))
+        if duplicates:
             raise ValidationError(
                 node,
-                'Calculation IDs must be unique',
-            )
+                'Calculation IDs must be unique: %s' % duplicates,
+            )   
 
 
 class CalculationSet(colander.SchemaNode):
