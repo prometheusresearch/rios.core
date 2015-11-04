@@ -224,7 +224,7 @@ def test_undesired_annotation():
     except ValidationError as exc:
         assert_validation_error(
             exc,
-            {'values': 'Annotation present where not allowed'},
+            {'values': 'Annotation present where not allowed: date_field'},
         )
     else:
         assert False
@@ -239,7 +239,7 @@ def test_undesired_annotation2():
     except ValidationError as exc:
         assert_validation_error(
             exc,
-            {'values': 'Annotation provided for non-empty value'},
+            {'values': 'Annotation provided for non-empty value: float_field'},
         )
     else:
         assert False
