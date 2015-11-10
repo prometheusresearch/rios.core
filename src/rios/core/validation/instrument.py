@@ -537,6 +537,23 @@ class Instrument(colander.SchemaNode):
 
 
 def get_full_type_definition(instrument, type_def):
+    """
+    Returns a fully merged version of an Instrument Type Object that
+    includes all constraints inherited from parent data types.
+
+    The ``base`` property of this object will always reflect the base RIOS
+    data type that the specified type definition is an implementation of.
+
+    :param instrument:
+        the full Instrument definition that the Field in question is a part of
+    :type instrument: dict
+    :param type_def:
+        the contents of the ``type`` property from an Instrument Field
+        definition
+    :type type_def: dict or str
+    :rtype: dict
+    """
+
     if isinstance(type_def, string_types):
         if type_def in TYPES_ALL:
             return {
@@ -573,3 +590,4 @@ def get_full_type_definition(instrument, type_def):
 
     else:
         raise TypeError('type_def must be a string or dict, got "%r"' % type_def)
+

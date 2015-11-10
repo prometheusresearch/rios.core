@@ -11,7 +11,7 @@ from .common import ValidationError
 from .assessment import Assessment
 from .calculationset import CalculationSet
 from .form import Form
-from .instrument import Instrument
+from .instrument import Instrument, get_full_type_definition
 from .interaction import Interaction
 
 
@@ -22,6 +22,7 @@ __all__ = (
     'validate_calculationset',
     'validate_form',
     'validate_interaction',
+    'get_full_type_definition',
 )
 
 

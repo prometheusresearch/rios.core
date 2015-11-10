@@ -7,6 +7,8 @@ RIOS.CORE Change History
 ==================
 
 * Display duplicate IDs and more information in error messages.
+* The ``get_full_type_definition()`` function is now officially part of the
+  public API of this package.
 
 
 0.6.0 (2015-10-29)
