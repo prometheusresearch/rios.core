@@ -8,7 +8,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='rios.core',
-    version='0.6.1',
+    version='0.7.0',
     description='Parsing and Validation Library for RIOS Files',
     long_description=open('README.rst', 'r').read(),
     keywords='rios prismh research instrument assessment standard validation',

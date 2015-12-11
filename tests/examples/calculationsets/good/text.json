@@ -8,6 +8,7 @@
     {
       "id": "calc1",
       "type": "text",
+      "identifiable": true,
       "method": "python",
       "options": {
         "expression": "field1 + field2"

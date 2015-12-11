@@ -8,7 +8,7 @@ import colander
 from six import PY3
 
 from .common import ValidationError, sub_schema, Options, \
-    validate_instrument_version
+    validate_instrument_version, StrictBooleanType
 from .instrument import InstrumentReference, IdentifierString, Description
 
 CAN_CHECK_HTSQL = False
@@ -146,6 +146,10 @@ METHOD_OPTION_VALIDATORS = {
 class Calculation(colander.SchemaNode):
     id = IdentifierString()  # pylint: disable=invalid-name
     description = Description()
+    identifiable = colander.SchemaNode(
+        StrictBooleanType(),
+        missing=colander.drop,
+    )
     type = CalculationResultType()
     method = CalculationMethod()
     options = Options(missing=colander.drop)

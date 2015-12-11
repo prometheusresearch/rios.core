@@ -1,0 +1,18 @@
+{
+  "instrument": {
+    "id": "urn:example:bad:calculations:identifiable:bad",
+    "version": "1.0"
+  },
+  "calculations": [
+    {
+      "id": "calc1",
+      "type": "integer",
+      "identifiable": "yes",
+      "method": "python",
+      "options": {
+        "expression": "field1 + 10"
+      }
+    }
+  ]
+}
+
