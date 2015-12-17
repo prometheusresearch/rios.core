@@ -1,0 +1,27 @@
+{
+  "instrument": {
+    "id": "urn:example:bad:meta:homepage:bad",
+    "version": "1.0"
+  },
+  "meta": {
+    "homepage": true
+  },
+  "defaultLocalization": "en",
+  "pages": [
+    {
+      "id": "page1",
+      "elements": [
+        {
+          "type": "question",
+          "options": {
+            "fieldId": "field1",
+            "text": {
+              "en": "This is a Question?"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+

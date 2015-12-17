@@ -1,0 +1,25 @@
+{
+  "instrument": {
+    "id": "urn:example:good:meta",
+    "version": "1.0"
+  },
+  "meta": {
+    "author": "John Smith",
+    "copyright": "(c)2015 Smith, Inc",
+    "homepage": "http://www.example.com/instruments",
+    "mycustom": 123
+  },
+  "defaultLocalization": "en",
+  "steps": [
+    {
+      "type": "question",
+      "options": {
+        "fieldId": "field1",
+        "text": {
+          "en": "This is field1"
+        }
+      }
+    }
+  ]
+}
+

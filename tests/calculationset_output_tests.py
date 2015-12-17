@@ -26,6 +26,10 @@ CALCULATIONSET = {
             'id': 'bar',
         }
     ],
+    'meta': {
+        'zcustom': 123,
+        'author': 'John Smith',
+    },
     'instrument': {
         'version': '1.0',
         'id': 'urn:some-test',
@@ -37,6 +41,10 @@ EXPECTED_JSON = """{
   "instrument": {
     "id": "urn:some-test",
     "version": "1.0"
+  },
+  "meta": {
+    "author": "John Smith",
+    "zcustom": 123
   },
   "calculations": [
     {
@@ -68,6 +76,9 @@ def test_output_json():
 EXPECTED_YAML = '''instrument:
   id: urn:some-test
   version: '1.0'
+meta:
+  author: John Smith
+  zcustom: 123
 calculations:
 - id: foo
   description: Some description

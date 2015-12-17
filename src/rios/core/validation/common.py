@@ -32,6 +32,7 @@ __all__ = (
     'Options',
     'Descriptor',
     'DescriptorList',
+    'MetadataCollection',
 
     'LocalizationChecker',
     'sub_schema',
@@ -227,6 +228,25 @@ class Descriptor(colander.SchemaNode):
 class DescriptorList(colander.SequenceSchema):
     descriptor = Descriptor()
     validator = colander.Length(min=1)
+
+
+class MetadataCollection(colander.SchemaNode):
+    def __init__(self, known_properties, *args, **kwargs):
+        self.known_properties = known_properties
+        kwargs['typ'] = colander.Mapping(unknown='preserve')
+        super(MetadataCollection, self).__init__(*args, **kwargs)
+
+    def validator(self, node, cstruct):
+        cstruct = cstruct or {}
+        if len(cstruct) == 0:
+            raise ValidationError(
+                node,
+                'At least one propety must be defined',
+            )
+
+        for prop, value in iteritems(cstruct):
+            if prop in self.known_properties:
+                sub_schema(self.known_properties[prop], node, value)
 
 
 class LocalizationChecker(object):

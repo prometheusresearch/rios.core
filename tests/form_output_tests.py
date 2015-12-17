@@ -7,20 +7,6 @@ from rios.core.output import get_form_json, get_form_yaml
 
 
 FORM = {
-    'unprompted': {
-        'ufield2': {
-            'options': {
-                'calculation': 'field1 * 2',
-            },
-            'action': 'calculate',
-        },
-        'ufield1': {
-            'options': {
-                'calculation': 'field1 * 2',
-            },
-            'action': 'calculate',
-        },
-    },
     'pages': [
         {
             'id': 'page1',
@@ -130,6 +116,10 @@ FORM = {
         },
     ],
     "defaultLocalization": "en",
+    'meta': {
+        'zcustom': 123,
+        'author': 'John Smith',
+    },
     'parameters': {
         'zzz': {
             'type': 'text',
@@ -152,6 +142,10 @@ EXPECTED_JSON = """{
   "instrument": {
     "id": "urn:some-test",
     "version": "1.0"
+  },
+  "meta": {
+    "author": "John Smith",
+    "zcustom": 123
   },
   "defaultLocalization": "en",
   "title": {
@@ -265,20 +259,6 @@ EXPECTED_JSON = """{
       ]
     }
   ],
-  "unprompted": {
-    "ufield1": {
-      "action": "calculate",
-      "options": {
-        "calculation": "field1 * 2"
-      }
-    },
-    "ufield2": {
-      "action": "calculate",
-      "options": {
-        "calculation": "field1 * 2"
-      }
-    }
-  },
   "parameters": {
     "aaa": {
       "type": "boolean"
@@ -298,6 +278,9 @@ def test_output_json():
 EXPECTED_YAML = '''instrument:
   id: urn:some-test
   version: '1.0'
+meta:
+  author: John Smith
+  zcustom: 123
 defaultLocalization: en
 title:
   en: Form Title
@@ -361,15 +344,6 @@ pages:
         options:
           text:
             en: Failed
-unprompted:
-  ufield1:
-    action: calculate
-    options:
-      calculation: field1 * 2
-  ufield2:
-    action: calculate
-    options:
-      calculation: field1 * 2
 parameters:
   aaa:
     type: boolean

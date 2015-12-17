@@ -8,7 +8,7 @@ import colander
 from six import PY3
 
 from .common import ValidationError, sub_schema, Options, \
-    validate_instrument_version, StrictBooleanType
+    validate_instrument_version, StrictBooleanType, MetadataCollection
 from .instrument import InstrumentReference, IdentifierString, Description
 
 CAN_CHECK_HTSQL = False
@@ -26,6 +26,7 @@ if not PY3:
 __all__ = (
     'RESULT_TYPES',
     'METHODS_ALL',
+    'METADATA_PROPS',
 
     'CalculationResultType',
     'CalculationMethod',
@@ -53,6 +54,20 @@ METHODS_ALL = (
     'python',
     'htsql',
 )
+
+
+METADATA_PROPS = {
+    'author': colander.SchemaNode(
+        colander.String(),
+    ),
+    'copyright': colander.SchemaNode(
+        colander.String(),
+    ),
+    'homepage': colander.SchemaNode(
+        colander.String(),
+        validator=colander.url,
+    ),
+}
 
 
 _HTSQL = None
@@ -191,12 +206,16 @@ class CalculationList(colander.SequenceSchema):
             raise ValidationError(
                 node,
                 'Calculation IDs must be unique: ' + ', '.join(duplicates),
-            )   
+            )
 
 
 class CalculationSet(colander.SchemaNode):
     instrument = InstrumentReference()
     calculations = CalculationList()
+    meta = MetadataCollection(
+        METADATA_PROPS,
+        missing=colander.drop,
+    )
 
     def __init__(self, instrument=None, *args, **kwargs):
         self.instrument = instrument

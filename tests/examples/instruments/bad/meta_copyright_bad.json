@@ -1,0 +1,15 @@
+{
+  "id": "urn:example:bad:meta:copyright:bad",
+  "version": "1.0",
+  "title": "An Instrument Title",
+  "meta": {
+    "copyright": true
+  },
+  "record": [
+    {
+      "id": "field1",
+      "type": "text"
+    }
+  ]
+}
+

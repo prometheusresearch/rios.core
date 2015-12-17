@@ -7,6 +7,8 @@ RIOS.CORE Change History
 ==================
 
 * Added support for the ``identifiable`` flag on Calculations.
+* Added support for the ``meta`` property in Instruments, Calculation Sets,
+  Forms, and Interactions.
 
 
 0.6.1 (2015-xx-xx)

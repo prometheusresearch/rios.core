@@ -1,0 +1,21 @@
+{
+  "instrument": {
+    "id": "urn:example:bad:meta:copyright:bad",
+    "version": "1.0"
+  },
+  "meta": {
+    "copyright": true
+  },
+  "calculations": [
+    {
+      "id": "calc1",
+      "type": "text",
+      "identifiable": true,
+      "method": "python",
+      "options": {
+        "expression": "field1 + field2"
+      }
+    }
+  ]
+}
+

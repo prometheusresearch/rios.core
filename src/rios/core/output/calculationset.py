@@ -16,6 +16,7 @@ class Calculation(TypedDefinedOrderDict):
         'id',
         'description',
         'type',
+        'identifiable',
         'method',
         'options',
     ]
@@ -28,11 +29,13 @@ class Calculation(TypedDefinedOrderDict):
 class CalculationSet(TypedDefinedOrderDict):
     order = [
         'instrument',
+        'meta',
         'calculations',
     ]
 
     key_types = {
         'instrument': InstrumentReference,
+        'meta': SortedDict,
         'calculations': [Calculation],
     }
 

@@ -12,17 +12,15 @@ import colander
 from six import iteritems, string_types, integer_types
 
 from .common import ValidationError, sub_schema, AnyType, LanguageTag, \
-    validate_instrument_version
+    validate_instrument_version, MetadataCollection
 from .instrument import InstrumentReference, IdentifierString, \
     get_full_type_definition
 
 
 __all__ = (
-    'METADATA_SCOPE_ASSESSMENT',
-    'METADATA_SCOPE_VALUE',
-    'METADATA_STANDARD_PROPERTIES',
+    'METADATA_PROPS_ASSESSMENT',
+    'METADATA_PROPS_VALUE',
 
-    'MetadataCollection',
     'ValueCollection',
     'Assessment',
 )
@@ -33,54 +31,28 @@ RE_DATE = re.compile(r'^\d{4}-\d{2}-\d{2}$')
 RE_TIME = re.compile(r'^\d{2}:\d{2}:\d{2}$')
 RE_DATETIME = re.compile(r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$')
 
-METADATA_SCOPE_ASSESSMENT = 'assessment'
-METADATA_SCOPE_VALUE = 'value'
+METADATA_PROPS_ASSESSMENT = {
+    'language': LanguageTag(),
+    'application': colander.SchemaNode(
+        colander.String(),
+        validator=colander.Regex(RE_PRODUCT_TOKEN),
+    ),
+    'dateCompleted': colander.SchemaNode(
+        colander.DateTime(),
+    ),
+    'timeTaken': colander.SchemaNode(
+        colander.Integer(),
+    ),
+}
 
-METADATA_STANDARD_PROPERTIES = {
-    METADATA_SCOPE_ASSESSMENT: {
-        'language': LanguageTag(),
-        'application': colander.SchemaNode(
-            colander.String(),
-            validator=colander.Regex(RE_PRODUCT_TOKEN),
-        ),
-        'dateCompleted': colander.SchemaNode(
-            colander.DateTime(),
-        ),
-        'timeTaken': colander.SchemaNode(
-            colander.Integer(),
-        ),
-    },
-
-    METADATA_SCOPE_VALUE: {
-        'timeTaken': colander.SchemaNode(
-            colander.Integer(),
-        ),
-    },
+METADATA_PROPS_VALUE = {
+    'timeTaken': colander.SchemaNode(
+        colander.Integer(),
+    ),
 }
 
 
 # pylint: disable=abstract-method
-
-
-class MetadataCollection(colander.SchemaNode):
-    def __init__(self, scope, *args, **kwargs):
-        self.scope = scope
-        kwargs['typ'] = colander.Mapping(unknown='preserve')
-        super(MetadataCollection, self).__init__(*args, **kwargs)
-
-    def validator(self, node, cstruct):
-        cstruct = cstruct or {}
-        if len(cstruct) == 0:
-            raise ValidationError(
-                node,
-                'At least one propety must be defined',
-            )
-
-        standards = METADATA_STANDARD_PROPERTIES.get(self.scope, {})
-
-        for prop, value in iteritems(cstruct):
-            if prop in standards:
-                sub_schema(standards[prop], node, value)
 
 
 class Value(colander.SchemaNode):
@@ -96,7 +68,7 @@ class Value(colander.SchemaNode):
         missing=colander.drop,
     )
     meta = MetadataCollection(
-        METADATA_SCOPE_VALUE,
+        METADATA_PROPS_VALUE,
         missing=colander.drop,
     )
 
@@ -181,7 +153,7 @@ VALUE_TYPE_CHECKS = {
 class Assessment(colander.SchemaNode):
     instrument = InstrumentReference()
     meta = MetadataCollection(
-        METADATA_SCOPE_ASSESSMENT,
+        METADATA_PROPS_ASSESSMENT,
         missing=colander.drop,
     )
     values = ValueCollection()

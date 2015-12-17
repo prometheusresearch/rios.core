@@ -12,7 +12,8 @@ import colander
 from six import iteritems, iterkeys, string_types
 
 from .common import ValidationError, RE_IDENTIFIER, IdentifierString, \
-    sub_schema, AnyType, OneOfType, StrictBooleanType, OptionalStringType
+    sub_schema, AnyType, OneOfType, StrictBooleanType, OptionalStringType, \
+    MetadataCollection
 
 
 __all__ = (
@@ -23,6 +24,7 @@ __all__ = (
     'TYPES_CONSTRAINED',
     'TYPES_CONSTRAINED_REQUIRED',
     'RE_ENUMERATION_ID',
+    'METADATA_PROPS',
 
     'get_full_type_definition',
 
@@ -149,6 +151,19 @@ RANGE_CONSTRAINT_TYPES = {
     'date': colander.Date(),
     'time': colander.Time(),
     'dateTime': colander.DateTime(),
+}
+
+METADATA_PROPS = {
+    'author': colander.SchemaNode(
+        colander.String(),
+    ),
+    'copyright': colander.SchemaNode(
+        colander.String(),
+    ),
+    'homepage': colander.SchemaNode(
+        colander.String(),
+        validator=colander.url,
+    ),
 }
 
 
@@ -316,7 +331,7 @@ class ColumnCollection(colander.SequenceSchema):
             raise ValidationError(
                 node,
                 'Column IDs must be unique within a collection:'
-                ' %s' %  ', '.join(duplicates),
+                ' %s' % ', '.join(duplicates),
             )
 
 
@@ -461,6 +476,10 @@ class Instrument(colander.SchemaNode):
     description = Description()
     types = InstrumentTypes(missing=colander.drop)
     record = Record()
+    meta = MetadataCollection(
+        METADATA_PROPS,
+        missing=colander.drop,
+    )
 
     def __init__(self, *args, **kwargs):
         kwargs['typ'] = colander.Mapping(unknown='raise')
@@ -589,5 +608,9 @@ def get_full_type_definition(instrument, type_def):
         return parent_type_def
 
     else:
-        raise TypeError('type_def must be a string or dict, got "%r"' % type_def)
+        raise TypeError(
+            'type_def must be a string or dict, got "%r"' % (
+                type_def,
+            )
+        )
 

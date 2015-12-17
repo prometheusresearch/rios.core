@@ -13,7 +13,7 @@ from .common import ValidationError, sub_schema, LanguageTag, \
     LocalizedMapping, IdentifierString, Options, LocalizedString, \
     Descriptor as BaseDescriptor, LocalizationChecker, \
     validate_instrument_version, CompoundIdentifierString, StrictBooleanType, \
-    guard_sequence
+    guard_sequence, MetadataCollection
 from .instrument import InstrumentReference, get_full_type_definition
 
 
@@ -24,6 +24,7 @@ __all__ = (
     'PARAMETER_TYPES_ALL',
     'WIDGET_SIZES_ALL',
     'WIDGET_ORIENTATIONS_ALL',
+    'METADATA_PROPS',
 
     'Descriptor',
     'DescriptorList',
@@ -103,6 +104,20 @@ WIDGET_ORIENTATIONS_ALL = (
     'vertical',
     'horizontal',
 )
+
+
+METADATA_PROPS = {
+    'author': colander.SchemaNode(
+        colander.String(),
+    ),
+    'copyright': colander.SchemaNode(
+        colander.String(),
+    ),
+    'homepage': colander.SchemaNode(
+        colander.String(),
+        validator=colander.url,
+    ),
+}
 
 
 # pylint: disable=abstract-method
@@ -405,7 +420,7 @@ class Element(colander.SchemaNode):
                     'Tags can only be assigned to an element once:'
                     ' %s' % (
                         ', '.join(duplicates)
-                    ), 
+                    ),
                 )
 
 
@@ -479,6 +494,10 @@ class Form(colander.SchemaNode):
     title = LocalizedString(missing=colander.drop)
     pages = PageList()
     parameters = ParameterCollection(missing=colander.drop)
+    meta = MetadataCollection(
+        METADATA_PROPS,
+        missing=colander.drop,
+    )
 
     def __init__(self, instrument=None, *args, **kwargs):
         self.instrument = instrument

@@ -7,7 +7,8 @@ import colander
 
 from .common import ValidationError, sub_schema, LanguageTag, \
     IdentifierString, Options, LocalizedString, DescriptorList, \
-    LocalizationChecker, validate_instrument_version, guard, guard_sequence
+    LocalizationChecker, validate_instrument_version, guard, guard_sequence, \
+    MetadataCollection
 from .instrument import InstrumentReference, TYPES_COMPLEX, \
     get_full_type_definition
 
@@ -21,6 +22,19 @@ STEP_TYPES_ALL = (
     'question',
     'text',
 )
+
+METADATA_PROPS = {
+    'author': colander.SchemaNode(
+        colander.String(),
+    ),
+    'copyright': colander.SchemaNode(
+        colander.String(),
+    ),
+    'homepage': colander.SchemaNode(
+        colander.String(),
+        validator=colander.url,
+    ),
+}
 
 
 # pylint: disable=abstract-method
@@ -121,6 +135,10 @@ class Interaction(colander.SchemaNode):
     defaultLocalization = LanguageTag()
     defaultTimeout = Timeout(missing=colander.drop)
     steps = StepList()
+    meta = MetadataCollection(
+        METADATA_PROPS,
+        missing=colander.drop,
+    )
 
     def __init__(self, instrument=None, *args, **kwargs):
         self.instrument = instrument

@@ -115,6 +115,7 @@ class ParameterCollection(TypedSortedDict):
 class Form(TypedDefinedOrderDict):
     order = [
         'instrument',
+        'meta',
         'defaultLocalization',
         'title',
         'pages',
@@ -124,6 +125,7 @@ class Form(TypedDefinedOrderDict):
 
     key_types = {
         'instrument': InstrumentReference,
+        'meta': SortedDict,
         'title': SortedDict,
         'pages': [Page],
         'unprompted': UnpromptedCollection,

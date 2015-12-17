@@ -64,6 +64,7 @@ class Timeout(TypedDefinedOrderDict):
 class Interaction(TypedDefinedOrderDict):
     order = [
         'instrument',
+        'meta',
         'defaultLocalization',
         'defaultTimeout',
         'steps',
@@ -71,6 +72,7 @@ class Interaction(TypedDefinedOrderDict):
 
     key_types = {
         'instrument': InstrumentReference,
+        'meta': SortedDict,
         'defaultTimeout': Timeout,
         'steps': [Step],
     }

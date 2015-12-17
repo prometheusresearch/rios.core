@@ -1,0 +1,22 @@
+{
+  "instrument": {
+    "id": "urn:examples:bad:meta:homepage:bad",
+    "version": "1.0"
+  },
+  "meta": {
+    "homepage": true
+  },
+  "defaultLocalization": "en",
+  "steps": [
+    {
+      "type": "question",
+      "options": {
+        "fieldId": "foo",
+        "text": {
+          "en": "This is a text field."
+        }
+      }
+    }
+  ]
+}
+

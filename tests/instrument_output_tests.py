@@ -63,6 +63,10 @@ INSTRUMENT = {
             },
         },
     ],
+    'meta': {
+        'zcustom': 123,
+        'author': 'John Smith',
+    },
     'types': {
         'zType': {
             'length': {
@@ -90,6 +94,10 @@ EXPECTED_JSON = """{
   "version": "1.0",
   "title": "The Instrument Title",
   "description": "Describing the Instrument",
+  "meta": {
+    "author": "John Smith",
+    "zcustom": 123
+  },
   "types": {
     "aType": {
       "base": "integer",
@@ -173,6 +181,9 @@ EXPECTED_YAML = '''id: urn:output-tester
 version: '1.0'
 title: The Instrument Title
 description: Describing the Instrument
+meta:
+  author: John Smith
+  zcustom: 123
 types:
   aType:
     base: integer

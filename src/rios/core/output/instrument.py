@@ -86,12 +86,14 @@ class Instrument(TypedDefinedOrderDict):
         'version',
         'title',
         'description',
+        'meta',
         'types',
         'record',
     ]
 
     key_types = {
         'version': str,
+        'meta': SortedDict,
         'types': InstrumentTypeCollection,
         'record': [InstrumentField],
     }
