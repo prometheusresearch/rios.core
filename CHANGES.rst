@@ -11,11 +11,6 @@ RIOS.CORE Change History
   Forms, and Interactions.
 * Enhanced validation of metadata values that are supposed to follow the HTTP
   Product Token format.
-
-
-0.6.1 (2015-xx-xx)
-==================
-
 * Display duplicate IDs and more information in error messages.
 * The ``get_full_type_definition()`` function is now officially part of the
   public API of this package.
