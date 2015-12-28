@@ -20,7 +20,6 @@ from .instrument import InstrumentReference, get_full_type_definition
 __all__ = (
     'ELEMENT_TYPES_ALL',
     'EVENT_ACTIONS_ALL',
-    'UNPROMPTED_ACTIONS_ALL',
     'PARAMETER_TYPES_ALL',
     'WIDGET_SIZES_ALL',
     'WIDGET_ORIENTATIONS_ALL',
@@ -78,11 +77,6 @@ EVENT_ACTIONS_ALL = (
     'disable',
     'hideEnumeration',
     'fail',
-)
-
-
-UNPROMPTED_ACTIONS_ALL = (
-    'calculate',
 )
 
 

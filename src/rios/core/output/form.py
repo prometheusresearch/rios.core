@@ -87,21 +87,6 @@ class Page(TypedDefinedOrderDict):
     }
 
 
-class Unprompted(TypedDefinedOrderDict):
-    order = [
-        'action',
-        'options',
-    ]
-
-    key_types = {
-        'options': SortedDict,
-    }
-
-
-class UnpromptedCollection(TypedSortedDict):
-    subtype = Unprompted
-
-
 class Parameter(TypedDefinedOrderDict):
     order = [
         'type',
@@ -119,7 +104,6 @@ class Form(TypedDefinedOrderDict):
         'defaultLocalization',
         'title',
         'pages',
-        'unprompted',
         'parameters',
     ]
 
@@ -128,7 +112,6 @@ class Form(TypedDefinedOrderDict):
         'meta': SortedDict,
         'title': SortedDict,
         'pages': [Page],
-        'unprompted': UnpromptedCollection,
         'parameters': ParameterCollection,
     }
 
