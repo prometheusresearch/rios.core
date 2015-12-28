@@ -1,9 +1,9 @@
 .. image:: https://drone.io/bitbucket.org/prometheus/rios.core/status.png
    :target: https://drone.io/bitbucket.org/prometheus/rios.core/latest
    :alt: Build Status
-.. image:: https://readthedocs.org/projects/rioscore/badge/?version=latest
+.. image:: https://readthedocs.org/projects/rioscore/badge/?version=stable
    :target: https://rioscore.readthedocs.org
-   :alt: Documentation Status
+   :alt: API Documentation
 .. image:: https://img.shields.io/pypi/v/rios.core.svg
    :target: https://pypi.python.org/pypi/rios.core
 .. image:: https://img.shields.io/pypi/l/rios.core.svg
