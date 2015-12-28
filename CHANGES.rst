@@ -9,6 +9,8 @@ RIOS.CORE Change History
 * Added support for the ``identifiable`` flag on Calculations.
 * Added support for the ``meta`` property in Instruments, Calculation Sets,
   Forms, and Interactions.
+* Enhanced validation of metadata values that are supposed to follow the HTTP
+  Product Token format.
 
 
 0.6.1 (2015-xx-xx)

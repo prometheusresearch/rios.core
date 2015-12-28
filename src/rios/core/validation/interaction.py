@@ -8,7 +8,7 @@ import colander
 from .common import ValidationError, sub_schema, LanguageTag, \
     IdentifierString, Options, LocalizedString, DescriptorList, \
     LocalizationChecker, validate_instrument_version, guard, guard_sequence, \
-    MetadataCollection
+    MetadataCollection, RE_PRODUCT_TOKENS
 from .instrument import InstrumentReference, TYPES_COMPLEX, \
     get_full_type_definition
 
@@ -33,6 +33,10 @@ METADATA_PROPS = {
     'homepage': colander.SchemaNode(
         colander.String(),
         validator=colander.url,
+    ),
+    'generator': colander.SchemaNode(
+        colander.String(),
+        validator=colander.Regex(RE_PRODUCT_TOKENS),
     ),
 }
 

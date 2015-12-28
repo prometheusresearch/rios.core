@@ -1,0 +1,18 @@
+{
+  "instrument": {
+    "id": "urn:example:good:meta2",
+    "version": "1.0"
+  },
+  "meta": {
+    "application": "SurveyMaster/1.0 SomePlugin/2.1"
+  },
+  "values": {
+    "field1": {
+      "value": "hello world",
+      "meta": {
+        "something": "cool"
+      }
+    }
+  }
+}
+

@@ -15,6 +15,7 @@ from six import iteritems
 
 __all__ = (
     'RE_IDENTIFIER',
+    'RE_PRODUCT_TOKENS',
 
     'ValidationError',
     'guard',
@@ -49,6 +50,14 @@ RE_COMPOUND_IDENTIFIER = re.compile(
     r'^%s(\.%s)*$' % (
         BASE_IDENTIFIER_RESTR,
         BASE_IDENTIFIER_RESTR,
+    )
+)
+
+BASE_PRODUCT_RESTR = r'([^/\s]+)/([^/\s]+)'
+RE_PRODUCT_TOKENS = re.compile(
+    r'^(%s)(\s+%s)*$' % (
+        BASE_PRODUCT_RESTR,
+        BASE_PRODUCT_RESTR,
     )
 )
 
@@ -241,7 +250,7 @@ class MetadataCollection(colander.SchemaNode):
         if len(cstruct) == 0:
             raise ValidationError(
                 node,
-                'At least one propety must be defined',
+                'At least one property must be defined',
             )
 
         for prop, value in iteritems(cstruct):

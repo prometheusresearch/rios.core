@@ -8,7 +8,8 @@ import colander
 from six import PY3
 
 from .common import ValidationError, sub_schema, Options, \
-    validate_instrument_version, StrictBooleanType, MetadataCollection
+    validate_instrument_version, StrictBooleanType, MetadataCollection, \
+    RE_PRODUCT_TOKENS
 from .instrument import InstrumentReference, IdentifierString, Description
 
 CAN_CHECK_HTSQL = False
@@ -66,6 +67,10 @@ METADATA_PROPS = {
     'homepage': colander.SchemaNode(
         colander.String(),
         validator=colander.url,
+    ),
+    'generator': colander.SchemaNode(
+        colander.String(),
+        validator=colander.Regex(RE_PRODUCT_TOKENS),
     ),
 }
 

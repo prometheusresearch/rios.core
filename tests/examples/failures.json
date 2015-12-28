@@ -12,7 +12,7 @@
   "assessments/bad/meta_application_bad.json": {"meta": "String does not match expected pattern"},
   "assessments/bad/meta_bad.json": {"meta": "\"foo\" is not a mapping type: Does not implement dict-like functionality."},
   "assessments/bad/meta_datecompleted_bad.json": {"meta": "Invalid date"},
-  "assessments/bad/meta_empty.json": {"meta": "At least one propety must be defined"},
+  "assessments/bad/meta_empty.json": {"meta": "At least one property must be defined"},
   "assessments/bad/meta_language_bad.json": {"meta": "String does not match expected pattern"},
   "assessments/bad/meta_timetaken_bad.json": {"meta": "\"foo\" is not a number"},
   "assessments/bad/root_extra.json": {"": "Unrecognized keys in mapping: \"{u'foo': u'bar'}\""},
@@ -26,6 +26,7 @@
   "assessments/bad/value_value_bad.json": {"values": "\"foo\" is not a mapping type: Does not implement dict-like functionality."},
   "assessments/bad/value_value_empty.json": {"values.value": "Required"},
   "assessments/bad/value_value_extra.json": {"values": "Unrecognized keys in mapping: \"{u'foo': u'bar'}\""},
+  "assessments/bad/meta_application_bad2.json": {"meta": "String does not match expected pattern"},
 
   "calculationsets/bad/calculations_bad.json": {"calculations": "\"False\" is not iterable"},
   "calculationsets/bad/calculations_empty.json": {"calculations": "Shorter than minimum length 1"},
@@ -65,6 +66,7 @@
   "calculationsets/bad/meta_bad.json": {"meta": "\"123\" is not a mapping type: Does not implement dict-like functionality."},
   "calculationsets/bad/meta_copyright_bad.json": {"meta": "True is not a string: {'': ''}"},
   "calculationsets/bad/meta_homepage_bad.json": {"meta": "True is not a string: {'': ''}"},
+  "calculationsets/bad/meta_generator_bad.json": {"meta": "String does not match expected pattern"},
 
   "forms/bad/audio_source_bad.json": {"pages.0.elements.0.source": "\"foo\" is not a mapping type: Does not implement dict-like functionality."},
   "forms/bad/audio_source_bad_url.json": {"pages.0.elements.0.source.0": "42 is not a string: {'url': ''}"},
@@ -133,6 +135,7 @@
   "forms/bad/meta_bad.json": {"meta": "\"123\" is not a mapping type: Does not implement dict-like functionality."},
   "forms/bad/meta_copyright_bad.json": {"meta": "True is not a string: {'': ''}"},
   "forms/bad/meta_homepage_bad.json": {"meta": "True is not a string: {'': ''}"},
+  "forms/bad/meta_generator_bad.json": {"meta": "String does not match expected pattern"},
 
   "instruments/bad/custom_type_base_bad.json": {"types": "invalid definition, references undefined base type \"TEXT\""},
   "instruments/bad/custom_type_def_bad.json": {"types": "\"text\" is not a mapping type: Does not implement dict-like functionality."},
@@ -207,6 +210,7 @@
   "instruments/bad/meta_bad.json": {"meta": "\"123\" is not a mapping type: Does not implement dict-like functionality."},
   "instruments/bad/meta_copyright_bad.json": {"meta": "True is not a string: {'': ''}"},
   "instruments/bad/meta_homepage_bad.json": {"meta": "True is not a string: {'': ''}"},
+  "instruments/bad/meta_generator_bad.json": {"meta": "String does not match expected pattern"},
 
   "interactions/bad/defaultlocalization_bad.json": {"defaultLocalization": "1 is not a string: {'defaultLocalization': ''}"},
   "interactions/bad/defaultlocalization_empty.json": {"defaultLocalization": "Required"},
@@ -241,6 +245,7 @@
   "interactions/bad/meta_author_bad.json": {"meta": "True is not a string: {'': ''}"},
   "interactions/bad/meta_bad.json": {"meta": "\"123\" is not a mapping type: Does not implement dict-like functionality."},
   "interactions/bad/meta_copyright_bad.json": {"meta": "True is not a string: {'': ''}"},
-  "interactions/bad/meta_homepage_bad.json": {"meta": "True is not a string: {'': ''}"}
+  "interactions/bad/meta_homepage_bad.json": {"meta": "True is not a string: {'': ''}"},
+  "interactions/bad/meta_generator_bad.json": {"meta": "String does not match expected pattern"}
 }
 

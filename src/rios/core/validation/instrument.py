@@ -13,7 +13,7 @@ from six import iteritems, iterkeys, string_types
 
 from .common import ValidationError, RE_IDENTIFIER, IdentifierString, \
     sub_schema, AnyType, OneOfType, StrictBooleanType, OptionalStringType, \
-    MetadataCollection
+    MetadataCollection, RE_PRODUCT_TOKENS
 
 
 __all__ = (
@@ -163,6 +163,10 @@ METADATA_PROPS = {
     'homepage': colander.SchemaNode(
         colander.String(),
         validator=colander.url,
+    ),
+    'generator': colander.SchemaNode(
+        colander.String(),
+        validator=colander.Regex(RE_PRODUCT_TOKENS),
     ),
 }
 

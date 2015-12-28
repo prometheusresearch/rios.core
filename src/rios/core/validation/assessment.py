@@ -12,7 +12,7 @@ import colander
 from six import iteritems, string_types, integer_types
 
 from .common import ValidationError, sub_schema, AnyType, LanguageTag, \
-    validate_instrument_version, MetadataCollection
+    validate_instrument_version, MetadataCollection, RE_PRODUCT_TOKENS
 from .instrument import InstrumentReference, IdentifierString, \
     get_full_type_definition
 
@@ -26,7 +26,6 @@ __all__ = (
 )
 
 
-RE_PRODUCT_TOKEN = re.compile(r'^(.+)/(.+)$')
 RE_DATE = re.compile(r'^\d{4}-\d{2}-\d{2}$')
 RE_TIME = re.compile(r'^\d{2}:\d{2}:\d{2}$')
 RE_DATETIME = re.compile(r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$')
@@ -35,7 +34,7 @@ METADATA_PROPS_ASSESSMENT = {
     'language': LanguageTag(),
     'application': colander.SchemaNode(
         colander.String(),
-        validator=colander.Regex(RE_PRODUCT_TOKEN),
+        validator=colander.Regex(RE_PRODUCT_TOKENS),
     ),
     'dateCompleted': colander.SchemaNode(
         colander.DateTime(),

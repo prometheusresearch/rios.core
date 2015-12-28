@@ -6,6 +6,7 @@
     "author": "John Smith",
     "copyright": "(c)2015 Smith, Inc",
     "homepage": "http://www.example.com/instruments",
+    "generator": "SurveyBuilder/1.0",
     "mycustom": 123
   },
   "record": [
