@@ -3,7 +3,7 @@ RIOS.CORE Change History
 ************************
 
 
-0.7.0 (2015-xx-xx)
+0.7.0 (2015-12-28)
 ==================
 
 * Added support for the ``identifiable`` flag on Calculations.
