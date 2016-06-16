@@ -205,8 +205,12 @@ class Description(colander.SchemaNode):
     missing = colander.drop
 
 
-class Enumeration(colander.MappingSchema):
+class Enumeration(colander.SchemaNode):
     description = Description()
+
+    def __init__(self, *args, **kwargs):
+        kwargs['typ'] = colander.Mapping(unknown='raise')
+        super(Enumeration, self).__init__(*args, **kwargs)
 
 
 class EnumerationIdentifier(colander.SchemaNode):

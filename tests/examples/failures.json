@@ -211,6 +211,7 @@
   "instruments/bad/meta_copyright_bad.json": {"meta": "True is not a string: {'': ''}"},
   "instruments/bad/meta_homepage_bad.json": {"meta": "True is not a string: {'': ''}"},
   "instruments/bad/meta_generator_bad.json": {"meta": "String does not match expected pattern"},
+  "instruments/bad/enumeration_extra.json": {"record.0.type.enumerations": "Unrecognized keys in mapping: \"{u'extra': True}\""},
 
   "interactions/bad/defaultlocalization_bad.json": {"defaultLocalization": "1 is not a string: {'defaultLocalization': ''}"},
   "interactions/bad/defaultlocalization_empty.json": {"defaultLocalization": "Required"},

@@ -8,6 +8,8 @@ RIOS.CORE Change History
 
 * Added validation logic to prevent the assignment of the standard widget types
   to fields of incompatible data types.
+* Added validation logic to prevent unknown properties in Instrument
+  Enumeration definitions.
 * Updated ``colander`` dependency to allow more recent versions.
 
 
