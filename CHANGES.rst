@@ -8,6 +8,7 @@ RIOS.CORE Change History
 
 * Added validation logic to prevent the assignment of the standard widget types
   to fields of incompatible data types.
+* Updated ``colander`` dependency to allow more recent versions.
 
 
 0.7.0 (2015-12-28)
