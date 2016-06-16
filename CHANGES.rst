@@ -3,6 +3,13 @@ RIOS.CORE Change History
 ************************
 
 
+0.8.0 (2016-xx-xx)
+==================
+
+* Added validation logic to prevent the assignment of the standard widget types
+  to fields of incompatible data types.
+
+
 0.7.0 (2015-12-28)
 ==================
 

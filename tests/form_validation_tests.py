@@ -398,3 +398,25 @@ def test_nonunique_tag():
     else:
         assert False
 
+
+def test_custom_widget():
+    validator = Form(instrument=INSTRUMENT)
+    form = deepcopy(FORM)
+    form['pages'][0]['elements'][4]['options']['widget']['type'] = 'myCustomWidget'
+    validator.deserialize(form)
+
+
+def test_wrong_standard_widget():
+    validator = Form(instrument=INSTRUMENT)
+    form = deepcopy(FORM)
+    form['pages'][0]['elements'][4]['options']['widget']['type'] = 'radioGroup'
+    try:
+        validator.deserialize(form)
+    except ValidationError as exc:
+        assert_validation_error(
+            exc,
+            {'pages.0.elements.4.options': u'Standard widget "radioGroup" cannot be used with fields of type "text"'},
+        )
+    else:
+        assert False
+

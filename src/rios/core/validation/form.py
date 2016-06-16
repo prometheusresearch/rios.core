@@ -24,6 +24,7 @@ __all__ = (
     'WIDGET_SIZES_ALL',
     'WIDGET_ORIENTATIONS_ALL',
     'METADATA_PROPS',
+    'STANDARD_WIDGET_DATATYPES',
 
     'Descriptor',
     'DescriptorList',
@@ -98,6 +99,46 @@ WIDGET_ORIENTATIONS_ALL = (
     'vertical',
     'horizontal',
 )
+
+
+STANDARD_WIDGET_DATATYPES = {
+    'inputText': [
+        'text',
+    ],
+    'inputNumber': [
+        'integer',
+        'float',
+    ],
+    'textArea': [
+        'text',
+    ],
+    'radioGroup': [
+        'enumeration',
+        'boolean',
+    ],
+    'checkGroup': [
+        'enumerationSet',
+    ],
+    'dropDown': [
+        'enumeration',
+        'boolean',
+    ],
+    'datePicker': [
+        'date',
+    ],
+    'timePicker': [
+        'time',
+    ],
+    'dateTimePicker': [
+        'dateTime',
+    ],
+    'recordList': [
+        'recordList',
+    ],
+    'matrix': [
+        'matrix',
+    ],
+}
 
 
 METADATA_PROPS = {
@@ -688,6 +729,23 @@ class Form(colander.SchemaNode):
 
         self._check_matrix(node, type_def, options)
         self._check_subquestions(node, type_def, options)
+        self._check_widget_assignment(node, type_def, options)
+
+    def _check_widget_assignment(self, node, type_def, options):
+        widget = options.get('widget', {}).get('type')
+        if not widget:
+            return
+
+        if widget in STANDARD_WIDGET_DATATYPES \
+                and type_def['base'] not in STANDARD_WIDGET_DATATYPES[widget]:
+            raise ValidationError(
+                node,
+                'Standard widget "%s" cannot be used with fields of type'
+                ' "%s"' % (
+                    widget,
+                    type_def['base'],
+                ),
+            )
 
     def _check_matrix(self, node, type_def, options):
         if type_def['base'] == 'matrix':
