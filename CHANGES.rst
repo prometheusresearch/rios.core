@@ -3,7 +3,7 @@ RIOS.CORE Change History
 ************************
 
 
-0.8.0 (2016-xx-xx)
+0.8.0 (2016-06-17)
 ==================
 
 * Added validation logic to prevent the assignment of the standard widget types
