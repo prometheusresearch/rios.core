@@ -142,7 +142,7 @@ def test_missing_matrix_column():
     except ValidationError as exc:
         assert_validation_error(
             exc,
-            {'values': 'No value exists for field ID "col2"'},
+            {'values': u'Row ID "row2" is missing values for columns: col2'},
         )
     else:
         assert False
@@ -169,6 +169,59 @@ def test_extra_row():
     else:
         assert False
 
+
+def test_extra_column():
+    validator = Assessment(instrument=INSTRUMENT)
+    assessment = deepcopy(ASSESSMENT)
+    assessment['values']['matrix_field']['value']['row2']['fake'] = {'value': 'foo'}
+    try:
+        validator.deserialize(assessment)
+    except ValidationError as exc:
+        assert_validation_error(
+            exc,
+            {'values': u'Row ID "row2" contains unknown column IDs: fake'}
+        )
+    else:
+        assert False
+
+
+def test_required_row():
+    instrument = deepcopy(INSTRUMENT)
+    instrument['record'][11]['type']['rows'][0]['required'] = True
+    validator = Assessment(instrument=instrument)
+    assessment = deepcopy(ASSESSMENT)
+    assessment['values']['matrix_field']['value']['row1']['col1'] = {'value': None}
+    assessment['values']['matrix_field']['value']['row1']['col2'] = {'value': None}
+    try:
+        validator.deserialize(assessment)
+    except ValidationError as exc:
+        assert_validation_error(
+            exc,
+            {'values': u'Row ID "row1" requires at least one column with a value'}
+        )
+    else:
+        assert False
+
+
+def test_required_column():
+    instrument = deepcopy(INSTRUMENT)
+    instrument['record'][11]['type']['columns'][0]['required'] = True
+    validator = Assessment(instrument=instrument)
+    assessment = deepcopy(ASSESSMENT)
+    assessment['values']['matrix_field']['value']['row1']['col1'] = {'value': None}
+    try:
+        validator.deserialize(assessment)
+    except ValidationError as exc:
+        assert_validation_error(
+            exc,
+            {'values': u'Row ID "row1" is missing values for columns: col1'}
+        )
+    else:
+        assert False
+
+    assessment['values']['matrix_field']['value']['row1']['col1'] = {'value': 'foo'}
+    assessment['values']['matrix_field']['value']['row1']['col2'] = {'value': None}
+    validator.deserialize(assessment)
 
 def test_required_value():
     validator = Assessment(instrument=INSTRUMENT)

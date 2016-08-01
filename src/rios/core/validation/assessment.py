@@ -303,24 +303,90 @@ class Assessment(colander.SchemaNode):
                 )
 
         elif 'rows' in full_type_def:
-            for row in full_type_def['rows']:
-                row_value = value['value'].pop(row['id'], None)
-                if row_value is None:
-                    raise ValidationError(
-                        node,
-                        'Missing values for row ID "%s"' % row['id'],
-                    )
+            self._check_matrix_subfields(node, full_type_def, value)
 
-                self.check_has_all_fields(
-                    node,
-                    row_value,
-                    full_type_def['columns'],
-                )
-
-            if len(value['value']) > 0:
+    def _check_matrix_subfields(self, node, full_type_def, value):
+        for row in full_type_def['rows']:
+            row_value = value['value'].pop(row['id'], None)
+            if row_value is None:
                 raise ValidationError(
                     node,
-                    'Unknown row IDs found: %s' % (
-                        ', '.join(list(value['value'].keys())),
+                    'Missing values for row ID "%s"' % row['id'],
+                )
+
+            # Make sure all the columns exist.
+            columns = set([
+                column['id']
+                for column in full_type_def['columns']
+            ])
+            existing_columns = set(row_value.keys())
+            missing_columns = columns - existing_columns
+            if missing_columns:
+                raise ValidationError(
+                    node,
+                    'Row ID "%s" is missing values for columns: %s' % (
+                        row['id'],
+                        ', '.join(list(missing_columns)),
                     ),
                 )
+            extra_columns = existing_columns - columns
+            if extra_columns:
+                raise ValidationError(
+                    node,
+                    'Row ID "%s" contains unknown column IDs: %s' % (
+                        row['id'],
+                        ', '.join(list(extra_columns)),
+                    ),
+                )
+
+            # Enforce row requirements.
+            columns_with_values = [
+                column
+                for column in existing_columns
+                if row_value[column]['value'] is not None
+            ]
+            if row.get('required', False) and not columns_with_values:
+                raise ValidationError(
+                    node,
+                    'Row ID "%s" requires at least one column with a'
+                    ' value' % (
+                        row['id'],
+                    ),
+                )
+
+            # Enforce column requirements.
+            required_columns = [
+                column['id']
+                for column in full_type_def['columns']
+                if column.get('required', False)
+            ]
+            if required_columns and columns_with_values:
+                missing = set(required_columns) - set(columns_with_values)
+                if missing:
+                    raise ValidationError(
+                        node,
+                        'Row ID "%s" is missing values for columns: %s' % (
+                            row['id'],
+                            ', '.join(list(missing)),
+                        ),
+                    )
+
+            for column in full_type_def['columns']:
+                self._check_value_type(
+                    node,
+                    row_value[column['id']]['value'],
+                    column,
+                    get_full_type_definition(
+                        self.instrument,
+                        column['type'],
+                    ),
+                )
+
+        if len(value['value']) > 0:
+            raise ValidationError(
+                node,
+                'Unknown row IDs found: %s' % (
+                    ', '.join(list(value['value'].keys())),
+                ),
+            )
+
