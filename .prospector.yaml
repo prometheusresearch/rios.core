@@ -23,7 +23,9 @@ pylint:
 
 pyflakes:
   disable:
+    - F401
     - F403
+    - F999
 
 pyroma:
   run: true

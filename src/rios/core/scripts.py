@@ -9,7 +9,9 @@ import sys
 
 from six import iteritems
 
-from .validation import *
+from .validation import validate_instrument, validate_assessment, \
+    validate_calculationset, validate_form, validate_interaction, \
+    ValidationError
 
 
 __all__ = (

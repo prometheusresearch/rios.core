@@ -45,7 +45,7 @@ setup(
             'coverage>=3.7,<4',
             'nose>=1.3,<2',
             'nosy>=1.1,<2',
-            'prospector[with_pyroma]>=0.10,<0.11',
+            'prospector[with_pyroma]>=0.12,<0.13',
             'twine>=1.5,<2',
             'wheel>=0.24,<0.25',
             'Sphinx>=1.3,<2',
