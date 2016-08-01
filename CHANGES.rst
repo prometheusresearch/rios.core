@@ -3,7 +3,7 @@ RIOS.CORE Change History
 ************************
 
 
-0.8.1 (2016-xx-xx)
+0.8.1 (2016-08-01)
 ==================
 
 * Fixed inconsistencies with how "required" is enforced with matrix rows and
