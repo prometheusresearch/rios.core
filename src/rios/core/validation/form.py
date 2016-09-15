@@ -702,7 +702,7 @@ class Form(colander.SchemaNode):
                 node,
                 'There are required fields targetted by hide/disable events:'
                 ' %s' % (
-                    ', '.join(hidden_required_fields),
+                    ', '.join(sorted(hidden_required_fields)),
                 )
             )
 
