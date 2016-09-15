@@ -646,6 +646,7 @@ class Form(colander.SchemaNode):
             field['id']
             for field in self.instrument['record']
         ])
+        hide_disable_targets = set()
 
         form_fields = set()
         for pidx, page in enumerate(cstruct['pages']):
@@ -666,6 +667,12 @@ class Form(colander.SchemaNode):
                             )
                         form_fields.add(field_id)
 
+                    for event in element['options'].get('events', []):
+                        if event['action'] in ('hide', 'disable'):
+                            hide_disable_targets.update(
+                                event.get('targets', [field_id])
+                            )
+
         missing = instrument_fields - form_fields
         if missing:
             raise ValidationError(
@@ -681,6 +688,21 @@ class Form(colander.SchemaNode):
                 node,
                 'There are extra fields referenced by questions: %s' % (
                     ', '.join(extra),
+                )
+            )
+
+        required_fields = set([
+            field['id']
+            for field in self.instrument['record']
+            if field.get('required', False)
+        ])
+        hidden_required_fields = required_fields & hide_disable_targets
+        if hidden_required_fields:
+            raise ValidationError(
+                node,
+                'There are required fields targetted by hide/disable events:'
+                ' %s' % (
+                    ', '.join(hidden_required_fields),
                 )
             )
 
