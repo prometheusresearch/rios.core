@@ -1,3 +1,6 @@
+.. image:: https://img.shields.io/bitbucket/pipelines/atlassian/adf-builder-javascript.svg
+   :target: https://bitbucket.org/prometheus/rios.core/addon/pipelines/home
+   :alt: Build Status
 .. image:: https://readthedocs.org/projects/rioscore/badge/?version=stable
    :target: https://rioscore.readthedocs.org
    :alt: API Documentation
