@@ -71,7 +71,7 @@ def get_yaml(data, pretty=False, **kwargs):
     return yaml.dump(data, **kwargs).rstrip()
 
 
-class OrderedDumper(yaml.Dumper):
+class OrderedDumper(yaml.Dumper):  # noqa: too-many-ancestors
     pass
 
 

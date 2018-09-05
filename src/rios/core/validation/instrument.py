@@ -191,7 +191,7 @@ class Version(colander.SchemaNode):
 
 
 class InstrumentReference(colander.SchemaNode):
-    id = InstrumentIdentifier()  # pylint: disable=invalid-name
+    id = InstrumentIdentifier()
     version = Version()
 
     def __init__(self, *args, **kwargs):
@@ -225,7 +225,7 @@ class EnumerationCollection(colander.SchemaNode):
 
     def validator(self, node, cstruct):
         cstruct = cstruct or {}
-        if len(cstruct) == 0:
+        if not cstruct:
             raise ValidationError(
                 node,
                 'At least one Enumeration must be defined',
@@ -306,7 +306,7 @@ class FieldType(colander.SchemaNode):
 
 
 class Column(colander.SchemaNode):
-    id = IdentifierString()  # pylint: disable=invalid-name
+    id = IdentifierString()
     description = Description()
     required = colander.SchemaNode(
         StrictBooleanType(),
@@ -344,7 +344,7 @@ class ColumnCollection(colander.SequenceSchema):
 
 
 class Row(colander.SchemaNode):
-    id = IdentifierString()  # pylint: disable=invalid-name
+    id = IdentifierString()
     description = Description()
     required = colander.SchemaNode(
         StrictBooleanType(),
@@ -413,7 +413,7 @@ class RequiredOptionalField(colander.SchemaNode):
 
 
 class Field(colander.SchemaNode):
-    id = IdentifierString()  # pylint: disable=invalid-name
+    id = IdentifierString()
     description = Description()
     type = FieldType()
     required = colander.SchemaNode(
@@ -478,7 +478,7 @@ class InstrumentTypes(colander.SchemaNode):
 
 
 class Instrument(colander.SchemaNode):
-    id = InstrumentIdentifier()  # pylint: disable=invalid-name
+    id = InstrumentIdentifier()
     version = Version()
     title = colander.SchemaNode(colander.String())
     description = Description()

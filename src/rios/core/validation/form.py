@@ -245,7 +245,7 @@ class HotkeyCollection(colander.SchemaNode):
 
     def validator(self, node, cstruct):
         cstruct = cstruct or {}
-        if len(cstruct) == 0:
+        if not cstruct:
             raise ValidationError(
                 node,
                 'At least one Hotkey must be defined',
@@ -469,7 +469,7 @@ class ElementList(colander.SequenceSchema):
 
 
 class Page(colander.SchemaNode):
-    id = IdentifierString()  # pylint: disable=invalid-name
+    id = IdentifierString()
     elements = ElementList()
 
     def __init__(self, *args, **kwargs):
@@ -516,7 +516,7 @@ class ParameterCollection(colander.SchemaNode):
 
     def validator(self, node, cstruct):
         cstruct = cstruct or {}
-        if len(cstruct) == 0:
+        if not cstruct:
             raise ValidationError(
                 node,
                 'At least one key/value pair must be defined',
@@ -538,8 +538,8 @@ class Form(colander.SchemaNode):
         missing=colander.drop,
     )
 
-    def __init__(self, instrument=None, *args, **kwargs):
-        self.instrument = instrument
+    def __init__(self, *args, **kwargs):
+        self.instrument = kwargs.pop('instrument', None)
         kwargs['typ'] = colander.Mapping(unknown='raise')
         super(Form, self).__init__(*args, **kwargs)
 
@@ -693,6 +693,7 @@ class Form(colander.SchemaNode):
                     self.instrument,
                     field['type'],
                 )
+        return None
 
     def _check_type_specifics(self, node, options, record=None):
         type_def = self._get_instrument_field_type(

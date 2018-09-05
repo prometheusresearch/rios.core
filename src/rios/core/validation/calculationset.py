@@ -164,7 +164,7 @@ METHOD_OPTION_VALIDATORS = {
 
 
 class Calculation(colander.SchemaNode):
-    id = IdentifierString()  # pylint: disable=invalid-name
+    id = IdentifierString()
     description = Description()
     identifiable = colander.SchemaNode(
         StrictBooleanType(),
@@ -222,8 +222,8 @@ class CalculationSet(colander.SchemaNode):
         missing=colander.drop,
     )
 
-    def __init__(self, instrument=None, *args, **kwargs):
-        self.instrument = instrument
+    def __init__(self, *args, **kwargs):
+        self.instrument = kwargs.pop('instrument', None)
         kwargs['typ'] = colander.Mapping(unknown='raise')
         super(CalculationSet, self).__init__(*args, **kwargs)
 

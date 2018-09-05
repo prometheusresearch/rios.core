@@ -190,7 +190,7 @@ class LocalizedMapping(colander.SchemaNode):
     def validator(self, node, cstruct):
         cstruct = cstruct or {}
 
-        if len(cstruct) == 0:
+        if not cstruct:
             raise ValidationError(
                 node,
                 'At least one localization must be specified',
@@ -217,7 +217,7 @@ class Options(colander.SchemaNode):
 
     def validator(self, node, cstruct):
         cstruct = cstruct or {}
-        if len(cstruct) == 0:
+        if not cstruct:
             raise ValidationError(
                 node,
                 'At least one key/value pair must be defined',
@@ -225,7 +225,7 @@ class Options(colander.SchemaNode):
 
 
 class Descriptor(colander.SchemaNode):
-    id = colander.SchemaNode(colander.String())  # pylint: disable=invalid-name
+    id = colander.SchemaNode(colander.String())
     text = LocalizedString()
     help = LocalizedString(missing=colander.drop)
 
@@ -247,7 +247,7 @@ class MetadataCollection(colander.SchemaNode):
 
     def validator(self, node, cstruct):
         cstruct = cstruct or {}
-        if len(cstruct) == 0:
+        if not cstruct:
             raise ValidationError(
                 node,
                 'At least one property must be defined',

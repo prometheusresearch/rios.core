@@ -4,8 +4,9 @@
 
 
 import argparse
-import pkg_resources
 import sys
+
+import pkg_resources
 
 from six import iteritems
 

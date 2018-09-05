@@ -144,8 +144,8 @@ class Interaction(colander.SchemaNode):
         missing=colander.drop,
     )
 
-    def __init__(self, instrument=None, *args, **kwargs):
-        self.instrument = instrument
+    def __init__(self, *args, **kwargs):
+        self.instrument = kwargs.pop('instrument', None)
         kwargs['typ'] = colander.Mapping(unknown='raise')
         super(Interaction, self).__init__(*args, **kwargs)
 
@@ -241,6 +241,7 @@ class Interaction(colander.SchemaNode):
         for field in self.instrument['record']:
             if field['id'] == name:
                 return field
+        return None
 
     def _check_type_specifics(self, node, cstruct):
         for sidx, step in enumerate(cstruct['steps']):

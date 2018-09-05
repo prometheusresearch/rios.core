@@ -104,7 +104,7 @@ class ValueCollection(colander.SchemaNode):
 
     def validator(self, node, cstruct):
         cstruct = cstruct or {}
-        if len(cstruct) == 0:
+        if not cstruct:
             raise ValidationError(
                 node,
                 'At least one Value must be defined',
@@ -122,7 +122,7 @@ class ValueCollectionMapping(colander.SchemaNode):
 
     def validator(self, node, cstruct):
         cstruct = cstruct or {}
-        if len(cstruct) == 0:
+        if not cstruct:
             raise ValidationError(
                 node,
                 'At least one Row must be defined',
@@ -157,8 +157,8 @@ class Assessment(colander.SchemaNode):
     )
     values = ValueCollection()
 
-    def __init__(self, instrument=None, *args, **kwargs):
-        self.instrument = instrument
+    def __init__(self, *args, **kwargs):
+        self.instrument = kwargs.pop('instrument', None)
         kwargs['typ'] = colander.Mapping(unknown='raise')
         super(Assessment, self).__init__(*args, **kwargs)
 
@@ -212,7 +212,7 @@ class Assessment(colander.SchemaNode):
 
             self._check_complex_subfields(node, full_type_def, value)
 
-        if len(values) > 0:
+        if values:
             raise ValidationError(
                 node,
                 'Unknown field IDs found: %s' % ', '.join(list(values.keys())),
@@ -382,7 +382,7 @@ class Assessment(colander.SchemaNode):
                     ),
                 )
 
-        if len(value['value']) > 0:
+        if value['value']:
             raise ValidationError(
                 node,
                 'Unknown row IDs found: %s' % (

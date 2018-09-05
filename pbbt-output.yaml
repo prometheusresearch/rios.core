@@ -4,7 +4,7 @@
 ---
 suite: rios.core
 tests:
-- sh: pip install --quiet coverage nose
-  stdout: ''
-- sh: nosetests --quiet
-  stdout: ''
+  - sh: pip install --quiet coverage nose
+    stdout: ''
+  - sh: nosetests --quiet
+    stdout: ''
