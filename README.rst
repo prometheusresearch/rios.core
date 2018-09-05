@@ -1,6 +1,3 @@
-.. image:: https://drone.io/bitbucket.org/prometheus/rios.core/status.png
-   :target: https://drone.io/bitbucket.org/prometheus/rios.core/latest
-   :alt: Build Status
 .. image:: https://readthedocs.org/projects/rioscore/badge/?version=stable
    :target: https://rioscore.readthedocs.org
    :alt: API Documentation
@@ -77,7 +74,10 @@ following::
     $ cd rios
     $ . bin/activate
     $ hg clone ssh://hg@bitbucket.org/prometheus/rios.core
-    $ pip install -e ./rios.core[dev]
+    $ cd rios.core
+    $ pip install -e .
+    $ pip install -r requirements.txt
+    $ nosetests
 
 
 License/Copyright
