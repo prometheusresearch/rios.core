@@ -64,9 +64,7 @@ def get_yaml(data, pretty=False, **kwargs):
 
     kwargs['Dumper'] = OrderedDumper
     kwargs['allow_unicode'] = True
-
-    if pretty:
-        kwargs['default_flow_style'] = False
+    kwargs['default_flow_style'] = False if pretty else None
 
     return yaml.dump(data, **kwargs).rstrip()
 

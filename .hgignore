@@ -3,4 +3,5 @@ syntax: glob
 build
 dist
 .tox
+pip-wheel-metadata
 
