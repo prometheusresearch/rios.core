@@ -3,6 +3,12 @@ RIOS.CORE Change History
 ************************
 
 
+0.8.3 (2019-03-20)
+==================
+
+* YAML serialization fixes due to new versions of PyYAML.
+
+
 0.8.2 (2018-09-06)
 ==================
 
