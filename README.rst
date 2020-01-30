@@ -1,9 +1,7 @@
-.. image:: https://img.shields.io/bitbucket/pipelines/atlassian/adf-builder-javascript.svg
-   :target: https://bitbucket.org/prometheus/rios.core/addon/pipelines/home
-   :alt: Build Status
+.. image:: https://github.com/prometheusresearch/rios.core/workflows/Test/badge.svg
+   :target: https://github.com/prometheusresearch/rios.core/actions
 .. image:: https://readthedocs.org/projects/rioscore/badge/?version=stable
    :target: https://rioscore.readthedocs.org
-   :alt: API Documentation
 .. image:: https://img.shields.io/pypi/v/rios.core.svg
    :target: https://pypi.python.org/pypi/rios.core
 .. image:: https://img.shields.io/pypi/l/rios.core.svg
@@ -86,8 +84,8 @@ following::
 License/Copyright
 =================
 
-This project is licensed under the GNU Affero General Public License, version
-3. See the accompanying ``LICENSE.rst`` file for details.
+This project is licensed under the Apache v2 license. See the accompanying
+``LICENSE.rst`` file for details.
 
 Copyright (c) 2015, Prometheus Research, LLC
 
