@@ -74,7 +74,7 @@ following::
     $ virtualenv rios
     $ cd rios
     $ . bin/activate
-    $ hg clone ssh://hg@bitbucket.org/prometheus/rios.core
+    $ git clone git@github.com:prometheusresearch/rios.core.git
     $ cd rios.core
     $ pip install -e .
     $ pip install -r requirements.txt
