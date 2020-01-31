@@ -3,8 +3,8 @@ RIOS.CORE Change History
 ************************
 
 
-0.8.4 (2020-01-30)
-==================
+0.8.4 (TBD)
+===========
 
 * Changed license to Apache v2.
 
