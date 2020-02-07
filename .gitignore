@@ -1,6 +1,5 @@
 .coverage
 build
 dist
-.tox
 pip-wheel-metadata
 

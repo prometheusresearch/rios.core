@@ -71,7 +71,7 @@ restrictions.
 A development environment can be set up to work on this package by doing the
 following::
 
-    $ virtualenv rios
+    $ python -m venv rios
     $ cd rios
     $ . bin/activate
     $ git clone git@github.com:prometheusresearch/rios.core.git

@@ -2,7 +2,6 @@ twine
 wheel
 coverage
 nose
-tox
 Sphinx
 sphinx-autobuild
 HTSQL>=2.3,<2.4
