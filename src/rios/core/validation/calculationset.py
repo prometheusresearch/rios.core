@@ -121,7 +121,7 @@ class PythonOptions(colander.SchemaNode):
         expr = cstruct.get('expression', None)
         if expr and not PY3:
             try:
-                compile(expr, '<string>', 'eval')
+                compile(expr, '<string>', 'eval')  # noqa: DUO110
             except SyntaxError as exc:
                 raise ValidationError(
                     node.get('expression'),

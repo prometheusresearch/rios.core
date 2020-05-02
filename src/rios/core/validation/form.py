@@ -225,8 +225,8 @@ class TextAreaWidgetOptions(TextWidgetOptions):
 
 
 class RecordListWidgetOptions(colander.SchemaNode):
-    addLabel = LocalizedString(missing=colander.drop)
-    removeLabel = LocalizedString(missing=colander.drop)
+    addLabel = LocalizedString(missing=colander.drop)  # noqa: N815
+    removeLabel = LocalizedString(missing=colander.drop)  # noqa: N815
 
     def __init__(self, *args, **kwargs):
         kwargs['typ'] = colander.Mapping(unknown='ignore')
@@ -257,7 +257,7 @@ class HotkeyCollection(colander.SchemaNode):
 
 class EnumerationWidgetOptions(colander.SchemaNode):
     hotkeys = HotkeyCollection(missing=colander.drop)
-    autoHotkeys = colander.SchemaNode(
+    autoHotkeys = colander.SchemaNode(  # noqa: N815
         StrictBooleanType(),
         missing=colander.drop,
     )
@@ -393,7 +393,7 @@ class DescriptorList(colander.SequenceSchema):
 
 
 class QuestionElementOptions(colander.SchemaNode):
-    fieldId = IdentifierString()
+    fieldId = IdentifierString()  # noqa: N815
     text = LocalizedString()
     audio = AudioSource(missing=colander.drop)
     help = LocalizedString(missing=colander.drop)
@@ -529,7 +529,7 @@ class ParameterCollection(colander.SchemaNode):
 
 class Form(colander.SchemaNode):
     instrument = InstrumentReference()
-    defaultLocalization = LanguageTag()
+    defaultLocalization = LanguageTag()  # noqa: N815
     title = LocalizedString(missing=colander.drop)
     pages = PageList()
     parameters = ParameterCollection(missing=colander.drop)
@@ -664,8 +664,7 @@ class Form(colander.SchemaNode):
                                     field_id,
                                 )
                             )
-                        else:
-                            form_fields.add(field_id)
+                        form_fields.add(field_id)
 
         missing = instrument_fields - form_fields
         if missing:
@@ -766,8 +765,7 @@ class Form(colander.SchemaNode):
                             options['fieldId'],
                         ),
                     )
-                else:
-                    form_rows.add(row['id'])
+                form_rows.add(row['id'])
 
             missing = instrument_rows - form_rows
             if missing:
@@ -815,8 +813,7 @@ class Form(colander.SchemaNode):
                             options['fieldId'],
                         ),
                     )
-                else:
-                    form_fields.add(subfield['fieldId'])
+                form_fields.add(subfield['fieldId'])
 
             missing = instrument_fields - form_fields
             if missing:

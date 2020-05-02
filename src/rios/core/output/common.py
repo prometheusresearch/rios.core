@@ -66,7 +66,7 @@ def get_yaml(data, pretty=False, **kwargs):
     kwargs['allow_unicode'] = True
     kwargs['default_flow_style'] = False if pretty else None
 
-    return yaml.dump(data, **kwargs).rstrip()
+    return yaml.dump(data, **kwargs).rstrip()  # noqa: DUO109
 
 
 class OrderedDumper(yaml.Dumper):  # noqa: too-many-ancestors
@@ -101,8 +101,6 @@ class OrderedDict(collections.OrderedDict):
     """
     A functional equivalent to ``collections.OrderedDict``.
     """
-
-    pass
 
 
 @add_metaclass(OrderedDumperMetaclass)
@@ -147,7 +145,7 @@ class TypedSortedDict(SortedDict):
 
     def __setitem__(self, key, value):
         if self.subtype:
-            # pylint: disable=E1102
+            # pylint: disable=not-callable
             value = self.subtype(value)
         super(TypedSortedDict, self).__setitem__(key, value)
 

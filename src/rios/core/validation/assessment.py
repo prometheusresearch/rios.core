@@ -93,7 +93,7 @@ class Value(colander.SchemaNode):
                 'Lists must be consist only of Strings or ValueCollections',
             )
 
-        elif isinstance(cstruct['value'], dict):
+        if isinstance(cstruct['value'], dict):
             sub_schema(ValueCollectionMapping, node, cstruct['value'])
 
 
@@ -263,7 +263,7 @@ class Assessment(colander.SchemaNode):
                 node,
                 'Explanation present where not allowed in field ID "%s"' % fid,
             )
-        elif 'explanation' not in value and explanation == 'required':
+        if 'explanation' not in value and explanation == 'required':
             raise ValidationError(
                 node,
                 'Explanation missing for field ID "%s"' % fid,
@@ -277,7 +277,7 @@ class Assessment(colander.SchemaNode):
                     'Annotation present where not allowed: %s' % fid,
                 )
 
-            elif value['value'] is not None:
+            if value['value'] is not None:
                 raise ValidationError(
                     node,
                     'Annotation provided for non-empty value: %s' % fid,

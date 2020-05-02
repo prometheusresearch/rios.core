@@ -58,7 +58,7 @@ class TextStepOptions(colander.SchemaNode):
 
 
 class QuestionStepOptions(colander.SchemaNode):
-    fieldId = IdentifierString()
+    fieldId = IdentifierString()  # noqa: N815
     text = LocalizedString()
     error = LocalizedString(missing=colander.drop)
     enumerations = DescriptorList(missing=colander.drop)
@@ -136,8 +136,8 @@ class Timeout(colander.SchemaNode):
 
 class Interaction(colander.SchemaNode):
     instrument = InstrumentReference()
-    defaultLocalization = LanguageTag()
-    defaultTimeout = Timeout(missing=colander.drop)
+    defaultLocalization = LanguageTag()  # noqa: N815
+    defaultTimeout = Timeout(missing=colander.drop)  # noqa: N815
     steps = StepList()
     meta = MetadataCollection(
         METADATA_PROPS,
@@ -216,8 +216,7 @@ class Interaction(colander.SchemaNode):
                         field_id,
                     )
                 )
-            else:
-                intr_fields.add(field_id)
+            intr_fields.add(field_id)
 
         missing = instrument_fields - intr_fields
         if missing:

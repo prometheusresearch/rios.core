@@ -180,7 +180,7 @@ RE_ENUMERATION_ID = re.compile(
 # pylint: disable=abstract-method
 
 
-class Uri:
+class Uri(object):
     RE_ID = re.compile(
         # From https://tools.ietf.org/html/rfc3986#appendix-B
         r'^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?'
@@ -613,7 +613,7 @@ def get_full_type_definition(instrument, type_def):
             )
         )
 
-    elif isinstance(type_def, dict):
+    if isinstance(type_def, dict):
         type_def = deepcopy(type_def)
         base_type = type_def.pop('base')
 
@@ -629,10 +629,9 @@ def get_full_type_definition(instrument, type_def):
         parent_type_def.update(type_def)
         return parent_type_def
 
-    else:
-        raise TypeError(
-            'type_def must be a string or dict, got "%r"' % (
-                type_def,
-            )
+    raise TypeError(
+        'type_def must be a string or dict, got "%r"' % (
+            type_def,
         )
+    )
 

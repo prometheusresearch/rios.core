@@ -5,7 +5,6 @@
 
 import re
 
-from collections import Callable
 from contextlib import contextmanager
 
 import colander
@@ -115,7 +114,7 @@ class AnyType(colander.SchemaType):
 class OneOfType(colander.SchemaType):
     def __init__(self, *args):
         self.possible_types = [
-            arg() if isinstance(arg, Callable) else arg
+            arg() if callable(arg) else arg
             for arg in args
         ]
 

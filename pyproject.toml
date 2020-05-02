@@ -25,6 +25,8 @@ disabled = [
     'trailing-newlines',
     'no-self-use',
     'duplicate-code',
+    'consider-using-set-comprehension',
+    'useless-object-inheritance',
 ]
 [tool.tidypy.pylint.options]
 min-public-methods = 0
