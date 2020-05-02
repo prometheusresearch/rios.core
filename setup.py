@@ -8,7 +8,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='rios.core',
-    version='0.8.4',
+    version='0.9.0',
     description='Parsing and Validation Library for RIOS Files',
     long_description=open('README.rst', 'r').read(),
     keywords='rios prismh research instrument assessment standard validation',
@@ -37,7 +37,7 @@ setup(
     },
     install_requires=[
         'six',
-        'colander>=1.0,<1.5',
+        'colander>=1,<2',
         'pyyaml',
     ],
     test_suite='nose.collector',

@@ -180,9 +180,23 @@ RE_ENUMERATION_ID = re.compile(
 # pylint: disable=abstract-method
 
 
+class Uri:
+    RE_ID = re.compile(
+        # From https://tools.ietf.org/html/rfc3986#appendix-B
+        r'^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?'
+    )
+
+    def __call__(self, node, value):
+        match = self.RE_ID.match(value)
+        if match is None:
+            raise colander.Invalid(node, 'Value does not resemble a URI')
+        if not match.groups()[1]:
+            raise colander.Invalid(node, 'No scheme specified in URI')
+
+
 class InstrumentIdentifier(colander.SchemaNode):
     schema_type = colander.String
-    validator = colander.url
+    validator = Uri()
 
 
 class Version(colander.SchemaNode):
