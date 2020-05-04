@@ -8,25 +8,23 @@ import os
 
 from copy import deepcopy
 
+import pytest
+
 from rios.core.validation.assessment import Assessment, ValidationError
 
 from utils import *
 
 
 GOOD_ASSESSMENT_FILES = os.path.join(EXAMPLE_FILES, 'assessments/good')
+@pytest.mark.parametrize('filename', get_example_files(GOOD_ASSESSMENT_FILES))
+def test_good_files(filename):
+    check_good_validation(Assessment(), os.path.join(GOOD_ASSESSMENT_FILES, filename))
+
+
 BAD_ASSESSMENT_FILES = os.path.join(EXAMPLE_FILES, 'assessments/bad')
-
-
-def test_good_files():
-    for dirpath, dirnames, filenames in os.walk(GOOD_ASSESSMENT_FILES):
-        for filename in filenames:
-            yield check_good_validation, Assessment(), os.path.join(GOOD_ASSESSMENT_FILES, filename)
-
-
-def test_bad_files():
-    for dirpath, dirnames, filenames in os.walk(BAD_ASSESSMENT_FILES):
-        for filename in filenames:
-            yield check_bad_validation, Assessment(), os.path.join(BAD_ASSESSMENT_FILES, filename)
+@pytest.mark.parametrize('filename', get_example_files(BAD_ASSESSMENT_FILES))
+def test_bad_files(filename):
+    check_bad_validation(Assessment(), os.path.join(BAD_ASSESSMENT_FILES, filename))
 
 
 
@@ -343,7 +341,8 @@ BAD_VALUE_TESTS = (
     ('matrix_field', {"row1": {"col1": {"value": False},"col2": {"value": "bar1"}},"row2": {"col1": {"value": "foo2"},"col2": {"value": "bar2"}}}, 'col1'),
 )
 
-def check_bad_value_type(field_id, bad_value, sub_field_id=None):
+@pytest.mark.parametrize('field_id, bad_value, sub_field_id', BAD_VALUE_TESTS)
+def test_bad_value_types(field_id, bad_value, sub_field_id):
     validator = Assessment(instrument=INSTRUMENT)
     assessment = deepcopy(ASSESSMENT)
     assessment['values'][field_id]['value'] = bad_value
@@ -358,10 +357,6 @@ def check_bad_value_type(field_id, bad_value, sub_field_id=None):
         assert msg in str(exc)
     else:
         assert False
-
-def test_bad_value_types():
-    for field_id, bad_value, sub_field_id in BAD_VALUE_TESTS:
-        yield check_bad_value_type, field_id, bad_value, sub_field_id
 
 
 def test_bad_enumeration_choice():
@@ -435,7 +430,8 @@ LENGTH_TESTS = (
     ),
 )
 
-def check_bad_length(type_def, short_val, long_val):
+@pytest.mark.parametrize('type_def, short_val, long_val', LENGTH_TESTS)
+def test_bad_lengths(type_def, short_val, long_val):
     instrument = deepcopy(CONSTRAINTS_INSTRUMENT)
     instrument['record'][0]['type'] = type_def
     validator = Assessment(instrument=instrument)
@@ -462,9 +458,6 @@ def check_bad_length(type_def, short_val, long_val):
     else:
         assert False
 
-def test_bad_lengths():
-    for type_def, short_val, long_val in LENGTH_TESTS:
-        yield check_bad_length, type_def, short_val, long_val
 
 def test_good_length():
     instrument = deepcopy(CONSTRAINTS_INSTRUMENT)
@@ -483,7 +476,8 @@ RANGE_TESTS = (
     ('custom_datetime', '1999-01-01T00:00:00', '3000-01-01T12:34:56'),
 )
 
-def check_bad_range(type_def, small_val, big_val):
+@pytest.mark.parametrize('type_def, small_val, big_val', RANGE_TESTS)
+def test_bad_ranges(type_def, small_val, big_val):
     instrument = deepcopy(CONSTRAINTS_INSTRUMENT)
     instrument['record'][0]['type'] = type_def
     validator = Assessment(instrument=instrument)
@@ -510,9 +504,6 @@ def check_bad_range(type_def, small_val, big_val):
     else:
         assert False
 
-def test_bad_ranges():
-    for type_def, small_val, big_val in RANGE_TESTS:
-        yield check_bad_range, type_def, small_val, big_val
 
 def test_good_range():
     instrument = deepcopy(CONSTRAINTS_INSTRUMENT)

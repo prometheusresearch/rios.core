@@ -6,6 +6,8 @@
 import json
 import os
 
+import pytest
+
 from rios.core.validation import *
 
 
@@ -23,9 +25,9 @@ INSTRUMENT_TESTS = (
     json.load(open(INSTRUMENT_FILE, 'r')),
 )
 
-def test_instrument_validation():
-    for instrument in INSTRUMENT_TESTS:
-        yield validate_instrument, instrument
+@pytest.mark.parametrize('instrument', INSTRUMENT_TESTS)
+def test_instrument_validation(instrument):
+    validate_instrument(instrument)
 
 
 ASSESSMENT_TESTS = (
@@ -45,9 +47,9 @@ ASSESSMENT_TESTS = (
     (json.load(open(ASSESSMENT_FILE, 'r')), json.load(open(INSTRUMENT_FILE, 'r'))),
 )
 
-def test_assessment_validation():
-    for assessment, instrument in ASSESSMENT_TESTS:
-        yield validate_assessment, assessment, instrument
+@pytest.mark.parametrize('assessment, instrument', ASSESSMENT_TESTS)
+def test_assessment_validation(assessment, instrument):
+    validate_assessment(assessment, instrument)
 
 
 FORM_TESTS = (
@@ -67,9 +69,9 @@ FORM_TESTS = (
     (json.load(open(FORM_FILE, 'r')), json.load(open(INSTRUMENT_FILE, 'r'))),
 )
 
-def test_form_validation():
-    for form, instrument in FORM_TESTS:
-        yield validate_form, form, instrument
+@pytest.mark.parametrize('form, instrument', FORM_TESTS)
+def test_form_validation(form, instrument):
+    validate_form(form, instrument)
 
 
 INTERACTION_TESTS = (
@@ -89,9 +91,9 @@ INTERACTION_TESTS = (
     (json.load(open(INTERACTION_FILE, 'r')), json.load(open(INSTRUMENT_FILE, 'r'))),
 )
 
-def test_interaction_validation():
-    for interaction, instrument in INTERACTION_TESTS:
-        yield validate_interaction, interaction, instrument
+@pytest.mark.parametrize('interaction, instrument', INTERACTION_TESTS)
+def test_interaction_validation(interaction, instrument):
+    validate_interaction(interaction, instrument)
 
 
 CALCULATION_TESTS = (
@@ -111,7 +113,7 @@ CALCULATION_TESTS = (
     (json.load(open(CALCULATION_FILE, 'r')), json.load(open(INSTRUMENT_FILE, 'r'))),
 )
 
-def test_calculation_validation():
-    for calculation, instrument in CALCULATION_TESTS:
-        yield validate_calculationset, calculation, instrument
+@pytest.mark.parametrize('calculation, instrument', CALCULATION_TESTS)
+def test_calculation_validation(calculation, instrument):
+    validate_calculationset(calculation, instrument)
 

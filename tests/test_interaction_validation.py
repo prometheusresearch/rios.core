@@ -8,31 +8,29 @@ import os
 
 from copy import deepcopy
 
+import pytest
+
 from rios.core.validation.interaction import Interaction, ValidationError
 
 from utils import *
 
 
 GOOD_INTERACTION_FILES = os.path.join(EXAMPLE_FILES, 'interactions/good')
+@pytest.mark.parametrize('filename', get_example_files(GOOD_INTERACTION_FILES))
+def test_good_files(filename):
+    check_good_validation(Interaction(), os.path.join(
+        GOOD_INTERACTION_FILES,
+        filename,
+    ))
+
+
 BAD_INTERACTION_FILES = os.path.join(EXAMPLE_FILES, 'interactions/bad')
-
-
-def test_good_files():
-    for dirpath, dirnames, filenames in os.walk(GOOD_INTERACTION_FILES):
-        for filename in filenames:
-            yield check_good_validation, Interaction(), os.path.join(
-                GOOD_INTERACTION_FILES,
-                filename,
-            )
-
-
-def test_bad_files():
-    for dirpath, dirnames, filenames in os.walk(BAD_INTERACTION_FILES):
-        for filename in filenames:
-            yield check_bad_validation, Interaction(), os.path.join(
-                BAD_INTERACTION_FILES,
-                filename,
-            )
+@pytest.mark.parametrize('filename', get_example_files(BAD_INTERACTION_FILES))
+def test_bad_files(filename):
+    check_bad_validation(Interaction(), os.path.join(
+        BAD_INTERACTION_FILES,
+        filename,
+    ))
 
 
 INSTRUMENT = json.load(open(os.path.join(EXAMPLE_FILES, 'instruments/good/all_interaction_types.json'), 'r'))

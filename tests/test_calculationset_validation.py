@@ -8,6 +8,8 @@ import os
 
 from copy import deepcopy
 
+import pytest
+
 from rios.core.validation.calculationset import CalculationSet, \
     ValidationError
 
@@ -15,25 +17,21 @@ from utils import *
 
 
 GOOD_CALCULATION_FILES = os.path.join(EXAMPLE_FILES, 'calculationsets/good')
+@pytest.mark.parametrize('filename', get_example_files(GOOD_CALCULATION_FILES))
+def test_good_files(filename):
+    check_good_validation(CalculationSet(), os.path.join(
+        GOOD_CALCULATION_FILES,
+        filename,
+    ))
+
+
 BAD_CALCULATION_FILES = os.path.join(EXAMPLE_FILES, 'calculationsets/bad')
-
-
-def test_good_files():
-    for dirpath, dirnames, filenames in os.walk(GOOD_CALCULATION_FILES):
-        for filename in filenames:
-            yield check_good_validation, CalculationSet(), os.path.join(
-                GOOD_CALCULATION_FILES,
-                filename,
-            )
-
-
-def test_bad_files():
-    for dirpath, dirnames, filenames in os.walk(BAD_CALCULATION_FILES):
-        for filename in filenames:
-            yield check_bad_validation, CalculationSet(), os.path.join(
-                BAD_CALCULATION_FILES,
-                filename,
-            )
+@pytest.mark.parametrize('filename', get_example_files(BAD_CALCULATION_FILES))
+def test_bad_files(filename):
+    check_bad_validation(CalculationSet(), os.path.join(
+        BAD_CALCULATION_FILES,
+        filename,
+    ))
 
 
 INSTRUMENT = json.load(open(os.path.join(EXAMPLE_FILES, 'instruments/good/all_types.json'), 'r'))

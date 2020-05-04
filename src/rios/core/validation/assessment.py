@@ -297,20 +297,26 @@ class Assessment(colander.SchemaNode):
 
         if type_def.get('range'):
             casted_value = self._cast_range(value, type_def['base'])
+
+            casted_min = self._cast_range(
+                type_def['range']['min'],
+                type_def['base'],
+            )
             if type_def['range'].get('min') is not None \
-                    and casted_value < self._cast_range(
-                        type_def['range']['min'],
-                        type_def['base']):
+                    and casted_value < casted_min:
                 raise ValidationError(
                     node,
                     'Value for "%s" is less than acceptible minimum' % (
                         field['id'],
                     ),
                 )
+
+            casted_max = self._cast_range(
+                type_def['range']['max'],
+                type_def['base'],
+            )
             if type_def['range'].get('max') is not None \
-                    and casted_value > self._cast_range(
-                        type_def['range']['max'],
-                        type_def['base']):
+                    and casted_value > casted_max:
                 raise ValidationError(
                     node,
                     'Value for "%s" is greater than acceptible maximum' % (
@@ -327,6 +333,7 @@ class Assessment(colander.SchemaNode):
             return datetime.strptime(value, '%Y-%m-%dT%H:%M:%S')
         if type_base == 'time':
             return datetime.strptime(value, '%H:%M:%S').time()
+        return None
 
     def _check_metafields(self, node, value, field):
         explanation = field.get('explanation', 'none')
