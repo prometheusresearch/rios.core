@@ -1,11 +1,11 @@
 {
-  "id": "urn:example:good:text",
+  "id": "urn:example:good:constraints",
   "version": "1.0",
   "title": "An Instrument Title",
   "types": {
     "custom_text": {
       "base": "text",
-      "pattern": "foo",
+      "pattern": "^[abc]+$",
       "length": {
         "min": 2,
         "max": 10
@@ -64,11 +64,14 @@
       "base": "enumerationSet",
       "enumerations": {
         "foo": {},
-        "bar": {}
+        "bar": {},
+        "baz": {},
+        "blah": {},
+        "stuff": {}
       },
       "length": {
         "min": 2,
-        "max": 10
+        "max": 4
       }
     },
 
@@ -82,7 +85,7 @@
       ],
       "length": {
         "min": 2,
-        "max": 10
+        "max": 4
       }
     },
 

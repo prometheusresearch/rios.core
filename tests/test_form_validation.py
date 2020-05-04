@@ -8,25 +8,23 @@ import os
 
 from copy import deepcopy
 
+import pytest
+
 from rios.core.validation.form import Form, ValidationError
 
 from utils import *
 
 
 GOOD_FORM_FILES = os.path.join(EXAMPLE_FILES, 'forms/good')
+@pytest.mark.parametrize('filename', get_example_files(GOOD_FORM_FILES))
+def test_good_files(filename):
+    check_good_validation(Form(), os.path.join(GOOD_FORM_FILES, filename))
+
+
 BAD_FORM_FILES = os.path.join(EXAMPLE_FILES, 'forms/bad')
-
-
-def test_good_files():
-    for dirpath, dirnames, filenames in os.walk(GOOD_FORM_FILES):
-        for filename in filenames:
-            yield check_good_validation, Form(), os.path.join(GOOD_FORM_FILES, filename)
-
-
-def test_bad_files():
-    for dirpath, dirnames, filenames in os.walk(BAD_FORM_FILES):
-        for filename in filenames:
-            yield check_bad_validation, Form(), os.path.join(BAD_FORM_FILES, filename)
+@pytest.mark.parametrize('filename', get_example_files(BAD_FORM_FILES))
+def test_bad_files(filename):
+    check_bad_validation(Form(), os.path.join(BAD_FORM_FILES, filename))
 
 
 INSTRUMENT = json.load(open(os.path.join(EXAMPLE_FILES, 'instruments/good/all_types.json'), 'r'))

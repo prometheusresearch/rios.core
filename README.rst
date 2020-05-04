@@ -78,7 +78,7 @@ following::
     $ cd rios.core
     $ pip install -e .
     $ pip install -r requirements.txt
-    $ nosetests
+    $ pytest
 
 
 License/Copyright

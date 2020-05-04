@@ -8,6 +8,8 @@ RIOS.CORE Change History
 
 * Changed license to Apache v2.
 * Updated URI validation to avoid problems with buggy version of ``colander``.
+* Added validation of Assessment values against ``length``, ``range``, and
+  ``pattern`` constraints.
 
 
 0.8.3 (2019-03-20)

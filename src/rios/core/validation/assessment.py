@@ -6,6 +6,7 @@
 import re
 
 from copy import deepcopy
+from datetime import datetime
 
 import colander
 
@@ -208,6 +209,13 @@ class Assessment(colander.SchemaNode):
 
             self._check_value_type(node, value['value'], field, full_type_def)
 
+            self._check_value_constraints(
+                node,
+                value['value'],
+                field,
+                full_type_def,
+            )
+
             self._check_metafields(node, value, field)
 
             self._check_complex_subfields(node, full_type_def, value)
@@ -248,10 +256,84 @@ class Assessment(colander.SchemaNode):
                     raise wrong_type_error
                 if subval not in choices:
                     raise bad_choice_error
-        if type_def['base'] == 'enumeration':
+        elif type_def['base'] == 'enumeration':
             choices = list(type_def['enumerations'].keys())
             if value not in choices:
                 raise bad_choice_error
+
+    def _check_value_constraints(self, node, value, field, type_def):
+        if value is None:
+            return
+
+        if type_def.get('pattern'):
+            regex = re.compile(type_def['pattern'])
+            if not regex.match(value):
+                raise ValidationError(
+                    node,
+                    'Value for "%s" does not match the specified pattern' % (
+                        field['id'],
+                    ),
+                )
+
+        if type_def.get('length'):
+            if type_def['length'].get('min') is not None \
+                    and len(value) < type_def['length']['min']:
+                raise ValidationError(
+                    node,
+                    'Value for "%s" is less than acceptible minimum'
+                    ' length' % (
+                        field['id'],
+                    ),
+                )
+            if type_def['length'].get('max') is not None \
+                    and len(value) > type_def['length']['max']:
+                raise ValidationError(
+                    node,
+                    'Value for "%s" is greater than acceptible maximum'
+                    ' length' % (
+                        field['id'],
+                    ),
+                )
+
+        if type_def.get('range'):
+            casted_value = self._cast_range(value, type_def['base'])
+
+            casted_min = self._cast_range(
+                type_def['range']['min'],
+                type_def['base'],
+            )
+            if type_def['range'].get('min') is not None \
+                    and casted_value < casted_min:
+                raise ValidationError(
+                    node,
+                    'Value for "%s" is less than acceptible minimum' % (
+                        field['id'],
+                    ),
+                )
+
+            casted_max = self._cast_range(
+                type_def['range']['max'],
+                type_def['base'],
+            )
+            if type_def['range'].get('max') is not None \
+                    and casted_value > casted_max:
+                raise ValidationError(
+                    node,
+                    'Value for "%s" is greater than acceptible maximum' % (
+                        field['id'],
+                    ),
+                )
+
+    def _cast_range(self, value, type_base):
+        if type_base in ('integer', 'float'):
+            return value
+        if type_base == 'date':
+            return datetime.strptime(value, '%Y-%m-%d').date()
+        if type_base == 'dateTime':
+            return datetime.strptime(value, '%Y-%m-%dT%H:%M:%S')
+        if type_base == 'time':
+            return datetime.strptime(value, '%H:%M:%S').time()
+        return None
 
     def _check_metafields(self, node, value, field):
         explanation = field.get('explanation', 'none')
@@ -372,14 +454,22 @@ class Assessment(colander.SchemaNode):
                     )
 
             for column in full_type_def['columns']:
+                type_def = get_full_type_definition(
+                    self.instrument,
+                    column['type'],
+                )
+
                 self._check_value_type(
                     node,
                     row_value[column['id']]['value'],
                     column,
-                    get_full_type_definition(
-                        self.instrument,
-                        column['type'],
-                    ),
+                    type_def,
+                )
+                self._check_value_constraints(
+                    node,
+                    row_value[column['id']]['value'],
+                    column,
+                    type_def,
                 )
 
         if value['value']:

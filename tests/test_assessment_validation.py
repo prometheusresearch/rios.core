@@ -8,31 +8,42 @@ import os
 
 from copy import deepcopy
 
+import pytest
+
 from rios.core.validation.assessment import Assessment, ValidationError
 
 from utils import *
 
 
 GOOD_ASSESSMENT_FILES = os.path.join(EXAMPLE_FILES, 'assessments/good')
+@pytest.mark.parametrize('filename', get_example_files(GOOD_ASSESSMENT_FILES))
+def test_good_files(filename):
+    check_good_validation(Assessment(), os.path.join(GOOD_ASSESSMENT_FILES, filename))
+
+
 BAD_ASSESSMENT_FILES = os.path.join(EXAMPLE_FILES, 'assessments/bad')
-
-
-def test_good_files():
-    for dirpath, dirnames, filenames in os.walk(GOOD_ASSESSMENT_FILES):
-        for filename in filenames:
-            yield check_good_validation, Assessment(), os.path.join(GOOD_ASSESSMENT_FILES, filename)
-
-
-def test_bad_files():
-    for dirpath, dirnames, filenames in os.walk(BAD_ASSESSMENT_FILES):
-        for filename in filenames:
-            yield check_bad_validation, Assessment(), os.path.join(BAD_ASSESSMENT_FILES, filename)
+@pytest.mark.parametrize('filename', get_example_files(BAD_ASSESSMENT_FILES))
+def test_bad_files(filename):
+    check_bad_validation(Assessment(), os.path.join(BAD_ASSESSMENT_FILES, filename))
 
 
 
 INSTRUMENT = json.load(open(os.path.join(EXAMPLE_FILES, 'instruments/good/all_types.json'), 'r'))
 ASSESSMENT = json.load(open(os.path.join(EXAMPLE_FILES, 'assessments/good/all_value_types.json'), 'r'))
 ASSESSMENT2 = json.load(open(os.path.join(EXAMPLE_FILES, 'assessments/good/all_nulls.json'), 'r'))
+
+CONSTRAINTS_INSTRUMENT = json.load(open(os.path.join(EXAMPLE_FILES, 'instruments/good/constraints.json'), 'r'))
+CONSTRAINTS_ASSESSMENT = {
+    'instrument': {
+        'id': 'urn:example:good:constraints',
+        'version': '1.0',
+    },
+    'values': {
+        'field1': {
+            'value': None,
+        },
+    },
+}
 
 
 def test_good_instrument_validation():
@@ -330,7 +341,8 @@ BAD_VALUE_TESTS = (
     ('matrix_field', {"row1": {"col1": {"value": False},"col2": {"value": "bar1"}},"row2": {"col1": {"value": "foo2"},"col2": {"value": "bar2"}}}, 'col1'),
 )
 
-def check_bad_value_type(field_id, bad_value, sub_field_id=None):
+@pytest.mark.parametrize('field_id, bad_value, sub_field_id', BAD_VALUE_TESTS)
+def test_bad_value_types(field_id, bad_value, sub_field_id):
     validator = Assessment(instrument=INSTRUMENT)
     assessment = deepcopy(ASSESSMENT)
     assessment['values'][field_id]['value'] = bad_value
@@ -345,10 +357,6 @@ def check_bad_value_type(field_id, bad_value, sub_field_id=None):
         assert msg in str(exc)
     else:
         assert False
-
-def test_bad_value_types():
-    for field_id, bad_value, sub_field_id in BAD_VALUE_TESTS:
-        yield check_bad_value_type, field_id, bad_value, sub_field_id
 
 
 def test_bad_enumeration_choice():
@@ -379,4 +387,129 @@ def test_bad_enumerationset_choice():
         )
     else:
         assert False
+
+
+def test_bad_pattern():
+    instrument = deepcopy(CONSTRAINTS_INSTRUMENT)
+    instrument['record'][0]['type'] = 'custom_text'
+    validator = Assessment(instrument=instrument)
+    assessment = deepcopy(CONSTRAINTS_ASSESSMENT)
+    assessment['values']['field1']['value'] = 'foo'
+    try:
+        validator.deserialize(assessment)
+    except ValidationError as exc:
+        assert_validation_error(
+            exc,
+            {'values': u'Value for "field1" does not match the specified pattern'},
+        )
+    else:
+        assert False
+
+def test_good_pattern():
+    instrument = deepcopy(CONSTRAINTS_INSTRUMENT)
+    instrument['record'][0]['type'] = 'custom_text'
+    validator = Assessment(instrument=instrument)
+    assessment = deepcopy(CONSTRAINTS_ASSESSMENT)
+    assessment['values']['field1']['value'] = 'aaa'
+    validator.deserialize(assessment)
+
+
+LENGTH_TESTS = (
+    ('custom_text', 'a', 'abcabcabcabc'),
+    ('custom_enumerationset', ['foo'], ['foo', 'bar', 'baz', 'blah', 'stuff']),
+    (
+        'custom_recordlist',
+        [{'subfield1': {'value': 'foo'}}],
+        [
+            {'subfield1': {'value': 'foo'}},
+            {'subfield1': {'value': 'foo'}},
+            {'subfield1': {'value': 'foo'}},
+            {'subfield1': {'value': 'foo'}},
+            {'subfield1': {'value': 'foo'}},
+        ]
+    ),
+)
+
+@pytest.mark.parametrize('type_def, short_val, long_val', LENGTH_TESTS)
+def test_bad_lengths(type_def, short_val, long_val):
+    instrument = deepcopy(CONSTRAINTS_INSTRUMENT)
+    instrument['record'][0]['type'] = type_def
+    validator = Assessment(instrument=instrument)
+    assessment = deepcopy(CONSTRAINTS_ASSESSMENT)
+    assessment['values']['field1']['value'] = short_val
+    try:
+        validator.deserialize(assessment)
+    except ValidationError as exc:
+        assert_validation_error(
+            exc,
+            {'values': u'Value for "field1" is less than acceptible minimum length'},
+        )
+    else:
+        assert False
+
+    assessment['values']['field1']['value'] = long_val
+    try:
+        validator.deserialize(assessment)
+    except ValidationError as exc:
+        assert_validation_error(
+            exc,
+            {'values': u'Value for "field1" is greater than acceptible maximum length'},
+        )
+    else:
+        assert False
+
+
+def test_good_length():
+    instrument = deepcopy(CONSTRAINTS_INSTRUMENT)
+    instrument['record'][0]['type'] = 'custom_text'
+    validator = Assessment(instrument=instrument)
+    assessment = deepcopy(CONSTRAINTS_ASSESSMENT)
+    assessment['values']['field1']['value'] = 'aaa'
+    validator.deserialize(assessment)
+
+
+RANGE_TESTS = (
+    ('custom_integer', 1, 11),
+    ('custom_float', 0.23, 11.22),
+    ('custom_date', '1999-01-01', '3000-01-01'),
+    ('custom_time', '01:01:01', '23:23:23'),
+    ('custom_datetime', '1999-01-01T00:00:00', '3000-01-01T12:34:56'),
+)
+
+@pytest.mark.parametrize('type_def, small_val, big_val', RANGE_TESTS)
+def test_bad_ranges(type_def, small_val, big_val):
+    instrument = deepcopy(CONSTRAINTS_INSTRUMENT)
+    instrument['record'][0]['type'] = type_def
+    validator = Assessment(instrument=instrument)
+    assessment = deepcopy(CONSTRAINTS_ASSESSMENT)
+    assessment['values']['field1']['value'] = small_val
+    try:
+        validator.deserialize(assessment)
+    except ValidationError as exc:
+        assert_validation_error(
+            exc,
+            {'values': u'Value for "field1" is less than acceptible minimum'},
+        )
+    else:
+        assert False
+
+    assessment['values']['field1']['value'] = big_val
+    try:
+        validator.deserialize(assessment)
+    except ValidationError as exc:
+        assert_validation_error(
+            exc,
+            {'values': u'Value for "field1" is greater than acceptible maximum'},
+        )
+    else:
+        assert False
+
+
+def test_good_range():
+    instrument = deepcopy(CONSTRAINTS_INSTRUMENT)
+    instrument['record'][0]['type'] = 'custom_date'
+    validator = Assessment(instrument=instrument)
+    assessment = deepcopy(CONSTRAINTS_ASSESSMENT)
+    assessment['values']['field1']['value'] = '2012-03-04'
+    validator.deserialize(assessment)
 

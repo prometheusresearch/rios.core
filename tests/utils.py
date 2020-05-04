@@ -14,12 +14,21 @@ __all__ = (
     'check_good_validation',
     'check_bad_validation',
     'assert_validation_error',
+    'get_example_files',
 )
 
 
 EXAMPLE_FILES = os.path.join(os.path.dirname(__file__), 'examples')
 FAILURES = json.load(open(os.path.join(EXAMPLE_FILES, 'failures.json')))
 FAILURE_EXCEPTIONS = json.load(open(os.path.join(EXAMPLE_FILES, 'failure_exceptions.json')))
+
+
+def get_example_files(directory):
+    return [
+        filename
+        for _, _, filenames in os.walk(directory)
+        for filename in filenames
+    ]
 
 
 def check_good_validation(validator, filename):

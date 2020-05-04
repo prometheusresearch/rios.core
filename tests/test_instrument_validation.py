@@ -6,32 +6,30 @@
 import json
 import os
 
+import pytest
+
 from rios.core.validation.instrument import Instrument, ValidationError, \
     get_full_type_definition, TYPES_ALL
 
-from utils import EXAMPLE_FILES, check_good_validation, check_bad_validation
+from utils import *
 
 
 GOOD_INSTRUMENT_FILES = os.path.join(EXAMPLE_FILES, 'instruments/good')
+@pytest.mark.parametrize('filename', get_example_files(GOOD_INSTRUMENT_FILES))
+def test_good_files(filename):
+    check_good_validation(Instrument(), os.path.join(
+        GOOD_INSTRUMENT_FILES,
+        filename,
+    ))
+
+
 BAD_INSTRUMENT_FILES = os.path.join(EXAMPLE_FILES, 'instruments/bad')
-
-
-def test_good_files():
-    for dirpath, dirnames, filenames in os.walk(GOOD_INSTRUMENT_FILES):
-        for filename in filenames:
-            yield check_good_validation, Instrument(), os.path.join(
-                GOOD_INSTRUMENT_FILES,
-                filename,
-            )
-
-
-def test_bad_files():
-    for dirpath, dirnames, filenames in os.walk(BAD_INSTRUMENT_FILES):
-        for filename in filenames:
-            yield check_bad_validation, Instrument(), os.path.join(
-                BAD_INSTRUMENT_FILES,
-                filename,
-            )
+@pytest.mark.parametrize('filename', get_example_files(BAD_INSTRUMENT_FILES))
+def test_bad_files(filename):
+    check_bad_validation(Instrument(), os.path.join(
+        BAD_INSTRUMENT_FILES,
+        filename,
+    ))
 
 
 
@@ -60,16 +58,12 @@ GFTD_TESTER = {
 }
 
 
-def check_gftd_base_type(type_id):
+@pytest.mark.parametrize('type_id', TYPES_ALL)
+def test_gftd_base_id(type_id):
     type_def = get_full_type_definition(GFTD_TESTER, type_id)
     assert isinstance(type_def, dict)
     assert len(list(type_def.keys())) == 1
     assert type_def['base'] == type_id
-
-def test_gftd_base_id():
-    for type_id in TYPES_ALL:
-        yield check_gftd_base_type, type_id
-
 
 def test_gftd_custom_id():
     type_def = get_full_type_definition(GFTD_TESTER, 'customText')

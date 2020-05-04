@@ -6,6 +6,7 @@
 import json
 import os
 
+import pytest
 import six
 
 from rios.core.output import *
@@ -55,12 +56,9 @@ TESTS = (
 )
 
 
-def check_output(func, obj):
+@pytest.mark.parametrize('func, obj', TESTS)
+def test_output(func, obj):
     output = func(obj)
     assert isinstance(output, six.string_types), type(output)
     assert len(output) > 0
-
-def test_output():
-    for func, obj in TESTS:
-        yield check_output, func, obj
 
