@@ -26,11 +26,16 @@ __all__ = (
 )
 
 
+JSON_LOAD_KW = {}
+if six.PY2:
+    JSON_LOAD_KW['encoding'] = 'utf-8'
+
+
 def _get_struct(src):
     if isinstance(src, six.string_types):
-        src = json.loads(src, encoding='utf-8')
+        src = json.loads(src, **JSON_LOAD_KW)
     elif hasattr(src, 'read'):
-        src = json.load(src, encoding='utf-8')
+        src = json.load(src, **JSON_LOAD_KW)
     return src
 
 
