@@ -33,5 +33,5 @@ jobs:
           pip freeze
 
       - name: Test
-        run: nosetests
+        run: pytest
 
