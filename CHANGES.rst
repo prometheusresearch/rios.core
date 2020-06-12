@@ -3,8 +3,8 @@ RIOS.CORE Change History
 ************************
 
 
-0.9.0 (TBD)
-===========
+0.9.0 (2020-06-12)
+==================
 
 * Changed license to Apache v2.
 * Updated URI validation to avoid problems with buggy version of ``colander``.
