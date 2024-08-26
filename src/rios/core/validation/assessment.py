@@ -298,31 +298,33 @@ class Assessment(colander.SchemaNode):
         if type_def.get('range'):
             casted_value = self._cast_range(value, type_def['base'])
 
-            casted_min = self._cast_range(
-                type_def['range']['min'],
-                type_def['base'],
-            )
-            if type_def['range'].get('min') is not None \
-                    and casted_value < casted_min:
-                raise ValidationError(
-                    node,
-                    'Value for "%s" is less than acceptible minimum' % (
-                        field['id'],
-                    ),
+            min_range_value = type_def['range'].get('min')
+            if min_range_value is not None: 
+                casted_min = self._cast_range(
+                    type_def['range']['min'],
+                    type_def['base'],
                 )
+                if casted_value < casted_min:
+                    raise ValidationError(
+                        node,
+                        'Value for "%s" is less than acceptible minimum' % (
+                            field['id'],
+                        ),
+                    )
 
-            casted_max = self._cast_range(
-                type_def['range']['max'],
-                type_def['base'],
-            )
-            if type_def['range'].get('max') is not None \
-                    and casted_value > casted_max:
-                raise ValidationError(
-                    node,
-                    'Value for "%s" is greater than acceptible maximum' % (
-                        field['id'],
-                    ),
+            max_range_value = type_def['range'].get('max')
+            if max_range_value is not None: 
+                casted_max = self._cast_range(
+                    type_def['range']['max'],
+                    type_def['base'],
                 )
+                if casted_value > casted_max:
+                    raise ValidationError(
+                        node,
+                        'Value for "%s" is greater than acceptible maximum' % (
+                            field['id'],
+                        ),
+                    )
 
     def _cast_range(self, value, type_base):
         if type_base in ('integer', 'float'):
