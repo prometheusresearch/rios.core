@@ -10,7 +10,6 @@ import pkg_resources
 
 from six import iteritems
 
-
 from .validation import validate_instrument, validate_assessment, \
     validate_calculationset, validate_form, validate_interaction, \
     ValidationError
