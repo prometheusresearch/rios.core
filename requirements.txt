@@ -4,6 +4,6 @@ pytest
 pytest-cov
 Sphinx
 sphinx-autobuild
-HTSQL
-tidypy
+HTSQL>=2.3,<2.4
+tidypy; python_version>'3'
 
