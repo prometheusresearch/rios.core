@@ -418,3 +418,28 @@ def test_wrong_standard_widget():
     else:
         assert False
 
+
+def test_hiding_required_field_top_top():
+    instrument = deepcopy(INSTRUMENT)
+    instrument['record'][1]['required'] = True
+    validator = Form(instrument=instrument)
+    form = deepcopy(FORM)
+    form['pages'][1]['elements'][0]['options']['events'] = [{
+        'trigger': 'true()',
+        'action': 'hide',
+        'targets': ['boolean_field'],
+    }]
+    form['pages'][0]['elements'][5]['options']['events'] = [{
+        'trigger': 'true()',
+        'action': 'disable',
+    }]
+    try:
+        validator.deserialize(form)
+    except ValidationError as exc:
+        assert_validation_error(
+            exc,
+            {'': u'There are required fields targetted by hide/disable events: boolean_field, text_field'},
+        )
+    else:
+        assert False
+
